@@ -2,7 +2,7 @@ import { Text, useColorScheme } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { darkColors, lightColors } from "../_theme";
 
-export default function Home() {
+export default function Profile() {
 	const colorScheme = useColorScheme();
 	const colors = colorScheme === "dark" ? darkColors : lightColors;
 
@@ -15,7 +15,7 @@ export default function Home() {
 				alignItems: "center",
 			}}
 		>
-			<Text style={{ color: colors.text, fontSize: 20 }}>Home Screen</Text>
+			<Text style={{ color: colors.text, fontSize: 20 }}>Profile Screen</Text>
 		</SafeAreaView>
 	);
 }
