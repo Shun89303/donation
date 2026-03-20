@@ -1,69 +1,35 @@
+import { useTabIndicator } from "@/hooks/useTabIndicator";
+import { useTheme } from "@/hooks/useTheme";
 import Feather from "@expo/vector-icons/Feather";
 import { Tabs } from "expo-router";
-import { Dimensions, useColorScheme, View } from "react-native";
-import Animated, {
-	useAnimatedStyle,
-	useSharedValue,
-	withSpring,
-} from "react-native-reanimated";
-import { darkColors, lightColors } from "../_theme";
-
-// Screen Width
-const SCREEN_WIDTH = Dimensions.get("window").width;
+import { View } from "react-native";
+import Animated from "react-native-reanimated";
+import { mainTabs, TabKey } from "../../navigation/mainTabs";
 
 export default function TabLayout() {
-	const colorScheme = useColorScheme();
-	const colors = colorScheme === "dark" ? darkColors : lightColors;
+	// dark / light mode custom color
+	const colors = useTheme();
 
-	// Feather icon names mapping
-	const icons = {
-		index: "home",
-		map: "map-pin",
-		creators: "play-circle",
-		alerts: "bell",
-		profile: "user",
-	} as const;
-
-	// Bottom Tab Titles mapping
-	const titles: Record<string, string> = {
-		index: "Home",
-		map: "Map",
-		creators: "Creators",
-		alerts: "Alerts",
-		profile: "Profile",
-	};
-
-	const tabKeys = Object.keys(icons);
+	// tab title + icon mapping
+	const tabKeys = Object.keys(mainTabs) as TabKey[];
 	const tabCount = tabKeys.length;
 
-	const activeIndex = useSharedValue(0);
-
+	// Bottom Tabs Animation
 	const INDICATOR_WIDTH = 24;
 
-	// Bottom Tabs Animation
-	const animatedStyle = useAnimatedStyle(() => {
-		const tabWidth = SCREEN_WIDTH / tabCount;
-
-		return {
-			transform: [
-				{
-					translateX: withSpring(
-						activeIndex.value * tabWidth + (tabWidth - INDICATOR_WIDTH) / 2,
-						{
-							damping: 15,
-							stiffness: 200,
-							mass: 0.6,
-						},
-					),
-				},
-			],
-		};
-	});
+	const { activeIndex, animatedStyle } = useTabIndicator(
+		tabCount,
+		INDICATOR_WIDTH,
+	);
 
 	return (
 		<View style={{ flex: 1 }}>
 			<Tabs
 				screenOptions={{
+					// this removes the white flash during tab transition
+					sceneStyle: {
+						backgroundColor: colors.background,
+					},
 					headerShown: false,
 					tabBarStyle: {
 						backgroundColor: colors.background,
@@ -79,6 +45,7 @@ export default function TabLayout() {
 					tabBarActiveTintColor: colors.tabActive,
 					tabBarInactiveTintColor: colors.tabInactive,
 				}}
+				// to remember the active tab index
 				screenListeners={{
 					state: (e) => {
 						const index = e.data.state.index;
@@ -91,13 +58,13 @@ export default function TabLayout() {
 						key={key}
 						name={key}
 						options={{
-							title: titles[key],
+							title: mainTabs[key].title,
 							tabBarIcon: ({ color, size }) => (
 								<View
 									style={{ alignItems: "center", justifyContent: "flex-start" }}
 								>
 									<Feather
-										name={icons[key as keyof typeof icons]}
+										name={mainTabs[key].icon}
 										size={size}
 										color={color}
 									/>
@@ -108,6 +75,7 @@ export default function TabLayout() {
 				))}
 			</Tabs>
 
+			{/* custom + animated top border of tab icon */}
 			<Animated.View
 				style={[
 					{
