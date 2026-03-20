@@ -1,11 +1,18 @@
 import type { ThemeColors } from "@/app/_theme";
 import Feather from "@expo/vector-icons/Feather";
-import { Animated, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+	Animated,
+	Platform,
+	Pressable,
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+} from "react-native";
 import {
 	ORGANIZATION_FILTERS,
 	type OrganizationIcon,
 	type OrganizationKey,
-	trimOrgLabel,
 } from "./organizationConfig";
 
 type OrganizationFiltersProps = {
@@ -21,6 +28,8 @@ export default function OrganizationFilters({
 	onPressOrganization,
 	organizationScales,
 }: OrganizationFiltersProps) {
+	const isAndroid = Platform.OS === "android";
+
 	return (
 		<View style={styles.orgFilterSection}>
 			<ScrollView
@@ -80,13 +89,19 @@ export default function OrganizationFilters({
 								</Animated.View>
 							)}
 							<Text
-								numberOfLines={1}
+								numberOfLines={3}
 								style={[
 									styles.orgLabel,
-									{ color: isActive ? colors.text : colors.onSurfaceMuted },
+									{
+										color: isActive ? colors.text : colors.onSurfaceMuted,
+										includeFontPadding: isAndroid ? false : undefined,
+										minWidth: 24,
+									},
 								]}
+								maxFontSizeMultiplier={1}
+								allowFontScaling={!isAndroid}
 							>
-								{trimOrgLabel(org.label)}
+								{org.label}
 							</Text>
 						</View>
 					);
@@ -134,5 +149,7 @@ const styles = StyleSheet.create({
 	orgLabel: {
 		marginTop: 6,
 		fontSize: 12,
+		width: "100%",
+		textAlign: "center",
 	},
 });

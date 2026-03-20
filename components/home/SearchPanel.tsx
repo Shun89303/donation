@@ -3,6 +3,7 @@ import Feather from "@expo/vector-icons/Feather";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import {
 	Animated,
+	Platform,
 	Pressable,
 	ScrollView,
 	StyleSheet,
@@ -35,6 +36,8 @@ export default function SearchPanel({
 	onPressFilter,
 	filterScales,
 }: SearchPanelProps) {
+	const isAndroid = Platform.OS === "android";
+
 	if (!isMounted) {
 		return null;
 	}
@@ -176,9 +179,13 @@ export default function SearchPanel({
 											styles.filterChipLabel,
 											{
 												color: isActive ? "white" : colors.onSurfaceMuted,
+												includeFontPadding: isAndroid ? false : undefined,
+												minWidth: "100%",
 											},
 											styles.filterChipLabelWithIcon,
 										]}
+										maxFontSizeMultiplier={1}
+										allowFontScaling={!isAndroid}
 									>
 										{filter.label}
 									</Text>

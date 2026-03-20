@@ -15,7 +15,9 @@ export default function TabLayout() {
 	const tabCount = tabKeys.length;
 
 	// Bottom Tabs Animation
+	const TAB_BAR_HEIGHT = 58;
 	const INDICATOR_WIDTH = 24;
+	const INDICATOR_HEIGHT = 3;
 
 	const { activeIndex, animatedStyle } = useTabIndicator(
 		tabCount,
@@ -33,13 +35,25 @@ export default function TabLayout() {
 					headerShown: false,
 					tabBarStyle: {
 						backgroundColor: colors.background,
-						height: 80,
+						height: TAB_BAR_HEIGHT,
 						borderTopWidth: 0,
 						elevation: 0,
+						paddingTop: 0,
+						paddingBottom: 0,
+					},
+					tabBarItemStyle: {
+						paddingVertical: 0,
+						justifyContent: "center",
+						alignItems: "center",
+					},
+					tabBarIconStyle: {
+						marginTop: 0,
 					},
 					tabBarLabelStyle: {
-						paddingTop: 2,
-						fontSize: 12,
+						paddingTop: 0,
+						fontSize: 11,
+						lineHeight: 11,
+						marginTop: 0,
 						fontWeight: "bold",
 					},
 					tabBarActiveTintColor: colors.tabActive,
@@ -60,15 +74,7 @@ export default function TabLayout() {
 						options={{
 							title: mainTabs[key].title,
 							tabBarIcon: ({ color, size }) => (
-								<View
-									style={{ alignItems: "center", justifyContent: "flex-start" }}
-								>
-									<Feather
-										name={mainTabs[key].icon}
-										size={size}
-										color={color}
-									/>
-								</View>
+								<Feather name={mainTabs[key].icon} size={size} color={color} />
 							),
 						}}
 					/>
@@ -80,9 +86,9 @@ export default function TabLayout() {
 				style={[
 					{
 						position: "absolute",
-						bottom: 80 - 3,
+						bottom: TAB_BAR_HEIGHT - INDICATOR_HEIGHT,
 						left: 0,
-						height: 3,
+						height: INDICATOR_HEIGHT,
 						width: INDICATOR_WIDTH,
 						backgroundColor: colors.tabActive,
 						borderRadius: 2,

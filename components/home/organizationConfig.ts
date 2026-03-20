@@ -9,11 +9,3 @@ export const ORGANIZATION_FILTERS = [
 
 export type OrganizationKey = (typeof ORGANIZATION_FILTERS)[number]["key"];
 export type OrganizationIcon = (typeof ORGANIZATION_FILTERS)[number]["icon"];
-
-export const trimOrgLabel = (label: string) => {
-	const maxLength = 10;
-	if (label.length <= maxLength) {
-		return label;
-	}
-	return `${label.slice(0, 7)}...`;
-};
