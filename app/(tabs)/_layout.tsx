@@ -2,7 +2,7 @@ import { useTabIndicator } from "@/hooks/useTabIndicator";
 import { useTheme } from "@/hooks/useTheme";
 import Feather from "@expo/vector-icons/Feather";
 import { Tabs } from "expo-router";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { mainTabs, TabKey } from "../../navigation/mainTabs";
 
@@ -15,9 +15,10 @@ export default function TabLayout() {
 	const tabCount = tabKeys.length;
 
 	// Bottom Tabs Animation
-	const TAB_BAR_HEIGHT = 58;
+	const TAB_BAR_HEIGHT = Platform.OS === "android" ? 40 : 40;
 	const INDICATOR_WIDTH = 24;
 	const INDICATOR_HEIGHT = 3;
+	const EXTRA_HEIGHT = Platform.OS === "android" ? 24 : 34;
 
 	const { activeIndex, animatedStyle } = useTabIndicator(
 		tabCount,
@@ -48,6 +49,8 @@ export default function TabLayout() {
 					},
 					tabBarIconStyle: {
 						marginTop: 0,
+						position: "absolute",
+						top: Platform.OS === "android" ? -20 : -25,
 					},
 					tabBarLabelStyle: {
 						paddingTop: 0,
@@ -86,7 +89,7 @@ export default function TabLayout() {
 				style={[
 					{
 						position: "absolute",
-						bottom: TAB_BAR_HEIGHT - INDICATOR_HEIGHT,
+						bottom: TAB_BAR_HEIGHT - INDICATOR_HEIGHT + EXTRA_HEIGHT,
 						left: 0,
 						height: INDICATOR_HEIGHT,
 						width: INDICATOR_WIDTH,
