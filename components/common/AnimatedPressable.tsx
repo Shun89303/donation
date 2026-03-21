@@ -22,7 +22,7 @@ export default function AnimatedPressable({
 	onPressIn,
 	onPressOut,
 	pressedScale = 0.97,
-	popScale = 1.02,
+	popScale = 1,
 	...rest
 }: AnimatedPressableProps) {
 	const scale = useRef(new Animated.Value(1)).current;

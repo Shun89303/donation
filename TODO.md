@@ -1,13 +1,41 @@
-# Creators Modularization TODO
+# Campaign Details Modularization TODO
 
-## Plan Steps:
+## Status: 🚀 In Progress
 
-- [x] Step 1: Create components/creators/CreatorsStyles.ts
-- [x] Step 2: Create components/creators/creatorsMockData.ts
-- [x] Step 3: Create components/creators/CreatorsPostCard.tsx
-- [x] Step 4: Update types.d.ts with Post type
-- [x] Step 5: Refactor app/(tabs)/creators.tsx to slim page
-- [x] Step 6: Verify no errors/linting issues
-- [ ] Step 7: Test UI in Expo (navigate to Creators tab)
+### 1. [ ] Setup Utilities
 
-Progress: Completed Steps 1-6
+- ✅ Read utils/campaignDetailsUtils.ts (if needed)
+- [ ] Extract 6 utility functions from index.tsx → utils/campaignDetailsUtils.ts
+- [ ] Update imports in index.tsx
+
+### 2. [ ] Create New Components (9 files in components/campaign/)
+
+- [✅] CollapsibleSection.tsx (reusable)
+- [ ] TopHeaderRow.tsx
+- [✅] TopHeaderRow.tsx
+- [ ] CampaignSummaryBlock.tsx
+- [ ] PhotoGallery.tsx
+- [ ] CampaignUpdates.tsx
+- [ ] ExpenseReport.tsx
+- [ ] ProofsSection.tsx
+- [ ] AgencyVerification.tsx
+- [ ] DonorComments.tsx
+- [ ] CampaignFooter.tsx
+- [ ] NotFoundCampaign.tsx
+
+### 3. [ ] Refactor Main File
+
+- [ ] app/campaign/[campaignId]/index.tsx → slim orchestrator
+- Remove inline components/utilities
+- Add imports for new components
+- Pass props/state down
+
+### 4. [ ] Testing & Validation
+
+- [ ] Navigate to campaign details page
+- [ ] Verify all sections expand/collapse
+- [ ] Test donate button navigation
+- [ ] Test save/share/comments
+- [ ] ✅ Complete (attempt_completion)
+
+**Next Action:** Extract utilities to utils/campaignDetailsUtils.ts
