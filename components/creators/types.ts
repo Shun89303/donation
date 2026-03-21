@@ -1,6 +1,4 @@
-declare module "react-native-animated-tabbar";
-
-export interface Post {
+export type Post = {
 	id: string;
 	creatorName: string;
 	creatorAvatar: string;
@@ -12,4 +10,4 @@ export interface Post {
 	liked: boolean;
 	likeCount: number;
 	commentCount: number;
-}
+};

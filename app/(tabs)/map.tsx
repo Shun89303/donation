@@ -1,15 +1,9 @@
 import FadeScreen from "@/components/common/FadeScreen";
+import { useTheme } from "@/hooks/useTheme";
 import { useMemo, useState } from "react";
-import {
-	Pressable,
-	StyleSheet,
-	Text,
-	useColorScheme,
-	View,
-} from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import MapView, { Callout, Marker, Region } from "react-native-maps";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { darkColors, lightColors } from "../_theme";
 
 type Campaign = {
 	id: string;
@@ -61,8 +55,7 @@ const campaigns: Campaign[] = [
 ];
 
 export default function Map() {
-	const colorScheme = useColorScheme();
-	const colors = colorScheme === "dark" ? darkColors : lightColors;
+	const colors = useTheme();
 
 	const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
 		null,
@@ -129,7 +122,7 @@ export default function Map() {
 							style={[
 								styles.bottomCard,
 								{
-									backgroundColor: colorScheme === "dark" ? "#1e1e1e" : "#fff",
+									backgroundColor: colors.background,
 								},
 							]}
 						>

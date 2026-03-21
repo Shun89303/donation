@@ -15,10 +15,10 @@ export default function TabLayout() {
 	const tabCount = tabKeys.length;
 
 	// Bottom Tabs Animation
-	const TAB_BAR_HEIGHT = Platform.OS === "android" ? 40 : 40;
+	const TAB_BAR_HEIGHT = Platform.OS === "android" ? 70 : 80;
 	const INDICATOR_WIDTH = 24;
 	const INDICATOR_HEIGHT = 3;
-	const EXTRA_HEIGHT = Platform.OS === "android" ? 24 : 34;
+	const EXTRA_HEIGHT = Platform.OS === "android" ? 0 : 0;
 
 	const { activeIndex, animatedStyle } = useTabIndicator(
 		tabCount,
@@ -50,7 +50,7 @@ export default function TabLayout() {
 					tabBarIconStyle: {
 						marginTop: 0,
 						position: "absolute",
-						top: Platform.OS === "android" ? -20 : -25,
+						top: Platform.OS === "android" ? 10 : 10,
 					},
 					tabBarLabelStyle: {
 						paddingTop: 0,
@@ -58,6 +58,8 @@ export default function TabLayout() {
 						lineHeight: 11,
 						marginTop: 0,
 						fontWeight: "bold",
+						position: "absolute",
+						top: Platform.OS === "android" ? 35 : 40,
 					},
 					tabBarActiveTintColor: colors.tabActive,
 					tabBarInactiveTintColor: colors.tabInactive,
