@@ -1,10 +1,12 @@
-# PostCard Layout Restructuring Plan
+# TODO Steps for Creators Icons Styling
 
-## Steps:
+## Completed:
 
-- [ ] Step 1: Create TODO.md (current)
-- [x] Step 2: Restructure JSX in app/(tabs)/creators.tsx - Move campaignBox out of leftSection/bottomRow into separate container below topRow ✓
-- [x] Step 3: Update styles - Rename/adjust bottomRow -> topRow, new campaignContainer, tweak leftSection spacing/alignment ✓
-- [x] Step 4: Verify layout renders correctly (attempt_completion) ✓ + Feedback improvements complete
+- [x] 1. Create TODO.md with plan steps
+- [x] 2. Update styles in app/(tabs)/creators.tsx: enhance iconButton with campaignBox-like background, border, perfect rounded radius (borderRadius: 20), padding; adjust icon size to 24, iconText fontSize to 10
+- [x] 2.5. Adjustment: add iconContainer style, wrap icons only in it, reset iconButton to layout only
 
-**Final Status:** Layout + feedback features implemented (counts, share, verified, donate rect). Check TODO-feedback.md.
+## Pending:
+
+- [ ] 3. Test the changes by reloading the app
+- [ ] 4. Mark complete and attempt_completion

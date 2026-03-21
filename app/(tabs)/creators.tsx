@@ -7,6 +7,8 @@ import {
 	useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
+import { useTheme } from "@/hooks/useTheme";
+import { BlurView } from "expo-blur";
 import { Heart, MessageCircle, Share2 as Share } from "lucide-react-native";
 import React, { memo } from "react";
 import {
@@ -17,10 +19,9 @@ import {
 	Pressable,
 	StyleSheet,
 	Text,
-	useColorScheme,
 	View,
 } from "react-native";
-import { darkColors, lightColors } from "../_theme";
+import { lightColors } from "../_theme";
 
 const { height: screenHeight } = Dimensions.get("window");
 
@@ -149,9 +150,15 @@ const PostCard = memo(function PostCard({
 							</View>
 
 							<Pressable style={styles.followButton}>
-								<Text style={styles.followButtonText}>
-									{item.isFollowing ? "Following" : "Follow"}
-								</Text>
+								<BlurView
+									intensity={80}
+									tint="systemUltraThinMaterialDark"
+									style={styles.followButtonBlur}
+								>
+									<Text style={styles.followButtonText}>
+										{item.isFollowing ? "Following" : "Follow"}
+									</Text>
+								</BlurView>
 							</Pressable>
 						</View>
 
@@ -162,41 +169,80 @@ const PostCard = memo(function PostCard({
 
 					<View style={styles.rightActions}>
 						<Pressable style={styles.iconButton}>
-							<Heart
-								size={28}
-								color="#4CAF50"
-								fill={item.liked ? "#4CAF50" : "transparent"}
-							/>
+							<View style={styles.iconContainerBlur}>
+								<BlurView
+									intensity={30}
+									tint="systemUltraThinMaterialDark"
+									style={styles.iconContainer}
+								>
+									<Heart
+										size={24}
+										// color="#4CAF50"
+										color="white"
+										fill={item.liked ? "#4CAF50" : "transparent"}
+									/>
+								</BlurView>
+							</View>
 							<Text style={styles.iconText}>
 								{item.likeCount.toLocaleString()}
 							</Text>
 						</Pressable>
 
 						<Pressable style={styles.iconButton}>
-							<MessageCircle size={28} color="#4CAF50" />
+							<View style={styles.iconContainerBlur}>
+								<BlurView
+									intensity={30}
+									tint="systemUltraThinMaterialDark"
+									style={styles.iconContainer}
+								>
+									<MessageCircle
+										size={24}
+										// color="#4CAF50"
+										color="white"
+									/>
+								</BlurView>
+							</View>
 							<Text style={styles.iconText}>
 								{item.commentCount.toLocaleString()}
 							</Text>
 						</Pressable>
 
 						<Pressable style={styles.iconButton}>
-							<Share size={28} color="#4CAF50" />
+							<View style={styles.iconContainerBlur}>
+								<BlurView
+									intensity={30}
+									tint="systemUltraThinMaterialDark"
+									style={styles.iconContainer}
+								>
+									<Share
+										size={24}
+										// color="#4CAF50"
+										color="white"
+									/>
+								</BlurView>
+							</View>
 							<Text style={styles.iconText}>Share</Text>
 						</Pressable>
 					</View>
 				</View>
 				<View style={styles.campaignContainer}>
-					<Pressable style={styles.campaignBox}>
-						<View style={styles.campaignTextWrap}>
-							<Text style={styles.linkedCampaignLabel}>LINKED CAMPAIGN</Text>
-							<Text style={styles.campaignTitle} numberOfLines={3}>
-								{item.campaignTitle}
-							</Text>
-						</View>
+					<Pressable style={styles.campaignBoxBlur}>
+						<BlurView
+							intensity={30}
+							tint="systemUltraThinMaterialDark"
+							style={styles.campaignBox}
+						>
+							<View style={styles.campaignTextWrap}>
+								<Text style={styles.linkedCampaignLabel}>LINKED CAMPAIGN</Text>
+								<Text style={styles.campaignTitle} numberOfLines={3}>
+									{item.campaignTitle}
+								</Text>
+							</View>
 
-						<Pressable style={styles.donateButton}>
-							<Text style={styles.donateButtonText}>Donate</Text>
-						</Pressable>
+							<Pressable style={styles.donateButton}>
+								<Text style={styles.donateButtonText}>Donate</Text>
+							</Pressable>
+						</BlurView>
 					</Pressable>
 				</View>
 			</View>
@@ -205,8 +251,7 @@ const PostCard = memo(function PostCard({
 });
 
 export default function Creators() {
-	const colorScheme = useColorScheme();
-	const colors = colorScheme === "dark" ? darkColors : lightColors;
+	const colors = useTheme();
 	const insets = useSafeAreaInsets();
 	const TAB_BAR_HEIGHT = Platform.OS === "android" ? 70 : 85;
 	const dynamicCardHeight = screenHeight - insets.bottom - TAB_BAR_HEIGHT;
@@ -270,7 +315,7 @@ const styles = StyleSheet.create({
 	},
 	topRow: {
 		flexDirection: "row",
-		alignItems: "center",
+		alignItems: "flex-end",
 		justifyContent: "space-between",
 	},
 	campaignContainer: {
@@ -307,11 +352,16 @@ const styles = StyleSheet.create({
 	orgVerifiedIcon: {
 		marginLeft: -2,
 	},
-	followButton: {
+	followButtonBlur: {
 		paddingHorizontal: 12,
 		paddingVertical: 6,
 		borderRadius: 12,
-		backgroundColor: "#4CAF50",
+	},
+	followButton: {
+		borderRadius: 12,
+		overflow: "hidden",
+		borderWidth: 0.5,
+		borderColor: "gray",
 	},
 	followButtonText: {
 		color: "white",
@@ -335,21 +385,30 @@ const styles = StyleSheet.create({
 		marginBottom: 24,
 		gap: 4,
 	},
+	iconContainerBlur: {
+		borderRadius: 20,
+		overflow: "hidden",
+	},
+	iconContainer: {
+		padding: 8,
+	},
 	iconText: {
 		color: "rgba(255,255,255,0.9)",
-		fontSize: 11,
+		fontSize: 10,
 		fontWeight: "600",
+	},
+	campaignBoxBlur: {
+		borderRadius: 18,
+		overflow: "hidden",
+		borderWidth: 0.5,
+		borderColor: "gray",
 	},
 	campaignBox: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		backgroundColor: "rgba(255,255,255,0.14)",
-		borderWidth: 1,
-		borderColor: "rgba(255,255,255,0.22)",
 		paddingVertical: 12,
 		paddingHorizontal: 14,
-		borderRadius: 18,
 	},
 	campaignTextWrap: {
 		flex: 1,

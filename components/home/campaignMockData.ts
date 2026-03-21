@@ -1,6 +1,6 @@
+import type { CampaignPost } from "./campaignTypes";
 import type { FilterKey } from "./filterConfig";
 import { ORGANIZATION_FILTERS } from "./organizationConfig";
-import type { CampaignPost } from "./campaignTypes";
 
 const FEED_ORGS = ORGANIZATION_FILTERS.filter((org) => org.key !== "All");
 const CAMPAIGN_CATEGORIES: Exclude<FilterKey, "All">[] = [
@@ -57,8 +57,7 @@ export const MOCK_CAMPAIGN_POSTS: CampaignPost[] = Array.from({
 		impactType,
 		familiesHelped: impactType === "families" ? familiesHelped : undefined,
 		familiesTarget: impactType === "families" ? familiesTarget : undefined,
-		educationSchools:
-			impactType === "education" ? educationSchools : undefined,
+		educationSchools: impactType === "education" ? educationSchools : undefined,
 		educationStudents:
 			impactType === "education" ? educationStudents : undefined,
 		isUrgent: category === "Urgent",

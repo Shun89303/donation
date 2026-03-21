@@ -58,7 +58,7 @@ export default function Home() {
 		// stores user search input
 		const normalizedSearch = searchText.trim().toLowerCase();
 
-		return MOCK_CAMPAIGN_POSTS.filter((post) => {
+		const filteredPosts = MOCK_CAMPAIGN_POSTS.filter((post) => {
 			// checks org filter selection
 			const matchesOrganization =
 				selectedOrg === "All" || post.orgKey === selectedOrg;
@@ -79,6 +79,11 @@ export default function Home() {
 
 			return matchesOrganization && matchesCampaignFilter && matchesSearch;
 		});
+
+		// Sort urgent campaigns to top (stable sort preserves relative order)
+		filteredPosts.sort((a, b) => Number(b.isUrgent) - Number(a.isUrgent));
+
+		return filteredPosts;
 	}, [searchText, selectedFilter, selectedOrg]);
 
 	useEffect(() => {
