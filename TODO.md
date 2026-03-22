@@ -1,41 +1,14 @@
-# Campaign Details Modularization TODO
+# CustomTabBar Modularization TODO
 
-## Status: 🚀 In Progress
+## Progress: 0/8 steps complete
 
-### 1. [ ] Setup Utilities
+1. [x] Create `navigation/tabIcons.ts` (extract iconMap)
+2. [x] Create `navigation/tabConfig.ts` (extract constants)
+3. [x] Create `hooks/useTabScale.ts` (extract scale animation hook)
+4. [x] Create `components/navigation/TabButton.tsx` (extract tab button component)
+5. [x] Skip optional `navigation/TabBarStyles.ts`
+6. [x] Update `components/navigation/CustomTabBar.tsx` (import new modules, simplify)
+7. [ ] Test tab bar functionality (run app, check animations/interactions)
+8. [ ] Lint and complete (eslint, mark done)
 
-- ✅ Read utils/campaignDetailsUtils.ts (if needed)
-- [ ] Extract 6 utility functions from index.tsx → utils/campaignDetailsUtils.ts
-- [ ] Update imports in index.tsx
-
-### 2. [ ] Create New Components (9 files in components/campaign/)
-
-- [✅] CollapsibleSection.tsx (reusable)
-- [ ] TopHeaderRow.tsx
-- [✅] TopHeaderRow.tsx
-- [ ] CampaignSummaryBlock.tsx
-- [ ] PhotoGallery.tsx
-- [ ] CampaignUpdates.tsx
-- [ ] ExpenseReport.tsx
-- [ ] ProofsSection.tsx
-- [ ] AgencyVerification.tsx
-- [ ] DonorComments.tsx
-- [ ] CampaignFooter.tsx
-- [ ] NotFoundCampaign.tsx
-
-### 3. [ ] Refactor Main File
-
-- [ ] app/campaign/[campaignId]/index.tsx → slim orchestrator
-- Remove inline components/utilities
-- Add imports for new components
-- Pass props/state down
-
-### 4. [ ] Testing & Validation
-
-- [ ] Navigate to campaign details page
-- [ ] Verify all sections expand/collapse
-- [ ] Test donate button navigation
-- [ ] Test save/share/comments
-- [ ] ✅ Complete (attempt_completion)
-
-**Next Action:** Extract utilities to utils/campaignDetailsUtils.ts
+**Next:** Complete step by step, updating this file after each.
