@@ -21,7 +21,9 @@ type DetailRowProps = {
 function DetailRow({ colors, label, value }: DetailRowProps) {
 	return (
 		<View style={styles.detailRow}>
-			<Text style={[styles.detailLabel, { color: colors.placeholderMuted }]}>{label}</Text>
+			<Text style={[styles.detailLabel, { color: colors.placeholderMuted }]}>
+				{label}
+			</Text>
 			<Text style={[styles.detailValue, { color: colors.text }]}>{value}</Text>
 		</View>
 	);
@@ -43,21 +45,39 @@ export default function CertificateDetailsBlock({
 				{ borderColor: colors.tabInactive, backgroundColor: colors.background },
 			]}
 		>
-			<Text style={[styles.supportingText, { color: colors.placeholderMuted }]}>This certifies that</Text>
-			<Text style={[styles.donorName, { color: colors.text }]}>{donorName}</Text>
-			<Text style={[styles.supportingText, { color: colors.placeholderMuted }]}>has generously donated</Text>
-			<Text style={[styles.donationAmount, { color: colors.tabActive }]}>{amountLabel}</Text>
+			<Text style={[styles.supportingText, { color: colors.placeholderMuted }]}>
+				This certifies that
+			</Text>
+			<Text style={[styles.donorName, { color: colors.text }]}>
+				{donorName}
+			</Text>
+			<Text style={[styles.supportingText, { color: colors.placeholderMuted }]}>
+				has generously donated
+			</Text>
+			<Text style={[styles.donationAmount, { color: colors.tabActive }]}>
+				{amountLabel}
+			</Text>
 
-			<View style={[styles.detailDivider, { backgroundColor: colors.tabInactive }]} />
+			<View
+				style={[styles.detailDivider, { backgroundColor: colors.tabInactive }]}
+			/>
 			<DetailRow colors={colors} label="Campaign" value={campaignTitle} />
-			<DetailRow colors={colors} label="Organization" value={organizationName} />
+			<DetailRow
+				colors={colors}
+				label="Organization"
+				value={organizationName}
+			/>
 			<DetailRow colors={colors} label="Date" value={dateLabel} />
 			<View style={styles.detailRow}>
 				<View style={styles.verifiedWrap}>
 					<Feather name="check-circle" size={14} color={colors.tabActive} />
-					<Text style={[styles.verifiedText, { color: colors.tabActive }]}>Verified</Text>
+					<Text style={[styles.verifiedText, { color: colors.tabActive }]}>
+						Verified
+					</Text>
 				</View>
-				<Text style={[styles.certificateCode, { color: colors.text }]}>{certificateCode}</Text>
+				<Text style={[styles.certificateCode, { color: colors.text }]}>
+					{certificateCode}
+				</Text>
 			</View>
 		</View>
 	);

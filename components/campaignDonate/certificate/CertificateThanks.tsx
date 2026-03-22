@@ -10,10 +10,14 @@ export default function CertificateThanks({ colors }: CertificateThanksProps) {
 	return (
 		<>
 			<View style={styles.thanksRow}>
-				<Text style={[styles.thanksTitle, { color: colors.text }]}>Thank you for your kindness</Text>
+				<Text style={[styles.thanksTitle, { color: colors.text }]}>
+					Thank you for your kindness
+				</Text>
 				<Feather name="heart" size={16} color={colors.tabActive} />
 			</View>
-			<Text style={[styles.thanksSubtitle, { color: colors.placeholderMuted }]}>Your contribution makes a real difference.</Text>
+			<Text style={[styles.thanksSubtitle, { color: colors.placeholderMuted }]}>
+				Your contribution makes a real difference.
+			</Text>
 		</>
 	);
 }

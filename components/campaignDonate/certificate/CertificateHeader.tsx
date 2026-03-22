@@ -8,7 +8,10 @@ type CertificateHeaderProps = {
 	onClose: () => void;
 };
 
-export default function CertificateHeader({ colors, onClose }: CertificateHeaderProps) {
+export default function CertificateHeader({
+	colors,
+	onClose,
+}: CertificateHeaderProps) {
 	return (
 		<>
 			<View style={styles.closeRow}>
@@ -18,7 +21,9 @@ export default function CertificateHeader({ colors, onClose }: CertificateHeader
 			</View>
 			<View style={styles.headerCenter}>
 				<Feather name="award" size={28} color={colors.tabActive} />
-				<Text style={[styles.title, { color: colors.text }]}>CERTIFICATE OF DONATION</Text>
+				<Text style={[styles.title, { color: colors.text }]}>
+					CERTIFICATE OF DONATION
+				</Text>
 			</View>
 		</>
 	);

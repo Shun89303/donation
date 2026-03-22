@@ -20,7 +20,7 @@ export default function HomeHeader({
 				<Text style={[styles.brandTitle, { color: colors.text }]}>
 					DanaLink
 				</Text>
-				<Text style={[styles.brandSubtitle, { color: colors.tabInactive }]}>
+				<Text style={[styles.brandSubtitle, { color: colors.primaryGray }]}>
 					Direct impact, verified in real-time.
 				</Text>
 			</View>
@@ -33,11 +33,11 @@ export default function HomeHeader({
 					onPress={onPressSearch}
 					style={({ pressed }) => [
 						styles.iconButton,
-						{ backgroundColor: colors.surfaceMuted },
+						{ backgroundColor: colors.secondaryGray },
 						pressed && styles.iconButtonPressed,
 					]}
 				>
-					<Feather name="search" size={20} color={colors.onSurfaceMuted} />
+					<Feather name="search" size={20} color={colors.primaryGray} />
 				</Pressable>
 				<Pressable
 					accessibilityRole="button"
@@ -47,7 +47,7 @@ export default function HomeHeader({
 					style={({ pressed }) => [
 						styles.iconButton,
 						styles.secondaryAction,
-						{ backgroundColor: colors.tabActive },
+						{ backgroundColor: colors.primaryGreen },
 						pressed && styles.iconButtonPressed,
 					]}
 				>

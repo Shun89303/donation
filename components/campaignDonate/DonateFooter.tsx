@@ -8,9 +8,13 @@ type DonateFooterProps = {
 	onPress?: () => void;
 };
 
-export default function DonateFooter({ colors, ctaLabel, onPress }: DonateFooterProps) {
+export default function DonateFooter({
+	colors,
+	ctaLabel,
+	onPress,
+}: DonateFooterProps) {
 	return (
-		<View style={[styles.footer, { borderTopColor: colors.tabInactive }]}> 
+		<View style={[styles.footer, { borderTopColor: colors.tabInactive }]}>
 			<PopPressable
 				onPress={onPress}
 				style={[styles.donateButton, { backgroundColor: colors.tabActive }]}

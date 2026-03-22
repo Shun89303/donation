@@ -26,10 +26,15 @@ export default function PaymentMethodBlock({
 		<View
 			style={[
 				styles.block,
-				{ borderColor: colors.tabInactive, backgroundColor: colors.surfaceMuted },
+				{
+					borderColor: colors.tabInactive,
+					backgroundColor: colors.surfaceMuted,
+				},
 			]}
 		>
-			<Text style={[styles.blockLabel, { color: colors.placeholderMuted }]}>PAYMENT METHOD</Text>
+			<Text style={[styles.blockLabel, { color: colors.placeholderMuted }]}>
+				PAYMENT METHOD
+			</Text>
 			<View style={styles.paymentGrid}>
 				{methods.map((method) => {
 					const isSelected = selectedMethod === method.key;
@@ -41,7 +46,9 @@ export default function PaymentMethodBlock({
 							style={[
 								styles.paymentMethod,
 								{
-									borderColor: isSelected ? colors.tabActive : colors.tabInactive,
+									borderColor: isSelected
+										? colors.tabActive
+										: colors.tabInactive,
 									backgroundColor: colors.background,
 								},
 							]}

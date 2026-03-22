@@ -31,7 +31,9 @@ export default function AlertsHeader({
 		>
 			<View style={styles.headerTitleRow}>
 				<View style={styles.headerTextBlock}>
-					<Text style={[styles.title, { color: colors.text }]}>Notifications</Text>
+					<Text style={[styles.title, { color: colors.text }]}>
+						Notifications
+					</Text>
 					<Text style={[styles.subtitle, { color: colors.placeholderMuted }]}>
 						Stay updated on campaigns and donations
 					</Text>
@@ -169,4 +171,3 @@ const styles = StyleSheet.create({
 		transform: [{ scale: 0.98 }],
 	},
 });
-

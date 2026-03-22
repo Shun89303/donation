@@ -36,10 +36,15 @@ export default function DonationAmountBlock({
 		<View
 			style={[
 				styles.block,
-				{ borderColor: colors.tabInactive, backgroundColor: colors.surfaceMuted },
+				{
+					borderColor: colors.tabInactive,
+					backgroundColor: colors.surfaceMuted,
+				},
 			]}
 		>
-			<Text style={[styles.blockLabel, { color: colors.placeholderMuted }]}>DONATION AMOUNT</Text>
+			<Text style={[styles.blockLabel, { color: colors.placeholderMuted }]}>
+				DONATION AMOUNT
+			</Text>
 			<PopPressable onPress={onPressAmountValue} style={styles.amountWrap}>
 				{isEditingAmount ? (
 					<TextInput
@@ -52,9 +57,13 @@ export default function DonationAmountBlock({
 						maxLength={9}
 					/>
 				) : (
-					<Text style={[styles.amountValue, { color: colors.text }]}>{formattedAmount}</Text>
+					<Text style={[styles.amountValue, { color: colors.text }]}>
+						{formattedAmount}
+					</Text>
 				)}
-				<Text style={[styles.currency, { color: colors.placeholderMuted }]}>MMK</Text>
+				<Text style={[styles.currency, { color: colors.placeholderMuted }]}>
+					MMK
+				</Text>
 			</PopPressable>
 
 			<View style={styles.quickAmountRow}>
@@ -67,13 +76,20 @@ export default function DonationAmountBlock({
 							style={[
 								styles.quickAmountChip,
 								{
-									borderColor: isSelected ? colors.tabActive : colors.tabInactive,
-									backgroundColor: isSelected ? colors.tabActive : colors.background,
+									borderColor: isSelected
+										? colors.tabActive
+										: colors.tabInactive,
+									backgroundColor: isSelected
+										? colors.tabActive
+										: colors.background,
 								},
 							]}
 						>
 							<Text
-								style={[styles.quickAmountText, { color: isSelected ? "white" : colors.text }]}
+								style={[
+									styles.quickAmountText,
+									{ color: isSelected ? "white" : colors.text },
+								]}
 							>
 								{formatAmount(amount)}
 							</Text>

@@ -26,7 +26,9 @@ export default function CertificateActions({
 				]}
 			>
 				<Feather name="download" size={16} color={colors.text} />
-				<Text style={[styles.downloadText, { color: colors.text }]}>Download</Text>
+				<Text style={[styles.downloadText, { color: colors.text }]}>
+					Download
+				</Text>
 			</PopPressable>
 			<PopPressable
 				onPress={onPressShare}
