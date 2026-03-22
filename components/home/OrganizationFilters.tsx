@@ -10,11 +10,13 @@ import {
 import React from "react";
 import {
 	Animated,
+	Dimensions,
 	Platform,
 	Pressable,
 	ScrollView,
 	StyleSheet,
 	Text,
+	useWindowDimensions,
 	View,
 } from "react-native";
 import {
@@ -36,7 +38,22 @@ export default function OrganizationFilters({
 	onPressOrganization,
 	organizationScales,
 }: OrganizationFiltersProps) {
+	const { width: screenWidth } = useWindowDimensions();
+	const screenHeight = Dimensions.get("window").height;
 	const isAndroid = Platform.OS === "android";
+	const isTablet = screenWidth >= 800;
+	const isNarrowPhone = screenWidth < 450;
+	const aspectRatio = screenWidth / screenHeight;
+	const isLandscape = aspectRatio > 0.75;
+	const baseItemWidth = isTablet ? 90 : isNarrowPhone ? 60 : 74;
+	const baseButtonSize = baseItemWidth * 0.84;
+	const sizeScale = isTablet ? 1.15 : isNarrowPhone ? 1.0 : 1.5;
+	const landscapeBoost = isLandscape ? 1.05 : 1.0;
+	const finalItemWidth = baseItemWidth * sizeScale * landscapeBoost;
+	const finalButtonSize = baseButtonSize * sizeScale * landscapeBoost;
+	const iconSize = 30 * sizeScale;
+	const labelMarginTop = 6 * sizeScale;
+	const labelFontSize = 12 * sizeScale;
 
 	const getOrgIcon = (iconName: OrganizationIcon): React.ComponentType<any> => {
 		switch (iconName) {
@@ -114,7 +131,10 @@ export default function OrganizationFilters({
 					const orgScale = organizationScales[org.key];
 					const { iconColor, bgColor } = getOrgColors(org.key);
 					return (
-						<View key={org.key} style={styles.orgItem}>
+						<View
+							key={org.key}
+							style={[styles.orgItem, { width: finalItemWidth, minWidth: 60 }]}
+						>
 							{isActive ? (
 								<Animated.View style={{ transform: [{ scale: orgScale }] }}>
 									<Pressable
@@ -124,18 +144,25 @@ export default function OrganizationFilters({
 											{
 												borderColor: colors.tabActive,
 												backgroundColor: colors.background,
+												width: finalButtonSize,
+												height: finalButtonSize,
+												padding: isTablet ? 3 : 2,
+												borderRadius: isTablet ? 22 : 16,
 											},
 										]}
 									>
 										<View
 											style={[
 												styles.orgIconButtonInner,
-												{ backgroundColor: colors.tabActive },
+												{
+													backgroundColor: colors.tabActive,
+													borderRadius: isTablet ? 18 : 12,
+												},
 											]}
 										>
 											{React.createElement(
 												getOrgIcon(org.icon as OrganizationIcon),
-												{ size: 30, color: "white" },
+												{ size: iconSize, color: "white" },
 											)}
 										</View>
 									</Pressable>
@@ -148,12 +175,15 @@ export default function OrganizationFilters({
 											styles.orgIconButtonSingle,
 											{
 												backgroundColor: colors[bgColor],
+												width: finalButtonSize,
+												height: finalButtonSize,
+												borderRadius: isTablet ? 22 : 16,
 											},
 										]}
 									>
 										{React.createElement(
 											getOrgIcon(org.icon as OrganizationIcon),
-											{ size: 30, color: colors[iconColor] },
+											{ size: iconSize, color: colors[iconColor] },
 										)}
 									</Pressable>
 								</Animated.View>
@@ -165,7 +195,9 @@ export default function OrganizationFilters({
 									{
 										color: isActive ? colors.text : colors.onSurfaceMuted,
 										includeFontPadding: isAndroid ? false : undefined,
-										minWidth: 24,
+										textAlignVertical: isAndroid ? "center" : undefined,
+										marginTop: labelMarginTop,
+										fontSize: labelFontSize,
 									},
 								]}
 								maxFontSizeMultiplier={1}
@@ -190,34 +222,23 @@ const styles = StyleSheet.create({
 	},
 	orgItem: {
 		alignItems: "center",
-		width: 74,
 	},
 	orgIconButtonOuter: {
-		width: 62,
-		height: 62,
-		borderRadius: 16,
-		borderWidth: 3,
-		padding: 2,
+		borderWidth: 2,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	orgIconButtonSingle: {
-		width: 62,
-		height: 62,
-		borderRadius: 16,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	orgIconButtonInner: {
 		width: "100%",
 		height: "100%",
-		borderRadius: 12,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	orgLabel: {
-		marginTop: 6,
-		fontSize: 12,
 		width: "100%",
 		textAlign: "center",
 	},
