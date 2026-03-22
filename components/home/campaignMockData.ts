@@ -1,3 +1,4 @@
+import type { FilterKey } from "./campaignFilterConfig";
 import type {
 	CampaignExpenseItem,
 	CampaignPost,
@@ -5,7 +6,6 @@ import type {
 	CampaignUpdateItem,
 	DonorCommentItem,
 } from "./campaignTypes";
-import type { FilterKey } from "./filterConfig";
 import { ORGANIZATION_FILTERS } from "./organizationConfig";
 
 const FEED_ORGS = ORGANIZATION_FILTERS.filter((org) => org.key !== "All");

@@ -1,6 +1,13 @@
 import type { ThemeColors } from "@/app/_theme";
-import Feather from "@expo/vector-icons/Feather";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import {
+	Baby,
+	Flame,
+	Heart,
+	House,
+	Search as SearchIcon,
+	TriangleAlert,
+	X as XIcon,
+} from "lucide-react-native";
 import {
 	Animated,
 	Platform,
@@ -11,7 +18,7 @@ import {
 	TextInput,
 	View,
 } from "react-native";
-import { FILTERS, type FilterKey } from "./filterConfig";
+import { FILTERS, type FilterKey } from "./campaignFilterConfig";
 
 type SearchPanelProps = {
 	colors: ThemeColors;
@@ -74,8 +81,7 @@ export default function SearchPanel({
 						},
 					]}
 				>
-					<Feather
-						name="search"
+					<SearchIcon
 						size={16}
 						color={colors.primaryGray}
 						style={styles.searchInputIcon}
@@ -104,7 +110,7 @@ export default function SearchPanel({
 						pressed && styles.iconButtonPressed,
 					]}
 				>
-					<Feather name="x" size={18} color={colors.primaryGray} />
+					<XIcon size={18} color={colors.primaryGray} />
 				</Pressable>
 			</View>
 			{/* Horizontal Scrollview for campaign options */}
@@ -116,6 +122,12 @@ export default function SearchPanel({
 				{FILTERS.map((filter) => {
 					const isActive = selectedFilter === filter.key;
 					const chipScale = filterScales[filter.key];
+					let FilterIcon: any;
+					if (filter.icon === "heart") FilterIcon = Heart;
+					else if (filter.icon === "baby") FilterIcon = Baby;
+					else if (filter.icon === "flame") FilterIcon = Flame;
+					else if (filter.icon === "house") FilterIcon = House;
+					else if (filter.icon === "triangle-alert") FilterIcon = TriangleAlert;
 					return (
 						<Pressable
 							key={filter.key}
@@ -140,37 +152,10 @@ export default function SearchPanel({
 											{ opacity: isActive ? 1 : 0.9 },
 										]}
 									>
-										{filter.key === "All" ? (
-											<Feather
-												name="heart"
-												size={14}
-												color={isActive ? "white" : colors.primaryGray}
-											/>
-										) : filter.key === "Orphan" ? (
-											<MaterialCommunityIcons
-												name="baby-face-outline"
-												size={15}
-												color={isActive ? "white" : colors.primaryGray}
-											/>
-										) : filter.key === "Disaster" ? (
-											<Feather
-												name="alert-triangle"
-												size={14}
-												color={isActive ? "white" : colors.primaryGray}
-											/>
-										) : filter.key === "Nursing Home" ? (
-											<Feather
-												name="home"
-												size={14}
-												color={isActive ? "white" : colors.primaryGray}
-											/>
-										) : (
-											<Feather
-												name="zap"
-												size={14}
-												color={isActive ? "white" : colors.primaryGray}
-											/>
-										)}
+										<FilterIcon
+											size={14}
+											color={isActive ? "white" : colors.primaryGray}
+										/>
 									</View>
 									<Text
 										style={[
@@ -211,7 +196,7 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 0, height: 8 },
 		shadowOpacity: 0.14,
 		shadowRadius: 14,
-		elevation: 6,
+		elevation: 2,
 	},
 	searchRow: {
 		flexDirection: "row",

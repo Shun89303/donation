@@ -1,4 +1,4 @@
-import type { FilterKey } from "./filterConfig";
+import type { FilterKey } from "./campaignFilterConfig";
 import type { OrganizationKey } from "./organizationConfig";
 
 export type CampaignUpdateItem = {

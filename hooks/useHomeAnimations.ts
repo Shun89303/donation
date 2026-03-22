@@ -1,4 +1,7 @@
-import { FILTERS, type FilterKey } from "@/components/home/filterConfig";
+import {
+	FILTERS,
+	type FilterKey,
+} from "@/components/home/campaignFilterConfig";
 import { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Platform, UIManager } from "react-native";
 
