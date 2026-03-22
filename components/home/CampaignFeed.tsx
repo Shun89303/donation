@@ -1,5 +1,4 @@
 import type { ThemeColors } from "@/app/_theme";
-import Feather from "@expo/vector-icons/Feather";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useRouter } from "expo-router";
 import type { RefObject } from "react";
@@ -40,7 +39,6 @@ export default function CampaignFeed({
 						},
 					]}
 				>
-					<Feather name="inbox" size={24} color={colors.placeholderMuted} />
 					<Text style={[styles.emptyTitle, { color: colors.text }]}>
 						No active campaigns
 					</Text>

@@ -16,6 +16,7 @@ import {
 	StyleSheet,
 	Text,
 	TextInput,
+	useWindowDimensions,
 	View,
 } from "react-native";
 import { FILTERS, type FilterKey } from "./campaignFilterConfig";
@@ -43,7 +44,107 @@ export default function SearchPanel({
 	onPressFilter,
 	filterScales,
 }: SearchPanelProps) {
+	const { width, height } = useWindowDimensions();
 	const isAndroid = Platform.OS === "android";
+
+	// Responsive device detection matching HomeHeader pattern
+	const aspectRatio = width / height;
+	const isTablet = width >= 800;
+	const isNarrowPhone = width < 450;
+	const isLandscape = aspectRatio > 0.75;
+
+	// Scale factors for phones/tablets, Android/iOS, aspect ratio
+	const sizeScale = isTablet ? 1.25 : isNarrowPhone ? 0.9 : 1.0;
+	const paddingScale = isTablet ? 1.2 : 1.0;
+	const fontScale = isTablet ? 1.1 : isNarrowPhone ? 0.95 : 1.0;
+	const landscapeBoost = isLandscape ? 1.05 : 1.0;
+
+	const inputHeight = 42 * sizeScale * landscapeBoost;
+	const panelPadding = 12 * paddingScale;
+	const chipPaddingH = 14 * paddingScale;
+	const chipPaddingV = 8 * paddingScale;
+	const chipBorderRadius = 18 * sizeScale;
+	const searchIconSize = 16 * sizeScale;
+	const filterIconSize = 20 * sizeScale;
+	const filterFontSize = 14 * fontScale;
+	const searchInputFontSize = 16 * fontScale;
+
+	const dynamicStyles = StyleSheet.create({
+		searchPanel: {
+			width: "100%",
+			marginTop: 14 * sizeScale,
+			borderWidth: 0.5,
+			borderRadius: 14 * sizeScale,
+			padding: panelPadding,
+			shadowOffset: { width: 0, height: 5 * sizeScale },
+			shadowOpacity: 0.14,
+			shadowRadius: 14 * sizeScale,
+			elevation: isAndroid ? 6 : 0,
+		},
+		searchInputWrap: {
+			flex: 1,
+			height: inputHeight,
+			borderRadius: 12 * sizeScale,
+			paddingHorizontal: 10 * paddingScale,
+			flexDirection: "row",
+			alignItems: "center",
+		},
+		searchInput: {
+			flex: 1,
+			height: "100%",
+			paddingVertical: 0,
+			fontSize: searchInputFontSize,
+		},
+		closeBtn: {
+			marginLeft: 10 * paddingScale,
+			width: inputHeight,
+			height: inputHeight,
+			borderRadius: inputHeight / 2,
+			alignItems: "center",
+			justifyContent: "center",
+		},
+		filterRow: {
+			paddingTop: 12 * paddingScale,
+			paddingBottom: 2 * paddingScale,
+		},
+		filterChip: {
+			paddingHorizontal: chipPaddingH,
+			paddingVertical: chipPaddingV,
+			borderRadius: chipBorderRadius,
+		},
+		filterChipContent: {
+			flexDirection: "row",
+			alignItems: "center",
+		},
+		filterChipLabel: {
+			fontSize: filterFontSize,
+			marginLeft: 2 * sizeScale,
+			minWidth: "100%",
+			padding: 5,
+		},
+		filterIconWrap: {
+			width: filterIconSize + 8,
+			height: filterIconSize + 8,
+			alignItems: "center",
+			justifyContent: "center",
+		},
+		iconButtonPressed: {
+			opacity: 0.82,
+			transform: [{ scale: 0.96 }],
+		},
+		searchInputIcon: {
+			marginRight: 8 * paddingScale,
+		},
+	});
+
+	const searchRowStyle = {
+		flexDirection: "row" as const,
+		alignItems: "center" as const,
+	};
+
+	const filterChipPressableStyle = {
+		marginRight: 8 * paddingScale,
+	};
 
 	if (!isMounted) {
 		return null;
@@ -52,7 +153,7 @@ export default function SearchPanel({
 	return (
 		<Animated.View
 			style={[
-				styles.searchPanel,
+				dynamicStyles.searchPanel,
 				{
 					backgroundColor: colors.background,
 					borderColor: colors.secondaryGray,
@@ -64,7 +165,7 @@ export default function SearchPanel({
 						{
 							translateY: searchPanelAnim.interpolate({
 								inputRange: [0, 1],
-								outputRange: [-18, 0],
+								outputRange: [-18 * sizeScale, 0],
 							}),
 						},
 					],
@@ -72,19 +173,19 @@ export default function SearchPanel({
 			]}
 		>
 			{/* Container of search input + close button */}
-			<View style={styles.searchRow}>
+			<View style={searchRowStyle}>
 				<View
 					style={[
-						styles.searchInputWrap,
+						dynamicStyles.searchInputWrap,
 						{
 							backgroundColor: colors.secondaryGray,
 						},
 					]}
 				>
 					<SearchIcon
-						size={16}
+						size={searchIconSize}
 						color={colors.primaryGray}
-						style={styles.searchInputIcon}
+						style={dynamicStyles.searchInputIcon}
 					/>
 					<TextInput
 						value={searchText}
@@ -92,7 +193,7 @@ export default function SearchPanel({
 						placeholder="Search campaigns..."
 						placeholderTextColor={colors.primaryGray}
 						style={[
-							styles.searchInput,
+							dynamicStyles.searchInput,
 							{
 								color: colors.text,
 							},
@@ -102,22 +203,22 @@ export default function SearchPanel({
 				<Pressable
 					accessibilityRole="button"
 					accessibilityLabel="Close search"
-					hitSlop={6}
+					hitSlop={6 * sizeScale}
 					onPress={onCloseSearch}
 					style={({ pressed }) => [
-						styles.closeBtn,
+						dynamicStyles.closeBtn,
 						{ backgroundColor: colors.secondaryGray },
-						pressed && styles.iconButtonPressed,
+						pressed && dynamicStyles.iconButtonPressed,
 					]}
 				>
-					<XIcon size={18} color={colors.primaryGray} />
+					<XIcon size={18 * sizeScale} color={colors.primaryGray} />
 				</Pressable>
 			</View>
 			{/* Horizontal Scrollview for campaign options */}
 			<ScrollView
 				horizontal
 				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={styles.filterRow}
+				contentContainerStyle={dynamicStyles.filterRow}
 			>
 				{FILTERS.map((filter) => {
 					const isActive = selectedFilter === filter.key;
@@ -132,11 +233,11 @@ export default function SearchPanel({
 						<Pressable
 							key={filter.key}
 							onPress={() => onPressFilter(filter.key)}
-							style={styles.filterChipPressable}
+							style={filterChipPressableStyle}
 						>
 							<Animated.View
 								style={[
-									styles.filterChip,
+									dynamicStyles.filterChip,
 									{
 										backgroundColor: isActive
 											? colors.primaryGreen
@@ -145,27 +246,25 @@ export default function SearchPanel({
 									},
 								]}
 							>
-								<View style={styles.filterChipContent}>
+								<View style={dynamicStyles.filterChipContent}>
 									<View
 										style={[
-											styles.filterIconWrap,
+											dynamicStyles.filterIconWrap,
 											{ opacity: isActive ? 1 : 0.9 },
 										]}
 									>
 										<FilterIcon
-											size={14}
+											size={filterIconSize}
 											color={isActive ? "white" : colors.primaryGray}
 										/>
 									</View>
 									<Text
 										style={[
-											styles.filterChipLabel,
+											dynamicStyles.filterChipLabel,
 											{
 												color: isActive ? "white" : colors.primaryGray,
 												includeFontPadding: isAndroid ? false : undefined,
-												minWidth: "100%",
 											},
-											styles.filterChipLabelWithIcon,
 										]}
 										maxFontSizeMultiplier={1}
 										allowFontScaling={!isAndroid}
@@ -181,75 +280,3 @@ export default function SearchPanel({
 		</Animated.View>
 	);
 }
-
-const styles = StyleSheet.create({
-	iconButtonPressed: {
-		opacity: 0.82,
-		transform: [{ scale: 0.96 }],
-	},
-	searchPanel: {
-		width: "100%",
-		marginTop: 14,
-		borderWidth: 0.4,
-		borderRadius: 14,
-		padding: 12,
-		shadowOffset: { width: 0, height: 8 },
-		shadowOpacity: 0.14,
-		shadowRadius: 14,
-		elevation: 2,
-	},
-	searchRow: {
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	searchInputWrap: {
-		flex: 1,
-		height: 42,
-		borderRadius: 12,
-		paddingHorizontal: 10,
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	searchInputIcon: {
-		marginRight: 8,
-	},
-	searchInput: {
-		flex: 1,
-		height: "100%",
-		paddingVertical: 0,
-	},
-	closeBtn: {
-		marginLeft: 10,
-		width: 42,
-		height: 42,
-		borderRadius: 21,
-		alignItems: "center",
-		justifyContent: "center",
-	},
-	filterRow: {
-		paddingTop: 12,
-		paddingBottom: 2,
-	},
-	filterChip: {
-		paddingHorizontal: 14,
-		paddingVertical: 8,
-		borderRadius: 12,
-	},
-	filterChipPressable: {
-		marginRight: 8,
-	},
-	filterChipContent: {
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	filterChipLabel: {
-		fontSize: 14,
-	},
-	filterChipLabelWithIcon: {
-		marginLeft: 6,
-	},
-	filterIconWrap: {
-		alignItems: "center",
-		justifyContent: "center",
-	},
-});
