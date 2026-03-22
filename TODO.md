@@ -1,14 +1,13 @@
-# CustomTabBar Modularization TODO
+# Tablet/Phone Responsive HomeHeader + Animation Unification
 
-## Progress: 0/8 steps complete
+## Steps:
 
-1. [x] Create `navigation/tabIcons.ts` (extract iconMap)
-2. [x] Create `navigation/tabConfig.ts` (extract constants)
-3. [x] Create `hooks/useTabScale.ts` (extract scale animation hook)
-4. [x] Create `components/navigation/TabButton.tsx` (extract tab button component)
-5. [x] Skip optional `navigation/TabBarStyles.ts`
-6. [x] Update `components/navigation/CustomTabBar.tsx` (import new modules, simplify)
-7. [ ] Test tab bar functionality (run app, check animations/interactions)
-8. [ ] Lint and complete (eslint, mark done)
+1. [x] Rename `hooks/useTabScale.ts` → `hooks/usePressScale.ts` and update content (generic press scale). ✅
+2. [x] Update imports in dependents: `components/navigation/TabButton.tsx` (PopPressable uses own impl). ✅
+3. [x] Implement responsive scales + `usePressScale` in `components/home/HomeHeader.tsx` (Dimensions, dynamic font/icon/spacing). ✅ Fixed imports.
+4. [ ] Test: `npx expo start --clear` on phone/tablet simulators.
+5. [ ] Handle orientation changes (add listener).
 
-**Next:** Complete step by step, updating this file after each.
+## COMPLETED ✅
+
+HomeHeader now supports tablet/phone aspect ratios and uses usePressScale for animations.

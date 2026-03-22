@@ -1,6 +1,8 @@
 import type { ThemeColors } from "@/app/_theme";
+import { usePressScale } from "@/hooks/usePressScale";
 import Feather from "@expo/vector-icons/Feather";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import Animated from "react-native-reanimated";
 
 type HomeHeaderProps = {
 	colors: ThemeColors;
@@ -13,14 +15,49 @@ export default function HomeHeader({
 	onPressSearch,
 	onPressProfile,
 }: HomeHeaderProps) {
+	const { width, height } = Dimensions.get("window");
+	const isTablet = width >= 800;
+	const isNarrowPhone = width < 450;
+	const fontScale = isTablet ? 1.6 : isNarrowPhone ? 0.95 : 1.1;
+	const iconSize = isTablet ? 54 : isNarrowPhone ? 38 : 42;
+	const spacingScale = isTablet ? 1.3 : isNarrowPhone ? 0.9 : 1.0;
+	const brandFontSize = Math.round(32 * fontScale);
+	const subtitleFontSize = Math.round(14 * fontScale);
+	const brandPaddingRight = Math.round(12 * spacingScale);
+	const secondaryMarginLeft = Math.round(10 * spacingScale);
+	const iconHitSlop = Math.round(6 * spacingScale);
+
+	const searchPress = usePressScale();
+	const profilePress = usePressScale();
+
+	const aspectRatio = width / height;
+	const landscapeBoost = aspectRatio > 0.75 ? 1.05 : 1.0;
+
 	return (
 		<View style={styles.headerRow}>
 			{/* Container of DanaLink + Direct impact,...etc */}
-			<View style={styles.brandBlock}>
-				<Text style={[styles.brandTitle, { color: colors.text }]}>
+			<View style={[styles.brandBlock, { paddingRight: brandPaddingRight }]}>
+				<Text
+					style={[
+						styles.brandTitle,
+						{
+							fontSize: brandFontSize,
+							letterSpacing: 0.3 * landscapeBoost,
+							color: colors.text,
+						},
+					]}
+				>
 					DanaLink
 				</Text>
-				<Text style={[styles.brandSubtitle, { color: colors.primaryGray }]}>
+				<Text
+					style={[
+						styles.brandSubtitle,
+						{
+							fontSize: subtitleFontSize,
+							color: colors.primaryGray,
+						},
+					]}
+				>
 					Direct impact, verified in real-time.
 				</Text>
 			</View>
@@ -29,29 +66,50 @@ export default function HomeHeader({
 				<Pressable
 					accessibilityRole="button"
 					accessibilityLabel="Search"
-					hitSlop={6}
+					hitSlop={iconHitSlop}
 					onPress={onPressSearch}
+					onPressIn={searchPress.pressIn}
+					onPressOut={searchPress.pressOut}
 					style={({ pressed }) => [
 						styles.iconButton,
-						{ backgroundColor: colors.secondaryGray },
-						pressed && styles.iconButtonPressed,
+						{
+							width: iconSize,
+							height: iconSize,
+							borderRadius: iconSize / 2,
+							backgroundColor: colors.secondaryGray,
+						},
 					]}
 				>
-					<Feather name="search" size={20} color={colors.primaryGray} />
+					<Animated.View style={[searchPress.animatedStyle]}>
+						<Feather
+							name="search"
+							size={20 * fontScale}
+							color={colors.primaryGray}
+						/>
+					</Animated.View>
 				</Pressable>
 				<Pressable
 					accessibilityRole="button"
 					accessibilityLabel="Profile"
-					hitSlop={6}
+					hitSlop={iconHitSlop}
 					onPress={onPressProfile}
+					onPressIn={profilePress.pressIn}
+					onPressOut={profilePress.pressOut}
 					style={({ pressed }) => [
 						styles.iconButton,
 						styles.secondaryAction,
-						{ backgroundColor: colors.primaryGreen },
-						pressed && styles.iconButtonPressed,
+						{
+							width: iconSize,
+							height: iconSize,
+							borderRadius: iconSize / 2,
+							backgroundColor: colors.primaryGreen,
+							marginLeft: secondaryMarginLeft,
+						},
 					]}
 				>
-					<Feather name="user" size={20} color="white" />
+					<Animated.View style={[profilePress.animatedStyle]}>
+						<Feather name="user" size={20 * fontScale} color="white" />
+					</Animated.View>
 				</Pressable>
 			</View>
 		</View>
@@ -67,16 +125,12 @@ const styles = StyleSheet.create({
 	},
 	brandBlock: {
 		flexShrink: 1,
-		paddingRight: 12,
 	},
 	brandTitle: {
-		fontSize: 32,
 		fontWeight: "700",
-		letterSpacing: 0.3,
 	},
 	brandSubtitle: {
 		marginTop: 4,
-		fontSize: 14,
 		fontWeight: "500",
 		lineHeight: 20,
 	},
@@ -93,9 +147,5 @@ const styles = StyleSheet.create({
 	},
 	secondaryAction: {
 		marginLeft: 10,
-	},
-	iconButtonPressed: {
-		opacity: 0.82,
-		transform: [{ scale: 0.96 }],
 	},
 });

@@ -1,4 +1,4 @@
-import { useTabScale } from "@/hooks/useTabScale";
+import { usePressScale } from "@/hooks/usePressScale";
 import { useTheme } from "@/hooks/useTheme";
 import { mainTabs, TabKey } from "@/navigation/mainTabs";
 import { useTabBarConfig } from "@/navigation/tabConfig";
@@ -24,7 +24,7 @@ export default function TabButton({
 	const { TAB_ICON_SIZE } = useTabBarConfig();
 	const IconComponent = iconMap[tabKey];
 	const title = mainTabs[tabKey].title;
-	const { animatedStyle, pressIn, pressOut } = useTabScale();
+	const { animatedStyle, pressIn, pressOut } = usePressScale();
 
 	return (
 		<TouchableWithoutFeedback

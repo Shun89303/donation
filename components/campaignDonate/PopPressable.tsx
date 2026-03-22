@@ -1,8 +1,8 @@
 import { type ReactNode, useRef } from "react";
 import {
 	Animated,
-	type PressableProps,
 	Pressable,
+	type PressableProps,
 	type StyleProp,
 	type ViewStyle,
 } from "react-native";
@@ -23,6 +23,7 @@ export default function PopPressable({
 	onPressOut,
 	...props
 }: PopPressableProps) {
+	// Note: PopPressable uses own Animated implementation. Update to usePressScale in future if needed.
 	const scale = useRef(new Animated.Value(1)).current;
 
 	const animateTo = (toValue: number) => {
@@ -35,7 +36,7 @@ export default function PopPressable({
 	};
 
 	return (
-		<Animated.View style={[containerStyle, { transform: [{ scale }] }]}> 
+		<Animated.View style={[containerStyle, { transform: [{ scale }] }]}>
 			<Pressable
 				{...props}
 				style={style}
