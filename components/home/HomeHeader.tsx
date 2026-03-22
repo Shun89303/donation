@@ -1,6 +1,6 @@
 import type { ThemeColors } from "@/app/_theme";
 import { usePressScale } from "@/hooks/usePressScale";
-import Feather from "@expo/vector-icons/Feather";
+import { Search, User } from "lucide-react-native";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
@@ -81,11 +81,7 @@ export default function HomeHeader({
 					]}
 				>
 					<Animated.View style={[searchPress.animatedStyle]}>
-						<Feather
-							name="search"
-							size={20 * fontScale}
-							color={colors.primaryGray}
-						/>
+						<Search size={20 * fontScale} color={colors.primaryGray} />
 					</Animated.View>
 				</Pressable>
 				<Pressable
@@ -108,7 +104,7 @@ export default function HomeHeader({
 					]}
 				>
 					<Animated.View style={[profilePress.animatedStyle]}>
-						<Feather name="user" size={20 * fontScale} color="white" />
+						<User size={20 * fontScale} color="white" />
 					</Animated.View>
 				</Pressable>
 			</View>

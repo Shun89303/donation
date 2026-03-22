@@ -1,8 +1,8 @@
 import FadeScreen from "@/components/common/FadeScreen";
 import CampaignFeed from "@/components/home/CampaignFeed";
+import type { FilterKey } from "@/components/home/campaignFilterConfig";
 import { MOCK_CAMPAIGN_POSTS } from "@/components/home/campaignMockData";
 import type { CampaignPost } from "@/components/home/campaignTypes";
-import type { FilterKey } from "@/components/home/filterConfig";
 import HomeHeader from "@/components/home/HomeHeader";
 import {
 	ORGANIZATION_FILTERS,
@@ -114,6 +114,7 @@ export default function Home() {
 						onPressFilter={onFilterPress}
 						filterScales={filterScales}
 					/>
+
 					<OrganizationFilters
 						colors={colors}
 						selectedOrg={selectedOrg}
