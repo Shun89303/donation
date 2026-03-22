@@ -61,7 +61,7 @@ export default function SearchPanel({
 
 	const inputHeight = 42 * sizeScale * landscapeBoost;
 	const panelPadding = 12 * paddingScale;
-	const chipPaddingH = 14 * paddingScale;
+	const chipPaddingH = 10 * paddingScale;
 	const chipPaddingV = 8 * paddingScale;
 	const chipBorderRadius = 18 * sizeScale;
 	const searchIconSize = 16 * sizeScale;
