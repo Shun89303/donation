@@ -48,7 +48,7 @@ export default function SearchPanel({
 				styles.searchPanel,
 				{
 					backgroundColor: colors.background,
-					borderColor: colors.tabInactive,
+					borderColor: colors.secondaryGray,
 					shadowColor: colors.panelShadow,
 				},
 				{
@@ -70,26 +70,25 @@ export default function SearchPanel({
 					style={[
 						styles.searchInputWrap,
 						{
-							borderColor: colors.tabInactive,
-							backgroundColor: colors.surfaceMuted,
+							backgroundColor: colors.secondaryGray,
 						},
 					]}
 				>
 					<Feather
 						name="search"
 						size={16}
-						color={colors.tabInactive}
+						color={colors.primaryGray}
 						style={styles.searchInputIcon}
 					/>
 					<TextInput
 						value={searchText}
 						onChangeText={onChangeSearchText}
 						placeholder="Search campaigns..."
-						placeholderTextColor={colors.placeholderMuted}
+						placeholderTextColor={colors.primaryGray}
 						style={[
 							styles.searchInput,
 							{
-								color: colors.onSurfaceMuted,
+								color: colors.text,
 							},
 						]}
 					/>
@@ -101,11 +100,11 @@ export default function SearchPanel({
 					onPress={onCloseSearch}
 					style={({ pressed }) => [
 						styles.closeBtn,
-						{ backgroundColor: colors.surfaceMuted },
+						{ backgroundColor: colors.secondaryGray },
 						pressed && styles.iconButtonPressed,
 					]}
 				>
-					<Feather name="x" size={18} color={colors.onSurfaceMuted} />
+					<Feather name="x" size={18} color={colors.primaryGray} />
 				</Pressable>
 			</View>
 			{/* Horizontal Scrollview for campaign options */}
@@ -128,9 +127,8 @@ export default function SearchPanel({
 									styles.filterChip,
 									{
 										backgroundColor: isActive
-											? colors.tabActive
-											: colors.surfaceMuted,
-										borderColor: colors.tabInactive,
+											? colors.primaryGreen
+											: colors.secondaryGray,
 										transform: [{ scale: chipScale }],
 									},
 								]}
@@ -146,31 +144,31 @@ export default function SearchPanel({
 											<Feather
 												name="heart"
 												size={14}
-												color={isActive ? "white" : colors.onSurfaceMuted}
+												color={isActive ? "white" : colors.primaryGray}
 											/>
 										) : filter.key === "Orphan" ? (
 											<MaterialCommunityIcons
 												name="baby-face-outline"
 												size={15}
-												color={isActive ? "white" : colors.onSurfaceMuted}
+												color={isActive ? "white" : colors.primaryGray}
 											/>
 										) : filter.key === "Disaster" ? (
 											<Feather
 												name="alert-triangle"
 												size={14}
-												color={isActive ? "white" : colors.onSurfaceMuted}
+												color={isActive ? "white" : colors.primaryGray}
 											/>
 										) : filter.key === "Nursing Home" ? (
 											<Feather
 												name="home"
 												size={14}
-												color={isActive ? "white" : colors.onSurfaceMuted}
+												color={isActive ? "white" : colors.primaryGray}
 											/>
 										) : (
 											<Feather
 												name="zap"
 												size={14}
-												color={isActive ? "white" : colors.onSurfaceMuted}
+												color={isActive ? "white" : colors.primaryGray}
 											/>
 										)}
 									</View>
@@ -178,7 +176,7 @@ export default function SearchPanel({
 										style={[
 											styles.filterChipLabel,
 											{
-												color: isActive ? "white" : colors.onSurfaceMuted,
+												color: isActive ? "white" : colors.primaryGray,
 												includeFontPadding: isAndroid ? false : undefined,
 												minWidth: "100%",
 											},
