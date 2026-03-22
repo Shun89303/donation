@@ -21,7 +21,7 @@ export function useHomeAnimations() {
 			Platform.OS === "android" &&
 			UIManager.setLayoutAnimationEnabledExperimental
 		) {
-			UIManager.setLayoutAnimationEnabledExperimental(true);
+			UIManager.setLayoutAnimationEnabledExperimental?.(true);
 		}
 	}, []);
 
