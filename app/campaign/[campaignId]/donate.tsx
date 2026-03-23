@@ -1,28 +1,32 @@
+import DonateFooter from "@/components/campaignDonate/DonateFooter";
 import DonationAmountBlock from "@/components/campaignDonate/DonationAmountBlock";
 import DonationCertificateWindow from "@/components/campaignDonate/DonationCertificateWindow";
-import DonateFooter from "@/components/campaignDonate/DonateFooter";
 import KycBlock from "@/components/campaignDonate/KycBlock";
 import PaymentMethodBlock, {
 	type PaymentMethod,
 } from "@/components/campaignDonate/PaymentMethodBlock";
 import { getCampaignById } from "@/components/home/campaignMockData";
 import { useTheme } from "@/hooks/useTheme";
-import Feather from "@expo/vector-icons/Feather";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+	ArrowLeft,
+	CreditCard,
+	Shield,
+	Smartphone,
+	Wallet,
+} from "lucide-react-native";
 import { useMemo, useRef, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+	Pressable,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const QUICK_AMOUNTS = [10000, 50000, 100000, 500000];
-
-const PAYMENT_METHODS: PaymentMethod[] = [
-	{ key: "kbz_pay", label: "KBZ Pay", icon: "smartphone" },
-	{ key: "wave", label: "Wave", icon: "radio" },
-	{ key: "cb_pay", label: "CB Pay", icon: "briefcase" },
-	{ key: "visa", label: "Visa", icon: "credit-card" },
-	{ key: "paypal", label: "PayPal", icon: "dollar-sign" },
-	{ key: "crypto", label: "Crypto", icon: "hexagon" },
-];
 
 function formatAmount(amount: number) {
 	return amount.toLocaleString("en-US");
@@ -32,7 +36,49 @@ export default function CampaignDonatePage() {
 	const colors = useTheme();
 	const router = useRouter();
 	const { campaignId } = useLocalSearchParams<{ campaignId: string }>();
-	const campaign = useMemo(() => getCampaignById(campaignId ?? ""), [campaignId]);
+	const campaign = useMemo(
+		() => getCampaignById(campaignId ?? ""),
+		[campaignId],
+	);
+
+	const PAYMENT_METHODS: PaymentMethod[] = [
+		{
+			key: "kbz_pay",
+			label: "KBZ Pay",
+			iconComponent: Smartphone,
+			bgColor: colors.primaryLightBlue,
+		},
+		{
+			key: "wave",
+			label: "Wave",
+			iconComponent: Wallet,
+			bgColor: colors.primaryYellow,
+		},
+		{
+			key: "cb_pay",
+			label: "CB Pay",
+			iconComponent: Smartphone,
+			bgColor: colors.primaryLightGreen,
+		},
+		{
+			key: "visa",
+			label: "Visa",
+			iconComponent: CreditCard,
+			bgColor: colors.primaryPurple,
+		},
+		{
+			key: "paypal",
+			label: "PayPal",
+			iconComponent: Wallet,
+			bgColor: colors.primaryDarkBlue,
+		},
+		{
+			key: "crypto",
+			label: "Crypto",
+			iconComponent: Wallet,
+			bgColor: colors.primaryGold,
+		},
+	];
 
 	const amountInputRef = useRef<TextInput>(null);
 	const [amountInput, setAmountInput] = useState("50000");
@@ -77,7 +123,9 @@ export default function CampaignDonatePage() {
 				style={[styles.container, { backgroundColor: colors.background }]}
 			>
 				<View style={styles.notFoundWrap}>
-					<Text style={[styles.notFoundTitle, { color: colors.text }]}>Campaign not found</Text>
+					<Text style={[styles.notFoundTitle, { color: colors.text }]}>
+						Campaign not found
+					</Text>
 					<Text
 						style={[
 							styles.notFoundSubtitle,
@@ -112,9 +160,11 @@ export default function CampaignDonatePage() {
 			<View style={styles.headerWrap}>
 				<View style={styles.headerRow}>
 					<Pressable onPress={() => router.back()} style={styles.backButton}>
-						<Feather name="arrow-left" size={20} color={colors.text} />
+						<ArrowLeft size={20} color={colors.text} />
 					</Pressable>
-					<Text style={[styles.headerTitle, { color: colors.text }]}>Make a Donation</Text>
+					<Text style={[styles.headerTitle, { color: colors.text }]}>
+						Make a Donation
+					</Text>
 					<View style={styles.headerSpacer} />
 				</View>
 				<Text
@@ -165,7 +215,7 @@ export default function CampaignDonatePage() {
 				/>
 
 				<View style={styles.disclaimerRow}>
-					<Feather name="shield" size={14} color={colors.placeholderMuted} />
+					<Shield size={14} color={colors.placeholderMuted} />
 					<Text
 						style={[styles.disclaimerText, { color: colors.placeholderMuted }]}
 					>
@@ -216,6 +266,7 @@ export default function CampaignDonatePage() {
 }
 
 const styles = StyleSheet.create({
+	// ... same styles as before
 	container: {
 		flex: 1,
 	},

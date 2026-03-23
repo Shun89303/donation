@@ -1,5 +1,6 @@
 import type { ThemeColors } from "@/app/_theme";
 import Feather from "@expo/vector-icons/Feather";
+import { UserCheck } from "lucide-react-native";
 import { useEffect, useRef } from "react";
 import { Animated, StyleSheet, Text, TextInput, View } from "react-native";
 import PopPressable from "./PopPressable";
@@ -66,7 +67,7 @@ export default function KycBlock({
 				<View
 					style={[styles.kycIconWrap, { backgroundColor: colors.background }]}
 				>
-					<Feather name="user-check" size={20} color={colors.tabActive} />
+					<UserCheck size={20} color={colors.tabActive} />
 				</View>
 				<View style={styles.kycTextWrap}>
 					<Text style={[styles.kycTitle, { color: colors.text }]}>

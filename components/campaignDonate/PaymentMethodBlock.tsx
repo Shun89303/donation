@@ -1,12 +1,13 @@
 import type { ThemeColors } from "@/app/_theme";
-import Feather from "@expo/vector-icons/Feather";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import PopPressable from "./PopPressable";
 
 export type PaymentMethod = {
 	key: string;
 	label: string;
-	icon: keyof typeof Feather.glyphMap;
+	iconComponent: React.ComponentType<{ size?: number; color?: string }>;
+	bgColor: string;
 };
 
 type PaymentMethodBlockProps = {
@@ -53,11 +54,11 @@ export default function PaymentMethodBlock({
 								},
 							]}
 						>
-							<Feather
-								name={method.icon}
-								size={18}
-								color={isSelected ? colors.tabActive : colors.placeholderMuted}
-							/>
+							<View
+								style={[styles.iconBg, { backgroundColor: method.bgColor }]}
+							>
+								<method.iconComponent size={18} color="white" />
+							</View>
 							<Text
 								style={[
 									styles.paymentMethodText,
@@ -75,6 +76,14 @@ export default function PaymentMethodBlock({
 }
 
 const styles = StyleSheet.create({
+	iconBg: {
+		width: 36,
+		height: 36,
+		borderRadius: 10,
+		alignItems: "center",
+		justifyContent: "center",
+		marginBottom: 6,
+	},
 	block: {
 		marginTop: 12,
 		borderRadius: 14,
