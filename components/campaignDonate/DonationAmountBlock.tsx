@@ -16,6 +16,11 @@ type DonationAmountBlockProps = {
 	onBlurAmountInput: () => void;
 	onSelectQuickAmount: (amount: number) => void;
 	formatAmount: (amount: number) => string;
+	// New responsive props
+	isTablet: boolean;
+	sizeScale: number;
+	paddingScale: number;
+	fontScale: number;
 };
 
 export default function DonationAmountBlock({
@@ -31,7 +36,27 @@ export default function DonationAmountBlock({
 	onBlurAmountInput,
 	onSelectQuickAmount,
 	formatAmount,
+	isTablet,
+	sizeScale,
+	paddingScale,
+	fontScale,
 }: DonationAmountBlockProps) {
+	const blockPadding = Math.round(18 * paddingScale);
+	const blockRadius = Math.round(14 * sizeScale);
+	const amountFontSize = Math.round(38 * fontScale);
+	const amountLineHeight = Math.round(44 * fontScale);
+	const amountPadV = Math.round(20 * paddingScale);
+	const quickGap = Math.round(8 * sizeScale);
+	const quickPadV = Math.round(8 * paddingScale);
+	const quickPadH = Math.round(12 * paddingScale);
+	const quickRadius = Math.round(12 * sizeScale);
+	const quickTextSize = Math.round(13 * fontScale);
+	const labelSize = Math.round(12 * fontScale);
+	const currencySize = Math.round(13 * fontScale);
+	const amountMinWidth = Math.round(160 * sizeScale);
+	const quickMarginTop = Math.round(14 * paddingScale);
+	const amountMarginTop = Math.round(8 * paddingScale);
+
 	return (
 		<View
 			style={[
@@ -40,10 +65,17 @@ export default function DonationAmountBlock({
 					borderColor: colors.secondaryGray,
 					backgroundColor: colors.background,
 					shadowColor: colors.panelShadow,
+					borderRadius: blockRadius,
+					padding: blockPadding,
 				},
 			]}
 		>
-			<Text style={[styles.blockLabel, { color: colors.primaryGray }]}>
+			<Text
+				style={[
+					styles.blockLabel,
+					{ color: colors.primaryGray, fontSize: labelSize },
+				]}
+			>
 				DONATION AMOUNT
 			</Text>
 			<PopPressable onPress={onPressAmountValue} style={styles.amountWrap}>
@@ -54,20 +86,49 @@ export default function DonationAmountBlock({
 						onChangeText={onChangeAmountInput}
 						onBlur={onBlurAmountInput}
 						keyboardType="number-pad"
-						style={[styles.amountInput, { color: colors.text }]}
+						style={[
+							styles.amountInput,
+							{
+								color: colors.text,
+								fontSize: amountFontSize,
+								lineHeight: amountLineHeight,
+								paddingVertical: amountPadV,
+								minWidth: amountMinWidth,
+							},
+						]}
 						maxLength={9}
 					/>
 				) : (
-					<Text style={[styles.amountValue, { color: colors.text }]}>
+					<Text
+						style={[
+							styles.amountValue,
+							{
+								color: colors.text,
+								fontSize: amountFontSize,
+								lineHeight: amountLineHeight,
+								paddingVertical: amountPadV,
+							},
+						]}
+					>
 						{formattedAmount}
 					</Text>
 				)}
-				<Text style={[styles.currency, { color: colors.primaryGray }]}>
+				<Text
+					style={[
+						styles.currency,
+						{ color: colors.primaryGray, fontSize: currencySize },
+					]}
+				>
 					MMK
 				</Text>
 			</PopPressable>
 
-			<View style={styles.quickAmountRow}>
+			<View
+				style={[
+					styles.quickAmountRow,
+					{ marginTop: quickMarginTop, gap: quickGap },
+				]}
+			>
 				{quickAmounts.map((amount) => {
 					const isSelected = amount === donationAmount;
 					return (
@@ -83,13 +144,19 @@ export default function DonationAmountBlock({
 									backgroundColor: isSelected
 										? colors.primaryGreen
 										: colors.background,
+									borderRadius: quickRadius,
+									paddingVertical: quickPadV,
+									paddingHorizontal: quickPadH,
 								},
 							]}
 						>
 							<Text
 								style={[
 									styles.quickAmountText,
-									{ color: isSelected ? "white" : colors.text },
+									{
+										color: isSelected ? "white" : colors.text,
+										fontSize: quickTextSize,
+									},
 								]}
 							>
 								{formatAmount(amount)}
@@ -105,8 +172,6 @@ export default function DonationAmountBlock({
 const styles = StyleSheet.create({
 	block: {
 		marginTop: 12,
-		borderRadius: 14,
-		padding: 18,
 		borderWidth: 1,
 		shadowOffset: { width: 0, height: 1 },
 		shadowOpacity: 0.15,
@@ -114,48 +179,35 @@ const styles = StyleSheet.create({
 		elevation: 1,
 	},
 	blockLabel: {
-		fontSize: 12,
 		fontWeight: "700",
 		letterSpacing: 0.5,
 	},
 	amountWrap: {
 		alignItems: "center",
-		marginTop: 8,
 	},
 	amountValue: {
-		fontSize: 38,
 		fontWeight: "800",
-		lineHeight: 44,
-		paddingVertical: 20,
+		textAlign: "center",
 	},
 	amountInput: {
-		fontSize: 38,
 		fontWeight: "800",
-		lineHeight: 44,
 		textAlign: "center",
-		minWidth: 160,
-		paddingVertical: 20,
 	},
 	currency: {
-		fontSize: 13,
 		fontWeight: "500",
 		marginTop: 2,
 	},
 	quickAmountRow: {
-		marginTop: 14,
 		flexDirection: "row",
 		flexWrap: "wrap",
 		justifyContent: "center",
-		gap: 8,
 	},
 	quickAmountChip: {
 		borderWidth: 1,
-		borderRadius: 12,
-		paddingVertical: 8,
-		paddingHorizontal: 12,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	quickAmountText: {
-		fontSize: 13,
 		fontWeight: "500",
 	},
 });

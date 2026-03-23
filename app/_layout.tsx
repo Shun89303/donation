@@ -8,7 +8,7 @@ export default function RootLayout() {
 	return (
 		<>
 			<StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-			<Stack screenOptions={{ headerShown: false }}>
+			<Stack screenOptions={{ headerShown: false }} initialRouteName="(tabs)">
 				<Stack.Screen
 					name="campaign/[campaignId]/donate"
 					options={{

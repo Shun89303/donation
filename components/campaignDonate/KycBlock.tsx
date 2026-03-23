@@ -1,14 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import { ChevronDown, Lock, UserCheck } from "lucide-react-native";
 import { useEffect, useRef } from "react";
-import {
-	Animated,
-	Platform,
-	StyleSheet,
-	Text,
-	TextInput,
-	View,
-} from "react-native";
+import { Animated, StyleSheet, Text, TextInput, View } from "react-native";
 import PopPressable from "./PopPressable";
 
 type KycBlockProps = {
@@ -21,6 +14,11 @@ type KycBlockProps = {
 	onChangeFullName: (value: string) => void;
 	onChangeEmail: (value: string) => void;
 	onChangePhoneNumber: (value: string) => void;
+	// New responsive props
+	isTablet: boolean;
+	paddingScale: number;
+	fontScale: number;
+	isAndroid: boolean;
 };
 
 export default function KycBlock({
@@ -33,6 +31,10 @@ export default function KycBlock({
 	onChangeFullName,
 	onChangeEmail,
 	onChangePhoneNumber,
+	isTablet,
+	paddingScale,
+	fontScale,
+	isAndroid,
 }: KycBlockProps) {
 	const expandAnim = useRef(new Animated.Value(isExpanded ? 1 : 0)).current;
 
@@ -46,7 +48,7 @@ export default function KycBlock({
 
 	const contentMaxHeight = expandAnim.interpolate({
 		inputRange: [0, 1],
-		outputRange: [0, 360],
+		outputRange: [0, isTablet ? 480 : 360],
 	});
 
 	const contentOpacity = expandAnim.interpolate({
@@ -59,6 +61,33 @@ export default function KycBlock({
 		outputRange: ["0deg", "180deg"],
 	});
 
+	const blockPadH = Math.round(20 * paddingScale);
+	const blockPadV = Math.round(25 * paddingScale);
+	const blockRadius = Math.round(14 * paddingScale);
+	const kycIconSize = Math.round(38 * paddingScale);
+	const kycIconRadius = Math.round(10 * paddingScale);
+	const kycTitleSize = Math.round(15 * fontScale);
+	const kycSubtitleSize = Math.round(12 * fontScale);
+	const inputLabelSize = Math.round(13 * fontScale);
+	const inputFontSize = Math.round(14 * fontScale);
+	const inputPadH = Math.round(12 * paddingScale);
+	const inputPadV = Math.round(11 * paddingScale);
+	const inputRadius = Math.round(10 * paddingScale);
+	const securityPadH = Math.round(10 * paddingScale);
+	const securityPadV = Math.round(6 * paddingScale);
+	const securityIconSize = Math.round(16 * paddingScale);
+	const securityTextSize = Math.round(12 * fontScale);
+	const securityLineHeight = Math.round(18 * fontScale);
+	const formWrapGap = Math.round(10 * paddingScale);
+	const formPadH = Math.round(5 * paddingScale);
+	const formWrapMarginTop = Math.round(12 * paddingScale);
+	const kycTextMarginLeft = Math.round(10 * paddingScale);
+	const inputLabelMarginBottom = Math.round(6 * paddingScale);
+	const securityMarginTop = Math.round(12 * paddingScale);
+	const securityTextMarginLeft = Math.round(8 * paddingScale);
+	const kycSubtitleMarginTop = 2;
+	const lockMarginTop = 5;
+
 	return (
 		<View
 			style={[
@@ -67,6 +96,9 @@ export default function KycBlock({
 					borderColor: colors.secondaryGray,
 					backgroundColor: colors.background,
 					shadowColor: colors.panelShadow,
+					borderRadius: blockRadius,
+					paddingHorizontal: blockPadH,
+					paddingVertical: blockPadV,
 				},
 			]}
 		>
@@ -74,21 +106,49 @@ export default function KycBlock({
 				<View
 					style={[
 						styles.kycIconWrap,
-						{ backgroundColor: colors.secondaryGreen },
+						{
+							backgroundColor: colors.secondaryGreen,
+							width: kycIconSize,
+							height: kycIconSize,
+							borderRadius: kycIconRadius,
+						},
 					]}
 				>
-					<UserCheck size={20} color={colors.primaryGreen} />
+					<UserCheck
+						size={Math.round(20 * paddingScale)}
+						color={colors.primaryGreen}
+					/>
 				</View>
-				<View style={styles.kycTextWrap}>
-					<Text style={[styles.kycTitle, { color: colors.text }]}>
+				<View style={[styles.kycTextWrap, { marginLeft: kycTextMarginLeft }]}>
+					<Text
+						style={[
+							styles.kycTitle,
+							{
+								color: colors.text,
+								fontSize: kycTitleSize,
+							},
+						]}
+					>
 						Your Information(KYC)
 					</Text>
-					<Text style={[styles.kycSubtitle, { color: colors.primaryGray }]}>
+					<Text
+						style={[
+							styles.kycSubtitle,
+							{
+								color: colors.primaryGray,
+								fontSize: kycSubtitleSize,
+								marginTop: kycSubtitleMarginTop,
+							},
+						]}
+					>
 						Optional • helps with tax receipts
 					</Text>
 				</View>
 				<Animated.View style={{ transform: [{ rotate: chevronRotate }] }}>
-					<ChevronDown size={20} color={colors.primaryGray} />
+					<ChevronDown
+						size={Math.round(20 * paddingScale)}
+						color={colors.primaryGray}
+					/>
 				</Animated.View>
 			</PopPressable>
 
@@ -98,9 +158,23 @@ export default function KycBlock({
 					{ maxHeight: contentMaxHeight, opacity: contentOpacity },
 				]}
 			>
-				<View style={styles.formWrap}>
-					<View style={styles.form}>
-						<Text style={[styles.inputLabel, { color: colors.primaryGray }]}>
+				<View
+					style={[
+						styles.formWrap,
+						{ marginTop: formWrapMarginTop, gap: formWrapGap },
+					]}
+				>
+					<View style={[styles.form, { paddingHorizontal: formPadH }]}>
+						<Text
+							style={[
+								styles.inputLabel,
+								{
+									color: colors.primaryGray,
+									fontSize: inputLabelSize,
+									marginBottom: inputLabelMarginBottom,
+								},
+							]}
+						>
 							Full Name
 						</Text>
 						<TextInput
@@ -114,13 +188,26 @@ export default function KycBlock({
 									color: colors.text,
 									borderColor: colors.secondaryGray,
 									backgroundColor: colors.appBackground,
-									fontWeight: Platform.OS === "android" ? "100" : "300",
+									fontWeight: "300",
+									fontSize: inputFontSize,
+									paddingHorizontal: inputPadH,
+									paddingVertical: inputPadV,
+									borderRadius: inputRadius,
 								},
 							]}
 						/>
 					</View>
-					<View style={styles.form}>
-						<Text style={[styles.inputLabel, { color: colors.primaryGray }]}>
+					<View style={[styles.form, { paddingHorizontal: formPadH }]}>
+						<Text
+							style={[
+								styles.inputLabel,
+								{
+									color: colors.primaryGray,
+									fontSize: inputLabelSize,
+									marginBottom: inputLabelMarginBottom,
+								},
+							]}
+						>
 							Email
 						</Text>
 						<TextInput
@@ -136,13 +223,26 @@ export default function KycBlock({
 									color: colors.text,
 									borderColor: colors.secondaryGray,
 									backgroundColor: colors.appBackground,
-									fontWeight: Platform.OS === "android" ? "100" : "300",
+									fontWeight: "300",
+									fontSize: inputFontSize,
+									paddingHorizontal: inputPadH,
+									paddingVertical: inputPadV,
+									borderRadius: inputRadius,
 								},
 							]}
 						/>
 					</View>
-					<View style={styles.form}>
-						<Text style={[styles.inputLabel, { color: colors.primaryGray }]}>
+					<View style={[styles.form, { paddingHorizontal: formPadH }]}>
+						<Text
+							style={[
+								styles.inputLabel,
+								{
+									color: colors.primaryGray,
+									fontSize: inputLabelSize,
+									marginBottom: inputLabelMarginBottom,
+								},
+							]}
+						>
 							Phone Number
 						</Text>
 						<TextInput
@@ -157,7 +257,11 @@ export default function KycBlock({
 									color: colors.text,
 									borderColor: colors.secondaryGray,
 									backgroundColor: colors.appBackground,
-									fontWeight: Platform.OS === "android" ? "100" : "300",
+									fontWeight: "300",
+									fontSize: inputFontSize,
+									paddingHorizontal: inputPadH,
+									paddingVertical: inputPadV,
+									borderRadius: inputRadius,
 								},
 							]}
 						/>
@@ -171,26 +275,31 @@ export default function KycBlock({
 							{
 								borderColor: colors.secondaryGray,
 								backgroundColor: colors.appBackground,
+								paddingHorizontal: securityPadH,
+								paddingVertical: securityPadV,
+								borderRadius: inputRadius,
+								marginTop: securityMarginTop,
 							},
 						]}
 					>
 						<Lock
-							size={16}
+							size={securityIconSize}
 							color={colors.primaryGreen}
-							style={{ marginTop: 5 }}
+							style={{ marginTop: lockMarginTop }}
 						/>
 						<Text
-							style={[styles.securityText, { color: colors.placeholderMuted }]}
+							style={[
+								styles.securityText,
+								{
+									color: colors.placeholderMuted,
+									fontSize: securityTextSize,
+									lineHeight: securityLineHeight,
+									marginLeft: securityTextMarginLeft,
+								},
+							]}
 						>
 							Your information is{" "}
-							<Text
-								style={[
-									styles.securityTextBold,
-									{
-										color: colors.text,
-									},
-								]}
-							>
+							<Text style={[styles.securityTextBold, { color: colors.text }]}>
 								encrypted and stored securely
 							</Text>
 							. We comply with international data protection standards. Your
@@ -206,10 +315,7 @@ export default function KycBlock({
 const styles = StyleSheet.create({
 	block: {
 		marginTop: 12,
-		borderRadius: 14,
 		borderWidth: 1,
-		paddingHorizontal: 20,
-		paddingVertical: 25,
 		shadowOffset: { width: 0, height: 1 },
 		shadowOpacity: 0.15,
 		shadowRadius: 1,
@@ -220,63 +326,38 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	kycIconWrap: {
-		width: 38,
-		height: 38,
-		borderRadius: 10,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	kycTextWrap: {
 		flex: 1,
-		marginLeft: 10,
 		marginRight: 8,
 	},
 	kycTitle: {
-		fontSize: 15,
 		fontWeight: "700",
 	},
 	kycSubtitle: {
-		fontSize: 12,
 		fontWeight: "400",
-		marginTop: 2,
 	},
 	collapsibleWrap: {
 		overflow: "hidden",
 	},
-	formWrap: {
-		marginTop: 12,
-		gap: 10,
-	},
-	form: {
-		paddingHorizontal: 5,
-	},
+	formWrap: {},
+	form: {},
 	inputLabel: {
-		fontSize: 13,
 		fontWeight: "500",
-		marginBottom: 6,
 	},
 	input: {
 		borderWidth: 1,
-		borderRadius: 10,
-		paddingHorizontal: 12,
-		paddingVertical: 11,
-		fontSize: 14,
 	},
 	securityBlock: {
-		marginTop: 12,
 		borderWidth: 1,
-		borderRadius: 10,
-		paddingHorizontal: 10,
-		paddingVertical: 6,
 		flexDirection: "row",
 		alignItems: "flex-start",
 	},
 	securityText: {
 		flex: 1,
-		marginLeft: 8,
-		fontSize: 12,
 		fontWeight: "500",
-		lineHeight: 18,
 	},
 	securityTextBold: {
 		fontWeight: "800",

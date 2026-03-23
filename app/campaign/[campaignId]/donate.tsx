@@ -17,11 +17,13 @@ import {
 } from "lucide-react-native";
 import { useMemo, useRef, useState } from "react";
 import {
+	Platform,
 	Pressable,
 	ScrollView,
 	StyleSheet,
 	Text,
 	TextInput,
+	useWindowDimensions,
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -40,6 +42,17 @@ export default function CampaignDonatePage() {
 		() => getCampaignById(campaignId ?? ""),
 		[campaignId],
 	);
+
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+	const isAndroid = Platform.OS === "android";
+	const isTablet = screenWidth >= 800;
+	const isNarrowPhone = screenWidth < 450;
+	const aspectRatio = screenWidth / screenHeight;
+	const isLandscape = aspectRatio > 0.75;
+	const sizeScale = isTablet ? 1.25 : isNarrowPhone ? 1.1 : 1.2;
+	const paddingScale = isTablet ? 1.2 : isNarrowPhone ? 0.95 : 1.0;
+	const fontScale = isTablet ? 1.1 : isNarrowPhone ? 0.95 : 1.0;
+	const landscapeBoost = isLandscape ? 1.05 : 1.0;
 
 	const PAYMENT_METHODS: PaymentMethod[] = [
 		{
@@ -136,6 +149,8 @@ export default function CampaignDonatePage() {
 					</Text>
 					<DonateFooter
 						colors={colors}
+						paddingScale={paddingScale}
+						fontScale={fontScale}
 						ctaLabel="Go Home"
 						onPress={() => router.replace("/(tabs)")}
 					/>
@@ -166,7 +181,10 @@ export default function CampaignDonatePage() {
 							{ backgroundColor: colors.secondaryGray },
 						]}
 					>
-						<ArrowLeft size={20} color={colors.primaryGray} />
+						<ArrowLeft
+							size={Math.round(20 * sizeScale)}
+							color={colors.primaryGray}
+						/>
 					</Pressable>
 					<View style={styles.titleContainer}>
 						<Text style={[styles.headerTitle, { color: colors.text }]}>
@@ -187,6 +205,7 @@ export default function CampaignDonatePage() {
 				style={styles.scrollArea}
 				contentContainerStyle={styles.scrollContent}
 				keyboardShouldPersistTaps="handled"
+				showsVerticalScrollIndicator={false}
 			>
 				<DonationAmountBlock
 					colors={colors}
@@ -201,6 +220,10 @@ export default function CampaignDonatePage() {
 					onBlurAmountInput={onBlurAmountInput}
 					onSelectQuickAmount={onSelectQuickAmount}
 					formatAmount={formatAmount}
+					isTablet={isTablet}
+					sizeScale={sizeScale}
+					paddingScale={paddingScale}
+					fontScale={fontScale}
 				/>
 
 				<KycBlock
@@ -213,6 +236,10 @@ export default function CampaignDonatePage() {
 					onChangeFullName={setKycFullName}
 					onChangeEmail={setKycEmail}
 					onChangePhoneNumber={setKycPhoneNumber}
+					isTablet={isTablet}
+					paddingScale={paddingScale}
+					fontScale={fontScale}
+					isAndroid={isAndroid}
 				/>
 
 				<PaymentMethodBlock
@@ -220,10 +247,18 @@ export default function CampaignDonatePage() {
 					methods={PAYMENT_METHODS}
 					selectedMethod={selectedPaymentMethod}
 					onSelectMethod={setSelectedPaymentMethod}
+					screenWidth={screenWidth}
+					isTablet={isTablet}
+					sizeScale={sizeScale}
+					paddingScale={paddingScale}
+					fontScale={fontScale}
 				/>
 
 				<View style={styles.disclaimerRow}>
-					<Shield size={14} color={colors.placeholderMuted} />
+					<Shield
+						size={Math.round(14 * sizeScale)}
+						color={colors.placeholderMuted}
+					/>
 					<Text
 						style={[styles.disclaimerText, { color: colors.placeholderMuted }]}
 					>
@@ -234,6 +269,8 @@ export default function CampaignDonatePage() {
 
 			<DonateFooter
 				colors={colors}
+				paddingScale={paddingScale}
+				fontScale={fontScale}
 				ctaLabel={`Donate ${formattedAmount} MMK`}
 				onPress={() => setIsCertificateVisible(true)}
 			/>
@@ -330,6 +367,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		marginBottom: 8,
+		paddingHorizontal: 5,
 	},
 	disclaimerText: {
 		fontSize: 12,
