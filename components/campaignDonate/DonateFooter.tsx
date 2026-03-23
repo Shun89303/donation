@@ -14,7 +14,7 @@ export default function DonateFooter({
 	onPress,
 }: DonateFooterProps) {
 	return (
-		<View style={[styles.footer, { borderTopColor: colors.tabInactive }]}>
+		<View style={[styles.footer, { borderTopColor: colors.secondaryGray }]}>
 			<PopPressable
 				onPress={onPress}
 				style={[styles.donateButton, { backgroundColor: colors.tabActive }]}
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	},
 	donateButton: {
 		borderRadius: 12,
-		paddingVertical: 13,
+		padding: 18,
 		alignItems: "center",
 		justifyContent: "center",
 	},

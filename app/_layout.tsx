@@ -8,7 +8,15 @@ export default function RootLayout() {
 	return (
 		<>
 			<StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-			<Stack screenOptions={{ headerShown: false }} />
+			<Stack screenOptions={{ headerShown: false }}>
+				<Stack.Screen
+					name="campaign/[campaignId]/donate"
+					options={{
+						animation: "slide_from_bottom",
+						animationDuration: 300,
+					}}
+				/>
+			</Stack>
 		</>
 	);
 }

@@ -28,12 +28,13 @@ export default function PaymentMethodBlock({
 			style={[
 				styles.block,
 				{
-					borderColor: colors.tabInactive,
-					backgroundColor: colors.surfaceMuted,
+					borderColor: colors.secondaryGray,
+					backgroundColor: colors.background,
+					shadowColor: colors.panelShadow,
 				},
 			]}
 		>
-			<Text style={[styles.blockLabel, { color: colors.placeholderMuted }]}>
+			<Text style={[styles.blockLabel, { color: colors.primaryGray }]}>
 				PAYMENT METHOD
 			</Text>
 			<View style={styles.paymentGrid}>
@@ -48,9 +49,11 @@ export default function PaymentMethodBlock({
 								styles.paymentMethod,
 								{
 									borderColor: isSelected
-										? colors.tabActive
-										: colors.tabInactive,
-									backgroundColor: colors.background,
+										? colors.primaryGreen
+										: colors.secondaryGray,
+									backgroundColor: isSelected
+										? colors.appBackground
+										: colors.background,
 								},
 							]}
 						>
@@ -89,6 +92,10 @@ const styles = StyleSheet.create({
 		borderRadius: 14,
 		padding: 18,
 		borderWidth: 1,
+		shadowOffset: { width: 0, height: 1 },
+		shadowOpacity: 0.15,
+		shadowRadius: 1,
+		elevation: 1,
 	},
 	blockLabel: {
 		fontSize: 12,
