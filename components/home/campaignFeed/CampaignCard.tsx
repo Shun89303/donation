@@ -1,6 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
 import { CircleCheck, Clock, Users } from "lucide-react-native";
+import { useEffect } from "react";
 import {
 	type GestureResponderEvent,
 	Image,
@@ -8,6 +9,12 @@ import {
 	Text,
 	View,
 } from "react-native";
+import Animated, {
+	Easing,
+	useAnimatedStyle,
+	useSharedValue,
+	withTiming,
+} from "react-native-reanimated";
 import type { CampaignPost } from "../campaignTypes";
 import SupportButton from "./SupportButton";
 
@@ -24,6 +31,22 @@ export default function CampaignCard({
 	onPressCard,
 	onPressSupport,
 }: CampaignCardProps) {
+	const progressValue = useSharedValue(0);
+
+	useEffect(() => {
+		progressValue.value = withTiming(item.progress * 100, {
+			duration: 1000,
+			easing: Easing.out(Easing.quad),
+		});
+	}, [item.progress]);
+
+	const progressAnimStyle = useAnimatedStyle(
+		() => ({
+			width: `${progressValue.value}%`,
+		}),
+		[],
+	);
+
 	const handleSupportPress = (event: GestureResponderEvent) => {
 		event.stopPropagation();
 		onPressSupport();
@@ -74,13 +97,13 @@ export default function CampaignCard({
 						},
 					]}
 				>
-					<View
+					<Animated.View
 						style={[
 							styles.progressFill,
 							{
 								backgroundColor: colors.tabActive,
-								width: `${item.progress * 100}%`,
 							},
+							progressAnimStyle,
 						]}
 					/>
 				</View>
