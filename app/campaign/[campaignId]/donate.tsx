@@ -155,24 +155,32 @@ export default function CampaignDonatePage() {
 
 	return (
 		<SafeAreaView
-			style={[styles.container, { backgroundColor: colors.background }]}
+			style={[styles.container, { backgroundColor: colors.appBackground }]}
 		>
 			<View style={styles.headerWrap}>
 				<View style={styles.headerRow}>
-					<Pressable onPress={() => router.back()} style={styles.backButton}>
-						<ArrowLeft size={20} color={colors.text} />
+					<Pressable
+						onPress={() => router.back()}
+						style={[
+							styles.backButton,
+							{ backgroundColor: colors.secondaryGray },
+						]}
+					>
+						<ArrowLeft size={20} color={colors.primaryGray} />
 					</Pressable>
-					<Text style={[styles.headerTitle, { color: colors.text }]}>
-						Make a Donation
-					</Text>
+					<View style={styles.titleContainer}>
+						<Text style={[styles.headerTitle, { color: colors.text }]}>
+							Make a Donation
+						</Text>
+						<Text
+							style={[styles.headerSubtitle, { color: colors.primaryGray }]}
+							numberOfLines={2}
+						>
+							{campaign.title}
+						</Text>
+					</View>
 					<View style={styles.headerSpacer} />
 				</View>
-				<Text
-					style={[styles.headerSubtitle, { color: colors.placeholderMuted }]}
-					numberOfLines={2}
-				>
-					{campaign.title}
-				</Text>
 			</View>
 
 			<ScrollView
@@ -266,25 +274,35 @@ export default function CampaignDonatePage() {
 }
 
 const styles = StyleSheet.create({
-	// ... same styles as before
 	container: {
 		flex: 1,
 	},
 	headerWrap: {
-		paddingHorizontal: 16,
+		paddingHorizontal: 20,
 		paddingTop: 8,
 		paddingBottom: 8,
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 12,
 	},
 	headerRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		justifyContent: "space-between",
+		justifyContent: "flex-start",
+		gap: 12,
+		flex: 1,
 	},
 	backButton: {
-		width: 28,
-		height: 28,
+		width: 45,
+		height: 45,
+		borderRadius: 99,
 		alignItems: "center",
 		justifyContent: "center",
+	},
+	titleContainer: {
+		flexDirection: "column",
+		alignItems: "flex-start",
+		flex: 1,
 	},
 	headerSpacer: {
 		width: 20,
@@ -296,9 +314,9 @@ const styles = StyleSheet.create({
 	},
 	headerSubtitle: {
 		fontSize: 14,
-		fontWeight: "500",
+		fontWeight: "400",
 		lineHeight: 20,
-		marginTop: 6,
+		marginTop: 4,
 	},
 	scrollArea: {
 		flex: 1,

@@ -1,8 +1,14 @@
 import type { ThemeColors } from "@/app/_theme";
-import Feather from "@expo/vector-icons/Feather";
-import { UserCheck } from "lucide-react-native";
+import { ChevronDown, Lock, UserCheck } from "lucide-react-native";
 import { useEffect, useRef } from "react";
-import { Animated, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+	Animated,
+	Platform,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+} from "react-native";
 import PopPressable from "./PopPressable";
 
 type KycBlockProps = {
@@ -58,33 +64,31 @@ export default function KycBlock({
 			style={[
 				styles.block,
 				{
-					borderColor: colors.tabInactive,
-					backgroundColor: colors.surfaceMuted,
+					borderColor: colors.secondaryGray,
+					backgroundColor: colors.background,
+					shadowColor: colors.panelShadow,
 				},
 			]}
 		>
 			<PopPressable onPress={onToggle} style={styles.headerRow}>
 				<View
-					style={[styles.kycIconWrap, { backgroundColor: colors.background }]}
+					style={[
+						styles.kycIconWrap,
+						{ backgroundColor: colors.secondaryGreen },
+					]}
 				>
-					<UserCheck size={20} color={colors.tabActive} />
+					<UserCheck size={20} color={colors.primaryGreen} />
 				</View>
 				<View style={styles.kycTextWrap}>
 					<Text style={[styles.kycTitle, { color: colors.text }]}>
 						Your Information(KYC)
 					</Text>
-					<Text
-						style={[styles.kycSubtitle, { color: colors.placeholderMuted }]}
-					>
+					<Text style={[styles.kycSubtitle, { color: colors.primaryGray }]}>
 						Optional • helps with tax receipts
 					</Text>
 				</View>
 				<Animated.View style={{ transform: [{ rotate: chevronRotate }] }}>
-					<Feather
-						name="chevron-down"
-						size={20}
-						color={colors.placeholderMuted}
-					/>
+					<ChevronDown size={20} color={colors.primaryGray} />
 				</Animated.View>
 			</PopPressable>
 
@@ -95,95 +99,104 @@ export default function KycBlock({
 				]}
 			>
 				<View style={styles.formWrap}>
-					<View>
-						<Text style={[styles.inputLabel, { color: colors.text }]}>
+					<View style={styles.form}>
+						<Text style={[styles.inputLabel, { color: colors.primaryGray }]}>
 							Full Name
 						</Text>
 						<TextInput
 							value={fullName}
 							onChangeText={onChangeFullName}
 							placeholder="e.g. Aung Min Tun"
-							placeholderTextColor={colors.placeholderMuted}
+							placeholderTextColor={colors.primaryGray}
 							style={[
 								styles.input,
 								{
 									color: colors.text,
-									borderColor: colors.tabInactive,
-									backgroundColor: colors.background,
+									borderColor: colors.secondaryGray,
+									backgroundColor: colors.appBackground,
+									fontWeight: Platform.OS === "android" ? "100" : "300",
 								},
 							]}
 						/>
 					</View>
-					<View>
-						<Text style={[styles.inputLabel, { color: colors.text }]}>
+					<View style={styles.form}>
+						<Text style={[styles.inputLabel, { color: colors.primaryGray }]}>
 							Email
 						</Text>
 						<TextInput
 							value={email}
 							onChangeText={onChangeEmail}
 							placeholder="e.g. aung.min@example.com"
-							placeholderTextColor={colors.placeholderMuted}
+							placeholderTextColor={colors.primaryGray}
 							keyboardType="email-address"
 							autoCapitalize="none"
 							style={[
 								styles.input,
 								{
 									color: colors.text,
-									borderColor: colors.tabInactive,
-									backgroundColor: colors.background,
+									borderColor: colors.secondaryGray,
+									backgroundColor: colors.appBackground,
+									fontWeight: Platform.OS === "android" ? "100" : "300",
 								},
 							]}
 						/>
 					</View>
-					<View>
-						<Text style={[styles.inputLabel, { color: colors.text }]}>
+					<View style={styles.form}>
+						<Text style={[styles.inputLabel, { color: colors.primaryGray }]}>
 							Phone Number
 						</Text>
 						<TextInput
 							value={phoneNumber}
 							onChangeText={onChangePhoneNumber}
 							placeholder="e.g. +95 9 123 456 789"
-							placeholderTextColor={colors.placeholderMuted}
+							placeholderTextColor={colors.primaryGray}
 							keyboardType="phone-pad"
 							style={[
 								styles.input,
 								{
 									color: colors.text,
-									borderColor: colors.tabInactive,
-									backgroundColor: colors.background,
+									borderColor: colors.secondaryGray,
+									backgroundColor: colors.appBackground,
+									fontWeight: Platform.OS === "android" ? "100" : "300",
 								},
 							]}
 						/>
 					</View>
 				</View>
 
-				<View
-					style={[
-						styles.securityBlock,
-						{
-							borderColor: colors.tabInactive,
-							backgroundColor: colors.background,
-						},
-					]}
-				>
-					<Feather name="lock" size={16} color={colors.placeholderMuted} />
-					<Text
-						style={[styles.securityText, { color: colors.placeholderMuted }]}
+				<View style={styles.form}>
+					<View
+						style={[
+							styles.securityBlock,
+							{
+								borderColor: colors.secondaryGray,
+								backgroundColor: colors.appBackground,
+							},
+						]}
 					>
-						Your information is{" "}
+						<Lock
+							size={16}
+							color={colors.primaryGreen}
+							style={{ marginTop: 5 }}
+						/>
 						<Text
-							style={[
-								styles.securityTextBold,
-								{
-									color: colors.text,
-								},
-							]}
+							style={[styles.securityText, { color: colors.placeholderMuted }]}
 						>
-							encrypted and stored securely
+							Your information is{" "}
+							<Text
+								style={[
+									styles.securityTextBold,
+									{
+										color: colors.text,
+									},
+								]}
+							>
+								encrypted and stored securely
+							</Text>
+							. We comply with international data protection standards. Your
+							data will never be shared with third parties.
 						</Text>
-						. We comply with international data protection standards. Your data
-						will never be shared with third parties.
-					</Text>
+					</View>
 				</View>
 			</Animated.View>
 		</View>
@@ -194,8 +207,13 @@ const styles = StyleSheet.create({
 	block: {
 		marginTop: 12,
 		borderRadius: 14,
-		padding: 18,
 		borderWidth: 1,
+		paddingHorizontal: 20,
+		paddingVertical: 25,
+		shadowOffset: { width: 0, height: 1 },
+		shadowOpacity: 0.15,
+		shadowRadius: 1,
+		elevation: 1,
 	},
 	headerRow: {
 		flexDirection: "row",
@@ -219,7 +237,7 @@ const styles = StyleSheet.create({
 	},
 	kycSubtitle: {
 		fontSize: 12,
-		fontWeight: "500",
+		fontWeight: "400",
 		marginTop: 2,
 	},
 	collapsibleWrap: {
@@ -229,9 +247,12 @@ const styles = StyleSheet.create({
 		marginTop: 12,
 		gap: 10,
 	},
+	form: {
+		paddingHorizontal: 5,
+	},
 	inputLabel: {
 		fontSize: 13,
-		fontWeight: "700",
+		fontWeight: "500",
 		marginBottom: 6,
 	},
 	input: {
@@ -240,7 +261,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 11,
 		fontSize: 14,
-		fontWeight: "500",
 	},
 	securityBlock: {
 		marginTop: 12,

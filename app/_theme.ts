@@ -1,5 +1,6 @@
 export const lightColors = {
-	background: "hsla(160, 16%, 96%, 1.00)",
+	appBackground: "hsla(160, 16%, 96%, 1.00)",
+	background: "#fff",
 	text: "#000000",
 	primaryGreen: "hsla(145, 30%, 42%, 1.00)",
 	secondaryGreen: "hsla(150, 17.4%, 90.98%, 1.00)",
@@ -44,6 +45,7 @@ export const lightColors = {
 };
 
 export const darkColors = {
+	appBackground: "hsla(160, 16%, 12%, 1)",
 	background: "#121212",
 	text: "#ffffff",
 	primaryGreen: "hsla(145, 30%, 42%, 1.00)",

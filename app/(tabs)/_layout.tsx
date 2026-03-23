@@ -11,7 +11,7 @@ export default function TabLayout() {
 			screenOptions={{
 				headerShown: false,
 				// fixes the sudden white flash during transition
-				sceneStyle: { backgroundColor: colors.background },
+				sceneStyle: { backgroundColor: colors.appBackground },
 			}}
 		>
 			<Tabs.Screen name="index" />

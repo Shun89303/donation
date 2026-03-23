@@ -95,7 +95,7 @@ export default function Home() {
 	return (
 		<FadeScreen>
 			<SafeAreaView
-				style={[styles.container, { backgroundColor: colors.background }]}
+				style={[styles.container, { backgroundColor: colors.appBackground }]}
 			>
 				<View>
 					<HomeHeader

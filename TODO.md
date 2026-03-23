@@ -1,1 +1,10 @@
-# PaymentMethodBlock Icons Update - COMPLETE ✅\n\n## Summary\n- PaymentMethodBlock.tsx: Replaced Feather → Lucide React Native icons with square-rounded bg colors.\n- donate.tsx: Updated PAYMENT_METHODS data with exact icons/colors per specs + imports.\n\n## Test\nRun `npx expo start`, navigate to campaign donate screen. Verify:\n- Icons: smartphone (KBZ/CB), wallet (Wave/PayPal/Crypto), credit-card (Visa)\n- Backgrounds: primaryLightBlue, primaryYellow, primaryGreen, primaryPurple, primaryDarkBlue, primaryGold\n- Square roundy: borderRadius 10 on 36x36 bg\n- Selection works\n\n**All changes implemented per plan.**
+# Donate.tsx Header Update Task
+
+## Steps:
+
+- [x] 1. Create this TODO.md
+- [x] 2. Verify theme colors (secondaryGray)
+- [x] 3. Edit JSX: Add titleContainer View wrapping headerTitle and headerSubtitle, update headerRow
+- [x] 4. Edit styles: Update headerWrap, backButton (bg secondaryGray, circle), add titleContainer, adjust headerSubtitle
+- [x] 5. Test layout on device/emulator (run `npx expo start --clear` to preview changes)
+- [x] 6. Mark complete and attempt_completion

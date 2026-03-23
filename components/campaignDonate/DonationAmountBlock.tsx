@@ -37,12 +37,13 @@ export default function DonationAmountBlock({
 			style={[
 				styles.block,
 				{
-					borderColor: colors.tabInactive,
-					backgroundColor: colors.surfaceMuted,
+					borderColor: colors.secondaryGray,
+					backgroundColor: colors.background,
+					shadowColor: colors.panelShadow,
 				},
 			]}
 		>
-			<Text style={[styles.blockLabel, { color: colors.placeholderMuted }]}>
+			<Text style={[styles.blockLabel, { color: colors.primaryGray }]}>
 				DONATION AMOUNT
 			</Text>
 			<PopPressable onPress={onPressAmountValue} style={styles.amountWrap}>
@@ -61,7 +62,7 @@ export default function DonationAmountBlock({
 						{formattedAmount}
 					</Text>
 				)}
-				<Text style={[styles.currency, { color: colors.placeholderMuted }]}>
+				<Text style={[styles.currency, { color: colors.primaryGray }]}>
 					MMK
 				</Text>
 			</PopPressable>
@@ -77,10 +78,10 @@ export default function DonationAmountBlock({
 								styles.quickAmountChip,
 								{
 									borderColor: isSelected
-										? colors.tabActive
-										: colors.tabInactive,
+										? "transparent"
+										: colors.secondaryGray,
 									backgroundColor: isSelected
-										? colors.tabActive
+										? colors.primaryGreen
 										: colors.background,
 								},
 							]}
@@ -107,6 +108,10 @@ const styles = StyleSheet.create({
 		borderRadius: 14,
 		padding: 18,
 		borderWidth: 1,
+		shadowOffset: { width: 0, height: 1 },
+		shadowOpacity: 0.15,
+		shadowRadius: 1,
+		elevation: 1,
 	},
 	blockLabel: {
 		fontSize: 12,
@@ -121,6 +126,7 @@ const styles = StyleSheet.create({
 		fontSize: 38,
 		fontWeight: "800",
 		lineHeight: 44,
+		paddingVertical: 20,
 	},
 	amountInput: {
 		fontSize: 38,
@@ -128,11 +134,11 @@ const styles = StyleSheet.create({
 		lineHeight: 44,
 		textAlign: "center",
 		minWidth: 160,
-		paddingVertical: 0,
+		paddingVertical: 20,
 	},
 	currency: {
 		fontSize: 13,
-		fontWeight: "700",
+		fontWeight: "500",
 		marginTop: 2,
 	},
 	quickAmountRow: {
@@ -144,12 +150,12 @@ const styles = StyleSheet.create({
 	},
 	quickAmountChip: {
 		borderWidth: 1,
-		borderRadius: 999,
+		borderRadius: 12,
 		paddingVertical: 8,
 		paddingHorizontal: 12,
 	},
 	quickAmountText: {
 		fontSize: 13,
-		fontWeight: "700",
+		fontWeight: "500",
 	},
 });
