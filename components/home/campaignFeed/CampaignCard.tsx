@@ -1,6 +1,6 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
-import Feather from "@expo/vector-icons/Feather";
+import { CircleCheck, Clock, Users } from "lucide-react-native";
 import {
 	type GestureResponderEvent,
 	Image,
@@ -55,8 +55,7 @@ export default function CampaignCard({
 					>
 						{item.orgName}
 					</Text>
-					<Feather
-						name="check-circle"
+					<CircleCheck
 						size={18}
 						color={colors.tabActive}
 						style={styles.orgVerifiedIcon}
@@ -99,7 +98,7 @@ export default function CampaignCard({
 					</View>
 					<View style={[styles.metaColumn, styles.metaColumnRight]}>
 						<View style={styles.metaIconLine}>
-							<Feather name="users" size={14} color={colors.onSurfaceMuted} />
+							<Users size={14} color={colors.onSurfaceMuted} />
 							<Text
 								style={[
 									styles.metaPrimary,
@@ -112,7 +111,7 @@ export default function CampaignCard({
 						</View>
 
 						<View style={[styles.metaIconLine, styles.metaIconLineOffset]}>
-							<Feather name="clock" size={14} color={colors.placeholderMuted} />
+							<Clock size={14} color={colors.placeholderMuted} />
 							<Text
 								style={[
 									styles.metaSecondary,
@@ -128,7 +127,9 @@ export default function CampaignCard({
 
 				{item.impactType === "families" ? (
 					<View style={styles.impactRow}>
-						<Feather name="home" size={14} color={colors.onSurfaceMuted} />
+						<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>
+							🏠
+						</Text>
 						<Text
 							style={[styles.impactText, { color: colors.placeholderMuted }]}
 						>
@@ -137,7 +138,9 @@ export default function CampaignCard({
 					</View>
 				) : item.impactType === "education" ? (
 					<View style={styles.impactRow}>
-						<Feather name="book-open" size={14} color={colors.onSurfaceMuted} />
+						<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>
+							🏠
+						</Text>
 						<Text
 							style={[styles.impactText, { color: colors.placeholderMuted }]}
 						>
