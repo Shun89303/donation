@@ -96,9 +96,9 @@ export default function AlertsHeader({
 				<MaterialCommunityIcons
 					name="check-all"
 					size={18}
-					color={colors.tabActive}
+					color={colors.primaryGreen}
 				/>
-				<Text style={[styles.markAllText, { color: colors.tabActive }]}>
+				<Text style={[styles.markAllText, { color: colors.primaryGreen }]}>
 					Mark all as read
 				</Text>
 			</Pressable>

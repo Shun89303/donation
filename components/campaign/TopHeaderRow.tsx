@@ -65,7 +65,7 @@ export function TopHeaderRow({
 					<Feather
 						name="bookmark"
 						size={20}
-						color={isSaved ? colors.tabActive : colors.text}
+						color={isSaved ? colors.primaryGreen : colors.text}
 					/>
 				</AnimatedPressable>
 				<AnimatedPressable

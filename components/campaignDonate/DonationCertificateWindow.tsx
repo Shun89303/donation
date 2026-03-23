@@ -64,8 +64,8 @@ export default function DonationCertificateWindow({
 				style={[
 					styles.window,
 					{
-						borderColor: colors.tabInactive,
-						backgroundColor: colors.surfaceMuted,
+						borderColor: "transparent",
+						backgroundColor: colors.background,
 					},
 				]}
 			>
@@ -73,7 +73,6 @@ export default function DonationCertificateWindow({
 
 				<ScrollView
 					style={styles.scrollArea}
-					contentContainerStyle={styles.scrollContent}
 					showsVerticalScrollIndicator={false}
 				>
 					<CertificateDetailsBlock
@@ -88,9 +87,7 @@ export default function DonationCertificateWindow({
 					<CertificateThanks colors={colors} />
 				</ScrollView>
 
-				<View
-					style={[styles.footerWrap, { borderTopColor: colors.tabInactive }]}
-				>
+				<View style={styles.footerWrap}>
 					<CertificateActions
 						colors={colors}
 						onPressDownload={onPressDownload}
@@ -121,12 +118,7 @@ const styles = StyleSheet.create({
 		marginTop: 2,
 		maxHeight: 460,
 	},
-	scrollContent: {
-		paddingBottom: 8,
-	},
 	footerWrap: {
 		marginTop: 8,
-		paddingTop: 10,
-		borderTopWidth: 1,
 	},
 });

@@ -142,7 +142,7 @@ export default function OrganizationFilters({
 										style={[
 											styles.orgIconButtonOuter,
 											{
-												borderColor: colors.tabActive,
+												borderColor: colors.primaryGreen,
 												backgroundColor: colors.background,
 												width: finalButtonSize,
 												height: finalButtonSize,
@@ -155,7 +155,7 @@ export default function OrganizationFilters({
 											style={[
 												styles.orgIconButtonInner,
 												{
-													backgroundColor: colors.tabActive,
+													backgroundColor: colors.primaryGreen,
 													borderRadius: isTablet ? 18 : 12,
 												},
 											]}

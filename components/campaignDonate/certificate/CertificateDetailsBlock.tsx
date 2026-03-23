@@ -1,6 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
-import Feather from "@expo/vector-icons/Feather";
+import { CircleCheck } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
+import CertificateFrame from "./CertificateFrame";
 
 type CertificateDetailsBlockProps = {
 	colors: ThemeColors;
@@ -21,7 +22,7 @@ type DetailRowProps = {
 function DetailRow({ colors, label, value }: DetailRowProps) {
 	return (
 		<View style={styles.detailRow}>
-			<Text style={[styles.detailLabel, { color: colors.placeholderMuted }]}>
+			<Text style={[styles.detailLabel, { color: colors.primaryGray }]}>
 				{label}
 			</Text>
 			<Text style={[styles.detailValue, { color: colors.text }]}>{value}</Text>
@@ -39,27 +40,33 @@ export default function CertificateDetailsBlock({
 	certificateCode,
 }: CertificateDetailsBlockProps) {
 	return (
-		<View
-			style={[
-				styles.certificateBlock,
-				{ borderColor: colors.tabInactive, backgroundColor: colors.background },
-			]}
-		>
-			<Text style={[styles.supportingText, { color: colors.placeholderMuted }]}>
+		<CertificateFrame colors={colors} style={styles.certificateBlock}>
+			<Text style={[styles.supportingText, { color: colors.primaryGray }]}>
 				This certifies that
 			</Text>
 			<Text style={[styles.donorName, { color: colors.text }]}>
 				{donorName}
 			</Text>
-			<Text style={[styles.supportingText, { color: colors.placeholderMuted }]}>
+
+			<View
+				style={[
+					styles.detailDivider,
+					{ backgroundColor: colors.secondaryGray },
+				]}
+			/>
+
+			<Text style={[styles.supportingText, { color: colors.primaryGray }]}>
 				has generously donated
 			</Text>
-			<Text style={[styles.donationAmount, { color: colors.tabActive }]}>
+			<Text style={[styles.donationAmount, { color: colors.primaryGreen }]}>
 				{amountLabel}
 			</Text>
 
 			<View
-				style={[styles.detailDivider, { backgroundColor: colors.tabInactive }]}
+				style={[
+					styles.detailDivider,
+					{ backgroundColor: colors.secondaryGray },
+				]}
 			/>
 			<DetailRow colors={colors} label="Campaign" value={campaignTitle} />
 			<DetailRow
@@ -68,27 +75,36 @@ export default function CertificateDetailsBlock({
 				value={organizationName}
 			/>
 			<DetailRow colors={colors} label="Date" value={dateLabel} />
+
+			<View
+				style={[
+					styles.detailDivider,
+					{ backgroundColor: colors.secondaryGray },
+				]}
+			/>
+
 			<View style={styles.detailRow}>
 				<View style={styles.verifiedWrap}>
-					<Feather name="check-circle" size={14} color={colors.tabActive} />
-					<Text style={[styles.verifiedText, { color: colors.tabActive }]}>
+					<CircleCheck size={14} color={colors.primaryGreen} />
+					<Text style={[styles.verifiedText, { color: colors.primaryGreen }]}>
 						Verified
 					</Text>
 				</View>
-				<Text style={[styles.certificateCode, { color: colors.text }]}>
+				<Text style={[styles.certificateCode, { color: colors.primaryGray }]}>
 					{certificateCode}
 				</Text>
 			</View>
-		</View>
+		</CertificateFrame>
 	);
 }
 
 const styles = StyleSheet.create({
 	certificateBlock: {
 		marginTop: 12,
-		borderWidth: 1,
+		borderWidth: 2,
 		borderRadius: 12,
-		padding: 12,
+		paddingVertical: 22,
+		paddingHorizontal: 20,
 	},
 	supportingText: {
 		fontSize: 12,
@@ -139,6 +155,6 @@ const styles = StyleSheet.create({
 	},
 	certificateCode: {
 		fontSize: 12,
-		fontWeight: "800",
+		fontWeight: "400",
 	},
 });

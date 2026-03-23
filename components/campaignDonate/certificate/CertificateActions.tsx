@@ -1,5 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
-import Feather from "@expo/vector-icons/Feather";
+import { Download, Share2 } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import PopPressable from "../PopPressable";
 
@@ -22,10 +22,10 @@ export default function CertificateActions({
 				style={[
 					styles.actionButton,
 					styles.downloadButton,
-					{ borderColor: colors.tabInactive, backgroundColor: "transparent" },
+					{ borderColor: colors.secondaryGray, backgroundColor: "transparent" },
 				]}
 			>
-				<Feather name="download" size={16} color={colors.text} />
+				<Download size={16} color={colors.text} />
 				<Text style={[styles.downloadText, { color: colors.text }]}>
 					Download
 				</Text>
@@ -33,9 +33,9 @@ export default function CertificateActions({
 			<PopPressable
 				onPress={onPressShare}
 				containerStyle={styles.half}
-				style={[styles.actionButton, { backgroundColor: colors.tabActive }]}
+				style={[styles.actionButton, { backgroundColor: colors.primaryGreen }]}
 			>
-				<Feather name="share-2" size={16} color="white" />
+				<Share2 size={16} color="white" />
 				<Text style={styles.shareText}>Share</Text>
 			</PopPressable>
 		</View>
@@ -44,7 +44,7 @@ export default function CertificateActions({
 
 const styles = StyleSheet.create({
 	actionRow: {
-		marginTop: 12,
+		marginVertical: 12,
 		flexDirection: "row",
 		gap: 10,
 	},
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 	downloadText: {
 		marginLeft: 6,
 		fontSize: 13,
-		fontWeight: "700",
+		fontWeight: "500",
 	},
 	shareText: {
 		marginLeft: 6,

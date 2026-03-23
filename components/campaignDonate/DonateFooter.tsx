@@ -43,7 +43,7 @@ export default function DonateFooter({
 				style={[
 					styles.donateButton,
 					{
-						backgroundColor: colors.tabActive,
+						backgroundColor: colors.primaryGreen,
 						borderRadius: buttonRadius,
 						padding: buttonPad,
 					},

@@ -54,7 +54,7 @@ export function FooterSection({
 			</View>
 
 			<AnimatedPressable
-				style={[styles.supportButton, { backgroundColor: colors.tabActive }]}
+				style={[styles.supportButton, { backgroundColor: colors.primaryGreen }]}
 				onPress={handleSupportPress}
 			>
 				<Text style={styles.supportButtonText}>Support this village</Text>

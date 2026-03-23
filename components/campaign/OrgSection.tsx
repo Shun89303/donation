@@ -39,7 +39,11 @@ export function OrgSection({
 							{campaign.orgName}
 						</Text>
 						{campaign.isOrgVerified ? (
-							<Feather name="check-circle" size={16} color={colors.tabActive} />
+							<Feather
+								name="check-circle"
+								size={16}
+								color={colors.primaryGreen}
+							/>
 						) : (
 							<Feather
 								name="x-circle"
@@ -97,7 +101,7 @@ export function OrgSection({
 						size={16}
 						color={
 							campaign.isOrgVerified
-								? colors.tabActive
+								? colors.primaryGreen
 								: colors.profileDanger || colors.placeholderMuted // Fallback
 						}
 					/>

@@ -18,7 +18,7 @@ export function CampaignDetailsNotFound() {
 				The campaign id is invalid or no longer available.
 			</Text>
 			<Pressable
-				style={[styles.backButton, { backgroundColor: colors.tabActive }]}
+				style={[styles.backButton, { backgroundColor: colors.primaryGreen }]}
 				onPress={() => router.replace("/(tabs)")}
 			>
 				<Text style={styles.backButtonText}>Go Home</Text>

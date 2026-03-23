@@ -54,7 +54,7 @@ export function CollapsibleSection({
 		>
 			<Pressable style={styles.collapsibleHeader} onPress={onToggle}>
 				<View style={styles.sectionHeaderLeft}>
-					<Feather name={icon} size={16} color={colors.tabActive} />
+					<Feather name={icon} size={16} color={colors.primaryGreen} />
 					<Text style={[styles.sectionTitle, { color: colors.text }]}>
 						{title}
 					</Text>

@@ -34,7 +34,11 @@ export function CampaignSummaryBlock({
 							{campaign.orgName}
 						</Text>
 						{campaign.isOrgVerified ? (
-							<Feather name="check-circle" size={16} color={colors.tabActive} />
+							<Feather
+								name="check-circle"
+								size={16}
+								color={colors.primaryGreen}
+							/>
 						) : (
 							<Feather
 								name="x-circle"
@@ -105,7 +109,7 @@ export function CampaignSummaryBlock({
 					style={[
 						styles.progressFill,
 						{
-							backgroundColor: colors.tabActive,
+							backgroundColor: colors.primaryGreen,
 							width: `${campaign.progress * 100}%`,
 						},
 					]}

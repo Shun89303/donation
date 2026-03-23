@@ -104,7 +104,7 @@ export function CommentsSection({
 					style={styles.commentSendButton}
 					onPress={onSendComment}
 				>
-					<Feather name="send" size={16} color={colors.tabActive} />
+					<Feather name="send" size={16} color={colors.primaryGreen} />
 				</AnimatedPressable>
 			</View>
 		</CollapsibleSection>
