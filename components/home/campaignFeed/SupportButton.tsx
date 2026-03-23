@@ -28,7 +28,7 @@ export default function SupportButton({ colors, onPress }: SupportButtonProps) {
 	return (
 		<Animated.View style={{ transform: [{ scale }] }}>
 			<Pressable
-				style={[styles.supportButton, { backgroundColor: colors.tabActive }]}
+				style={[styles.supportButton, { backgroundColor: colors.primaryGreen }]}
 				onPressIn={() => animateTo(0.95)}
 				onPressOut={() => animateTo(1)}
 				onPress={onPress}
@@ -42,8 +42,8 @@ export default function SupportButton({ colors, onPress }: SupportButtonProps) {
 const styles = StyleSheet.create({
 	supportButton: {
 		marginTop: 12,
-		borderRadius: 12,
-		paddingVertical: 12,
+		borderRadius: 99,
+		paddingVertical: 16,
 		alignItems: "center",
 		justifyContent: "center",
 	},

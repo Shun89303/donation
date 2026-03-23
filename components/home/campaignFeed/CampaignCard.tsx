@@ -56,146 +56,157 @@ export default function CampaignCard({
 		<AnimatedPressable
 			onPress={onPressCard}
 			style={[
-				styles.campaignCard,
+				styles.campaignCardShadow,
 				{
-					backgroundColor: colors.background,
-					borderColor: colors.tabInactive,
 					shadowColor: colors.panelShadow,
 				},
 			]}
 		>
-			{item.isUrgent ? (
-				<View style={styles.urgentBadge}>
-					<Text style={styles.urgentBadgeText}>Urgent</Text>
-				</View>
-			) : null}
-			<Image source={{ uri: item.imageUri }} style={styles.campaignBanner} />
-			<View style={styles.campaignBody}>
-				<View style={styles.orgHeaderRow}>
-					<Text
-						style={[styles.orgNameText, { color: colors.placeholderMuted }]}
-						numberOfLines={1}
-					>
-						{item.orgName}
-					</Text>
-					<CircleCheck
-						size={18}
-						color={colors.tabActive}
-						style={styles.orgVerifiedIcon}
-					/>
-				</View>
-				<Text style={[styles.campaignTitle, { color: colors.text }]}>
-					{item.title}
-				</Text>
-
-				<View
-					style={[
-						styles.progressTrack,
-						{
-							backgroundColor: colors.surfaceMuted,
-							borderColor: colors.tabInactive,
-						},
-					]}
-				>
-					<Animated.View
+			<View
+				style={[
+					styles.campaignCard,
+					{
+						backgroundColor: colors.background,
+						borderColor: colors.secondaryGray,
+					},
+				]}
+			>
+				{item.isUrgent ? (
+					<View
 						style={[
-							styles.progressFill,
+							styles.urgentBadge,
 							{
-								backgroundColor: colors.tabActive,
+								backgroundColor: colors.primaryRed,
 							},
-							progressAnimStyle,
 						]}
-					/>
-				</View>
-
-				<View style={styles.metaRow}>
-					<View style={styles.metaColumn}>
-						<Text style={[styles.metaPrimary, { color: colors.text }]}>
-							{item.raisedLabel}
-						</Text>
-						<Text
-							style={[styles.metaSecondary, { color: colors.placeholderMuted }]}
-						>
-							{item.goalLabel}
-						</Text>
-					</View>
-					<View style={[styles.metaColumn, styles.metaColumnRight]}>
-						<View style={styles.metaIconLine}>
-							<Users size={14} color={colors.onSurfaceMuted} />
-							<Text
-								style={[
-									styles.metaPrimary,
-									styles.metaIconText,
-									{ color: colors.text },
-								]}
-							>
-								{item.donors}
-							</Text>
-						</View>
-
-						<View style={[styles.metaIconLine, styles.metaIconLineOffset]}>
-							<Clock size={14} color={colors.placeholderMuted} />
-							<Text
-								style={[
-									styles.metaSecondary,
-									styles.metaIconText,
-									{ color: colors.placeholderMuted },
-								]}
-							>
-								{item.timeLeftLabel}
-							</Text>
-						</View>
-					</View>
-				</View>
-
-				{item.impactType === "families" ? (
-					<View style={styles.impactRow}>
-						<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>
-							🏠
-						</Text>
-						<Text
-							style={[styles.impactText, { color: colors.placeholderMuted }]}
-						>
-							{item.familiesHelped}/{item.familiesTarget} families helped
-						</Text>
-					</View>
-				) : item.impactType === "education" ? (
-					<View style={styles.impactRow}>
-						<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>
-							🏠
-						</Text>
-						<Text
-							style={[styles.impactText, { color: colors.placeholderMuted }]}
-						>
-							{item.educationSchools} school, {item.educationStudents} students
-						</Text>
+					>
+						<Text style={styles.urgentBadgeText}>Urgent</Text>
 					</View>
 				) : null}
+				<Image source={{ uri: item.imageUri }} style={styles.campaignBanner} />
+				<View style={styles.campaignBody}>
+					<View style={styles.orgHeaderRow}>
+						<Text
+							style={[styles.orgNameText, { color: colors.primaryGray }]}
+							numberOfLines={1}
+						>
+							{item.orgName}
+						</Text>
+						<CircleCheck
+							size={18}
+							color={colors.primaryGreen}
+							style={styles.orgVerifiedIcon}
+						/>
+					</View>
+					<Text style={[styles.campaignTitle, { color: colors.text }]}>
+						{item.title}
+					</Text>
 
-				<SupportButton colors={colors} onPress={handleSupportPress} />
+					<View
+						style={[
+							styles.progressTrack,
+							{
+								backgroundColor: colors.secondaryGray,
+								borderColor: "transparent",
+							},
+						]}
+					>
+						<Animated.View
+							style={[
+								styles.progressFill,
+								{
+									backgroundColor: colors.primaryGreen,
+								},
+								progressAnimStyle,
+							]}
+						/>
+					</View>
+
+					<View style={styles.metaRow}>
+						<View style={styles.metaColumn}>
+							<Text style={[styles.metaPrimary, { color: colors.text }]}>
+								{item.raisedLabel}
+							</Text>
+							<Text
+								style={[styles.metaSecondary, { color: colors.primaryGray }]}
+							>
+								{item.goalLabel}
+							</Text>
+						</View>
+						<View style={[styles.metaColumn, styles.metaColumnRight]}>
+							<View style={styles.metaIconLine}>
+								<Users size={14} color={colors.primaryGray} />
+								<Text
+									style={[
+										styles.metaPrimary,
+										styles.metaIconText,
+										{ color: colors.text },
+									]}
+								>
+									{item.donors}
+								</Text>
+							</View>
+
+							<View style={[styles.metaIconLine, styles.metaIconLineOffset]}>
+								<Clock size={14} color={colors.primaryGray} />
+								<Text
+									style={[
+										styles.metaSecondary,
+										styles.metaIconText,
+										{ color: colors.primaryGray },
+									]}
+								>
+									{item.timeLeftLabel}
+								</Text>
+							</View>
+						</View>
+					</View>
+
+					{item.impactType === "families" ? (
+						<View style={styles.impactRow}>
+							<Text style={{ fontSize: 14 }}>🏠</Text>
+							<Text style={[styles.impactText, { color: colors.primaryGray }]}>
+								{item.familiesHelped}/{item.familiesTarget} families helped
+							</Text>
+						</View>
+					) : item.impactType === "education" ? (
+						<View style={styles.impactRow}>
+							<Text style={{ fontSize: 14 }}>🏠</Text>
+							<Text style={[styles.impactText, { color: colors.primaryGray }]}>
+								{item.educationSchools} school, {item.educationStudents}{" "}
+								students
+							</Text>
+						</View>
+					) : null}
+
+					<SupportButton colors={colors} onPress={handleSupportPress} />
+				</View>
 			</View>
 		</AnimatedPressable>
 	);
 }
 
 const styles = StyleSheet.create({
-	campaignCard: {
+	campaignCardShadow: {
 		marginTop: 14,
-		borderWidth: 0.3,
-		borderRadius: 14,
-		overflow: "hidden",
-		shadowOffset: { width: 4, height: 10 },
-		shadowOpacity: 0.2,
-		shadowRadius: 16,
-		elevation: 8,
 		marginVertical: 15,
+		marginHorizontal: 5,
+		borderRadius: 24,
+		shadowOffset: { width: 0, height: 0 },
+		shadowOpacity: 0.12,
+		shadowRadius: 4,
+		elevation: 1,
+	},
+	campaignCard: {
+		borderWidth: 0.3,
+		borderRadius: 24,
+		overflow: "hidden",
 	},
 	urgentBadge: {
 		position: "absolute",
 		top: 10,
 		left: 10,
 		zIndex: 2,
-		backgroundColor: "#E53935",
 		paddingHorizontal: 10,
 		paddingVertical: 4,
 		borderRadius: 999,
@@ -220,7 +231,7 @@ const styles = StyleSheet.create({
 	},
 	orgNameText: {
 		fontSize: 15,
-		fontWeight: "700",
+		fontWeight: "500",
 		maxWidth: "88%",
 	},
 	orgVerifiedIcon: {
@@ -283,3 +294,120 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 });
+
+// return (
+// 	<AnimatedPressable
+// 		onPress={onPressCard}
+// 		style={[
+// 			styles.campaignCard,
+// 			{
+// 				backgroundColor: colors.background,
+// 				borderColor: colors.secondaryGray,
+// 				shadowColor: colors.panelShadow,
+// 			},
+// 		]}
+// 	>
+// 		{item.isUrgent ? (
+// 			<View style={styles.urgentBadge}>
+// 				<Text style={styles.urgentBadgeText}>Urgent</Text>
+// 			</View>
+// 		) : null}
+// 		<Image source={{ uri: item.imageUri }} style={styles.campaignBanner} />
+// 		<View style={styles.campaignBody}>
+// 			<View style={styles.orgHeaderRow}>
+// 				<Text
+// 					style={[styles.orgNameText, { color: colors.placeholderMuted }]}
+// 					numberOfLines={1}
+// 				>
+// 					{item.orgName}
+// 				</Text>
+// 				<CircleCheck
+// 					size={18}
+// 					color={colors.tabActive}
+// 					style={styles.orgVerifiedIcon}
+// 				/>
+// 			</View>
+// 			<Text style={[styles.campaignTitle, { color: colors.text }]}>
+// 				{item.title}
+// 			</Text>
+
+// 			<View
+// 				style={[
+// 					styles.progressTrack,
+// 					{
+// 						backgroundColor: colors.surfaceMuted,
+// 						borderColor: colors.tabInactive,
+// 					},
+// 				]}
+// 			>
+// 				<Animated.View
+// 					style={[
+// 						styles.progressFill,
+// 						{
+// 							backgroundColor: colors.tabActive,
+// 						},
+// 						progressAnimStyle,
+// 					]}
+// 				/>
+// 			</View>
+
+// 			<View style={styles.metaRow}>
+// 				<View style={styles.metaColumn}>
+// 					<Text style={[styles.metaPrimary, { color: colors.text }]}>
+// 						{item.raisedLabel}
+// 					</Text>
+// 					<Text
+// 						style={[styles.metaSecondary, { color: colors.placeholderMuted }]}
+// 					>
+// 						{item.goalLabel}
+// 					</Text>
+// 				</View>
+// 				<View style={[styles.metaColumn, styles.metaColumnRight]}>
+// 					<View style={styles.metaIconLine}>
+// 						<Users size={14} color={colors.onSurfaceMuted} />
+// 						<Text
+// 							style={[
+// 								styles.metaPrimary,
+// 								styles.metaIconText,
+// 								{ color: colors.text },
+// 							]}
+// 						>
+// 							{item.donors}
+// 						</Text>
+// 					</View>
+
+// 					<View style={[styles.metaIconLine, styles.metaIconLineOffset]}>
+// 						<Clock size={14} color={colors.placeholderMuted} />
+// 						<Text
+// 							style={[
+// 								styles.metaSecondary,
+// 								styles.metaIconText,
+// 								{ color: colors.placeholderMuted },
+// 							]}
+// 						>
+// 							{item.timeLeftLabel}
+// 						</Text>
+// 					</View>
+// 				</View>
+// 			</View>
+
+// 			{item.impactType === "families" ? (
+// 				<View style={styles.impactRow}>
+// 					<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>🏠</Text>
+// 					<Text style={[styles.impactText, { color: colors.placeholderMuted }]}>
+// 						{item.familiesHelped}/{item.familiesTarget} families helped
+// 					</Text>
+// 				</View>
+// 			) : item.impactType === "education" ? (
+// 				<View style={styles.impactRow}>
+// 					<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>🏠</Text>
+// 					<Text style={[styles.impactText, { color: colors.placeholderMuted }]}>
+// 						{item.educationSchools} school, {item.educationStudents} students
+// 					</Text>
+// 				</View>
+// 			) : null}
+
+// 			<SupportButton colors={colors} onPress={handleSupportPress} />
+// 		</View>
+// 	</AnimatedPressable>
+// );
