@@ -1,4 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
+import useDonateTablet from "@/hooks/useDonateTablet";
 import { useEffect, useRef } from "react";
 import { Animated, ScrollView, StyleSheet, View } from "react-native";
 import CertificateActions from "./certificate/CertificateActions";
@@ -35,6 +36,8 @@ export default function DonationCertificateWindow({
 }: DonationCertificateWindowProps) {
 	const expandAnim = useRef(new Animated.Value(visible ? 1 : 0)).current;
 
+	const isTablet = useDonateTablet();
+
 	useEffect(() => {
 		Animated.timing(expandAnim, {
 			toValue: visible ? 1 : 0,
@@ -45,7 +48,8 @@ export default function DonationCertificateWindow({
 
 	const animatedMaxHeight = expandAnim.interpolate({
 		inputRange: [0, 1],
-		outputRange: [0, 720],
+		// outputRange: [0, 720],
+		outputRange: [0, isTablet ? 1220 : 720],
 	});
 
 	const animatedOpacity = expandAnim.interpolate({
@@ -66,13 +70,26 @@ export default function DonationCertificateWindow({
 					{
 						borderColor: "transparent",
 						backgroundColor: colors.background,
+						// borderRadius: 14,
+						borderRadius: isTablet ? 28 : 14,
+						// paddingHorizontal: 14,
+						paddingHorizontal: isTablet ? 28 : 14,
+						// paddingTop: 12,
+						paddingTop: isTablet ? 24 : 12,
+						// paddingBottom: 10,
+						paddingBottom: isTablet ? 20 : 10,
 					},
 				]}
 			>
 				<CertificateHeader colors={colors} onClose={onClose} />
 
 				<ScrollView
-					style={styles.scrollArea}
+					style={{
+						// marginTop: 2,
+						// maxHeight: 460,
+						marginTop: isTablet ? 4 : 2,
+						maxHeight: isTablet ? 920 : 460,
+					}}
 					showsVerticalScrollIndicator={false}
 				>
 					<CertificateDetailsBlock
@@ -87,7 +104,11 @@ export default function DonationCertificateWindow({
 					<CertificateThanks colors={colors} />
 				</ScrollView>
 
-				<View style={styles.footerWrap}>
+				<View
+					style={{
+						marginTop: isTablet ? 16 : 8,
+					}}
+				>
 					<CertificateActions
 						colors={colors}
 						onPressDownload={onPressDownload}
@@ -107,18 +128,7 @@ const styles = StyleSheet.create({
 	window: {
 		marginTop: 12,
 		width: "100%",
-		borderRadius: 14,
-		paddingHorizontal: 14,
-		paddingTop: 12,
-		paddingBottom: 10,
 		borderWidth: 1,
 		maxHeight: "100%",
-	},
-	scrollArea: {
-		marginTop: 2,
-		maxHeight: 460,
-	},
-	footerWrap: {
-		marginTop: 8,
 	},
 });

@@ -1,4 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
+import useDonateTablet from "@/hooks/useDonateTablet";
 import { StyleSheet, Text, View } from "react-native";
 
 type CertificateThanksProps = {
@@ -6,14 +7,41 @@ type CertificateThanksProps = {
 };
 
 export default function CertificateThanks({ colors }: CertificateThanksProps) {
+	const isTablet = useDonateTablet();
+
 	return (
 		<>
-			<View style={styles.thanksRow}>
-				<Text style={[styles.thanksTitle, { color: colors.primaryGray }]}>
+			<View
+				style={[
+					styles.thanksRow,
+					{
+						marginTop: isTablet ? 24 : 12,
+					},
+				]}
+			>
+				<Text
+					style={[
+						styles.thanksTitle,
+						{
+							color: colors.primaryGray,
+							fontSize: isTablet ? 28 : 14,
+							marginRight: isTablet ? 12 : 6,
+						},
+					]}
+				>
 					Thank you for your kindness 💚
 				</Text>
 			</View>
-			<Text style={[styles.thanksSubtitle, { color: colors.primaryGray }]}>
+			<Text
+				style={[
+					styles.thanksSubtitle,
+					{
+						color: colors.primaryGray,
+						marginTop: isTablet ? 8 : 4,
+						fontSize: isTablet ? 24 : 12,
+					},
+				]}
+			>
 				Your contribution makes a real difference.
 			</Text>
 		</>
@@ -22,19 +50,14 @@ export default function CertificateThanks({ colors }: CertificateThanksProps) {
 
 const styles = StyleSheet.create({
 	thanksRow: {
-		marginTop: 12,
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	thanksTitle: {
-		fontSize: 14,
 		fontWeight: "400",
-		marginRight: 6,
 	},
 	thanksSubtitle: {
-		marginTop: 4,
-		fontSize: 12,
 		fontWeight: "400",
 		textAlign: "center",
 	},

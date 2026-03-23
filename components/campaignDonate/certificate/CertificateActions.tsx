@@ -1,4 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
+import useDonateTablet from "@/hooks/useDonateTablet";
 import { Download, Share2 } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import PopPressable from "../PopPressable";
@@ -14,29 +15,70 @@ export default function CertificateActions({
 	onPressDownload,
 	onPressShare,
 }: CertificateActionsProps) {
+	const isTablet = useDonateTablet();
+
 	return (
-		<View style={styles.actionRow}>
+		<View
+			style={[
+				styles.actionRow,
+				{
+					marginVertical: isTablet ? 24 : 12,
+					gap: isTablet ? 20 : 10,
+				},
+			]}
+		>
 			<PopPressable
 				onPress={onPressDownload}
 				containerStyle={styles.half}
 				style={[
 					styles.actionButton,
 					styles.downloadButton,
-					{ borderColor: colors.secondaryGray, backgroundColor: "transparent" },
+					{
+						borderColor: colors.secondaryGray,
+						backgroundColor: "transparent",
+						borderRadius: isTablet ? 20 : 10,
+						minHeight: isTablet ? 64 : 42,
+					},
 				]}
 			>
-				<Download size={16} color={colors.text} />
-				<Text style={[styles.downloadText, { color: colors.text }]}>
+				<Download size={isTablet ? 32 : 16} color={colors.text} />
+				<Text
+					style={[
+						styles.downloadText,
+						{
+							color: colors.text,
+							marginLeft: isTablet ? 12 : 6,
+							fontSize: isTablet ? 26 : 13,
+						},
+					]}
+				>
 					Download
 				</Text>
 			</PopPressable>
 			<PopPressable
 				onPress={onPressShare}
 				containerStyle={styles.half}
-				style={[styles.actionButton, { backgroundColor: colors.primaryGreen }]}
+				style={[
+					styles.actionButton,
+					{
+						backgroundColor: colors.primaryGreen,
+						borderRadius: isTablet ? 20 : 10,
+						minHeight: isTablet ? 64 : 42,
+					},
+				]}
 			>
-				<Share2 size={16} color="white" />
-				<Text style={styles.shareText}>Share</Text>
+				<Share2 size={isTablet ? 32 : 16} color="white" />
+				<Text
+					style={[
+						styles.shareText,
+						{
+							marginLeft: isTablet ? 12 : 6,
+							fontSize: isTablet ? 26 : 13,
+						},
+					]}
+				>
+					Share
+				</Text>
 			</PopPressable>
 		</View>
 	);
@@ -44,17 +86,13 @@ export default function CertificateActions({
 
 const styles = StyleSheet.create({
 	actionRow: {
-		marginVertical: 12,
 		flexDirection: "row",
-		gap: 10,
 	},
 	half: {
 		flex: 1,
 	},
 	actionButton: {
 		width: "100%",
-		borderRadius: 10,
-		minHeight: 42,
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
@@ -63,13 +101,9 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 	},
 	downloadText: {
-		marginLeft: 6,
-		fontSize: 13,
 		fontWeight: "500",
 	},
 	shareText: {
-		marginLeft: 6,
-		fontSize: 13,
 		fontWeight: "700",
 		color: "white",
 	},

@@ -290,7 +290,14 @@ export default function CampaignDonatePage() {
 					style={styles.certificateBackdrop}
 					onPress={() => setIsCertificateVisible(false)}
 				/>
-				<View style={styles.certificateCardWrap}>
+				<View
+					style={[
+						styles.certificateCardWrap,
+						{
+							maxWidth: isTablet ? 800 : 600,
+						},
+					]}
+				>
 					<DonationCertificateWindow
 						colors={colors}
 						visible={isCertificateVisible}
@@ -403,6 +410,5 @@ const styles = StyleSheet.create({
 	},
 	certificateCardWrap: {
 		width: "92%",
-		maxWidth: 440,
 	},
 });

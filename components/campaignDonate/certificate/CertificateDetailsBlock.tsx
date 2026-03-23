@@ -1,4 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
+import useDonateTablet from "@/hooks/useDonateTablet";
 import { CircleCheck } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import CertificateFrame from "./CertificateFrame";
@@ -20,12 +21,37 @@ type DetailRowProps = {
 };
 
 function DetailRow({ colors, label, value }: DetailRowProps) {
+	const isTablet = useDonateTablet();
+
 	return (
-		<View style={styles.detailRow}>
-			<Text style={[styles.detailLabel, { color: colors.primaryGray }]}>
+		<View
+			style={[
+				styles.detailRow,
+				{
+					marginTop: isTablet ? 16 : 8,
+				},
+			]}
+		>
+			<Text
+				style={[
+					styles.detailLabel,
+					{
+						color: colors.primaryGray,
+						fontSize: isTablet ? 24 : 12,
+						paddingRight: isTablet ? 20 : 10,
+					},
+				]}
+			>
 				{label}
 			</Text>
-			<Text style={[styles.detailValue, { color: colors.text }]}>{value}</Text>
+			<Text
+				style={[
+					styles.detailValue,
+					{ color: colors.text, fontSize: isTablet ? 24 : 12 },
+				]}
+			>
+				{value}
+			</Text>
 		</View>
 	);
 }
@@ -39,35 +65,86 @@ export default function CertificateDetailsBlock({
 	dateLabel,
 	certificateCode,
 }: CertificateDetailsBlockProps) {
+	const isTablet = useDonateTablet();
+
 	return (
-		<CertificateFrame colors={colors} style={styles.certificateBlock}>
-			<Text style={[styles.supportingText, { color: colors.primaryGray }]}>
+		<CertificateFrame
+			colors={colors}
+			style={{
+				marginTop: isTablet ? 24 : 12,
+				borderWidth: 2,
+				borderRadius: isTablet ? 24 : 12,
+				paddingVertical: isTablet ? 44 : 22,
+				paddingHorizontal: isTablet ? 40 : 20,
+				// marginTop: 12,
+				// borderWidth: 2,
+				// borderRadius: 12,
+				// paddingVertical: 22,
+				// paddingHorizontal: 20,
+			}}
+		>
+			<Text
+				style={[
+					styles.supportingText,
+					{ color: colors.primaryGray, fontSize: isTablet ? 24 : 12 },
+				]}
+			>
 				This certifies that
 			</Text>
-			<Text style={[styles.donorName, { color: colors.text }]}>
+			<Text
+				style={[
+					styles.donorName,
+					{
+						color: colors.text,
+						fontSize: isTablet ? 36 : 18,
+						marginTop: isTablet ? 12 : 6,
+					},
+				]}
+			>
 				{donorName}
 			</Text>
 
 			<View
 				style={[
 					styles.detailDivider,
-					{ backgroundColor: colors.secondaryGray },
+					{
+						backgroundColor: colors.secondaryGray,
+						marginVertical: isTablet ? 24 : 12,
+					},
 				]}
 			/>
 
-			<Text style={[styles.supportingText, { color: colors.primaryGray }]}>
+			<Text
+				style={[
+					styles.supportingText,
+					{ color: colors.primaryGray, fontSize: isTablet ? 24 : 12 },
+				]}
+			>
 				has generously donated
 			</Text>
-			<Text style={[styles.donationAmount, { color: colors.primaryGreen }]}>
+			<Text
+				style={[
+					styles.donationAmount,
+					{
+						color: colors.primaryGreen,
+						fontSize: isTablet ? 42 : 21,
+						marginTop: isTablet ? 12 : 6,
+					},
+				]}
+			>
 				{amountLabel}
 			</Text>
 
 			<View
 				style={[
 					styles.detailDivider,
-					{ backgroundColor: colors.secondaryGray },
+					{
+						backgroundColor: colors.secondaryGray,
+						marginVertical: isTablet ? 24 : 12,
+					},
 				]}
 			/>
+
 			<DetailRow colors={colors} label="Campaign" value={campaignTitle} />
 			<DetailRow
 				colors={colors}
@@ -79,18 +156,42 @@ export default function CertificateDetailsBlock({
 			<View
 				style={[
 					styles.detailDivider,
-					{ backgroundColor: colors.secondaryGray },
+					{
+						backgroundColor: colors.secondaryGray,
+						marginVertical: isTablet ? 24 : 12,
+					},
 				]}
 			/>
 
-			<View style={styles.detailRow}>
+			<View
+				style={[
+					styles.detailRow,
+					{
+						marginTop: isTablet ? 16 : 8,
+					},
+				]}
+			>
 				<View style={styles.verifiedWrap}>
-					<CircleCheck size={14} color={colors.primaryGreen} />
-					<Text style={[styles.verifiedText, { color: colors.primaryGreen }]}>
+					<CircleCheck size={isTablet ? 28 : 14} color={colors.primaryGreen} />
+					<Text
+						style={[
+							styles.verifiedText,
+							{
+								color: colors.primaryGreen,
+								fontSize: isTablet ? 24 : 12,
+								marginLeft: isTablet ? 10 : 5,
+							},
+						]}
+					>
 						Verified
 					</Text>
 				</View>
-				<Text style={[styles.certificateCode, { color: colors.primaryGray }]}>
+				<Text
+					style={[
+						styles.certificateCode,
+						{ color: colors.primaryGray, fontSize: isTablet ? 24 : 12 },
+					]}
+				>
 					{certificateCode}
 				</Text>
 			</View>
@@ -99,47 +200,30 @@ export default function CertificateDetailsBlock({
 }
 
 const styles = StyleSheet.create({
-	certificateBlock: {
-		marginTop: 12,
-		borderWidth: 2,
-		borderRadius: 12,
-		paddingVertical: 22,
-		paddingHorizontal: 20,
-	},
 	supportingText: {
-		fontSize: 12,
 		fontWeight: "500",
 		textAlign: "center",
 	},
 	donorName: {
-		fontSize: 18,
 		fontWeight: "800",
 		textAlign: "center",
-		marginTop: 6,
 	},
 	donationAmount: {
-		fontSize: 21,
 		fontWeight: "800",
 		textAlign: "center",
-		marginTop: 6,
 	},
 	detailDivider: {
 		height: 1,
-		marginVertical: 12,
 	},
 	detailRow: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginTop: 8,
 	},
 	detailLabel: {
-		fontSize: 12,
 		fontWeight: "600",
-		paddingRight: 10,
 	},
 	detailValue: {
-		fontSize: 12,
 		fontWeight: "700",
 		flex: 1,
 		textAlign: "right",
@@ -149,12 +233,9 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	verifiedText: {
-		fontSize: 12,
 		fontWeight: "700",
-		marginLeft: 5,
 	},
 	certificateCode: {
-		fontSize: 12,
 		fontWeight: "400",
 	},
 });
