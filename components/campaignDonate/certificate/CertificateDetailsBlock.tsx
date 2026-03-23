@@ -1,7 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import useDonateTablet from "@/hooks/useDonateTablet";
 import { CircleCheck } from "lucide-react-native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import CertificateFrame from "./CertificateFrame";
 
 type CertificateDetailsBlockProps = {
@@ -20,42 +20,6 @@ type DetailRowProps = {
 	value: string;
 };
 
-function DetailRow({ colors, label, value }: DetailRowProps) {
-	const isTablet = useDonateTablet();
-
-	return (
-		<View
-			style={[
-				styles.detailRow,
-				{
-					marginTop: isTablet ? 16 : 8,
-				},
-			]}
-		>
-			<Text
-				style={[
-					styles.detailLabel,
-					{
-						color: colors.primaryGray,
-						fontSize: isTablet ? 24 : 12,
-						paddingRight: isTablet ? 20 : 10,
-					},
-				]}
-			>
-				{label}
-			</Text>
-			<Text
-				style={[
-					styles.detailValue,
-					{ color: colors.text, fontSize: isTablet ? 24 : 12 },
-				]}
-			>
-				{value}
-			</Text>
-		</View>
-	);
-}
-
 export default function CertificateDetailsBlock({
 	colors,
 	donorName,
@@ -65,17 +29,103 @@ export default function CertificateDetailsBlock({
 	dateLabel,
 	certificateCode,
 }: CertificateDetailsBlockProps) {
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+
 	const isTablet = useDonateTablet();
+
+	function DetailRow({ colors, label, value }: DetailRowProps) {
+		return (
+			<View
+				style={[
+					styles.detailRow,
+					{
+						marginTop: detailRowMarginTop,
+					},
+				]}
+			>
+				<Text
+					style={[
+						styles.detailLabel,
+						{
+							color: colors.primaryGray,
+							fontSize: detailLabelFontSize,
+							paddingRight: detailLabelPaddingRight,
+						},
+					]}
+				>
+					{label}
+				</Text>
+				<Text
+					style={[
+						styles.detailValue,
+						{ color: colors.text, fontSize: detailValueFontSize },
+					]}
+				>
+					{value}
+				</Text>
+			</View>
+		);
+	}
+
+	const frameMarginTop = isTablet ? screenHeight * 0.01 : screenHeight * 0.015;
+	const frameBorderRadius = isTablet ? screenWidth * 0.03 : screenWidth * 0.04;
+	const framePaddingVertical = isTablet
+		? screenHeight * 0.03
+		: screenHeight * 0.025;
+	const framePaddingHorizontal = isTablet
+		? screenWidth * 0.035
+		: screenWidth * 0.04;
+
+	const supportingTextFontSize = isTablet
+		? screenWidth * 0.03
+		: screenWidth * 0.035;
+	const donorNameFontSize = isTablet ? screenWidth * 0.04 : screenWidth * 0.05;
+	const donorNameMarginTop = isTablet
+		? screenHeight * 0.01
+		: screenHeight * 0.005;
+
+	const detailDividerMarginVertical = isTablet
+		? screenHeight * 0.018
+		: screenHeight * 0.015;
+
+	const donationAmountFontSize = isTablet
+		? screenWidth * 0.05
+		: screenWidth * 0.06;
+	const donationAmountMarginTop = isTablet
+		? screenHeight * 0.01
+		: screenHeight * 0.005;
+
+	const detailRowMarginTop = isTablet
+		? screenHeight * 0.015
+		: screenHeight * 0.001;
+	const detailLabelFontSize = isTablet
+		? screenWidth * 0.025
+		: screenWidth * 0.03;
+	const detailValueFontSize = isTablet
+		? screenWidth * 0.025
+		: screenWidth * 0.03;
+	const detailLabelPaddingRight = isTablet
+		? screenWidth * 0.02
+		: screenWidth * 0.01;
+
+	const circleCheckSize = isTablet ? screenWidth * 0.028 : screenWidth * 0.038; // roughly 28/14
+	const verifiedFontSize = isTablet ? screenWidth * 0.025 : screenWidth * 0.035; // 24/12
+	const verifiedMarginLeft = isTablet
+		? screenWidth * 0.01
+		: screenWidth * 0.015; // 10/5
+	const certificateCodeFontSize = isTablet
+		? screenWidth * 0.025
+		: screenWidth * 0.035; // 24/12
 
 	return (
 		<CertificateFrame
 			colors={colors}
 			style={{
-				marginTop: isTablet ? 24 : 12,
+				marginTop: frameMarginTop,
 				borderWidth: 2,
-				borderRadius: isTablet ? 24 : 12,
-				paddingVertical: isTablet ? 44 : 22,
-				paddingHorizontal: isTablet ? 40 : 20,
+				borderRadius: frameBorderRadius,
+				paddingVertical: framePaddingVertical,
+				paddingHorizontal: framePaddingHorizontal,
 				// marginTop: 12,
 				// borderWidth: 2,
 				// borderRadius: 12,
@@ -86,18 +136,19 @@ export default function CertificateDetailsBlock({
 			<Text
 				style={[
 					styles.supportingText,
-					{ color: colors.primaryGray, fontSize: isTablet ? 24 : 12 },
+					{ color: colors.primaryGray, fontSize: supportingTextFontSize },
 				]}
 			>
 				This certifies that
 			</Text>
+
 			<Text
 				style={[
 					styles.donorName,
 					{
 						color: colors.text,
-						fontSize: isTablet ? 36 : 18,
-						marginTop: isTablet ? 12 : 6,
+						fontSize: donorNameFontSize,
+						marginTop: donorNameMarginTop,
 					},
 				]}
 			>
@@ -109,7 +160,7 @@ export default function CertificateDetailsBlock({
 					styles.detailDivider,
 					{
 						backgroundColor: colors.secondaryGray,
-						marginVertical: isTablet ? 24 : 12,
+						marginVertical: detailDividerMarginVertical,
 					},
 				]}
 			/>
@@ -117,7 +168,7 @@ export default function CertificateDetailsBlock({
 			<Text
 				style={[
 					styles.supportingText,
-					{ color: colors.primaryGray, fontSize: isTablet ? 24 : 12 },
+					{ color: colors.primaryGray, fontSize: supportingTextFontSize },
 				]}
 			>
 				has generously donated
@@ -127,8 +178,8 @@ export default function CertificateDetailsBlock({
 					styles.donationAmount,
 					{
 						color: colors.primaryGreen,
-						fontSize: isTablet ? 42 : 21,
-						marginTop: isTablet ? 12 : 6,
+						fontSize: donationAmountFontSize,
+						marginTop: donationAmountMarginTop,
 					},
 				]}
 			>
@@ -140,7 +191,7 @@ export default function CertificateDetailsBlock({
 					styles.detailDivider,
 					{
 						backgroundColor: colors.secondaryGray,
-						marginVertical: isTablet ? 24 : 12,
+						marginVertical: detailDividerMarginVertical,
 					},
 				]}
 			/>
@@ -158,7 +209,7 @@ export default function CertificateDetailsBlock({
 					styles.detailDivider,
 					{
 						backgroundColor: colors.secondaryGray,
-						marginVertical: isTablet ? 24 : 12,
+						marginVertical: detailDividerMarginVertical,
 					},
 				]}
 			/>
@@ -167,19 +218,19 @@ export default function CertificateDetailsBlock({
 				style={[
 					styles.detailRow,
 					{
-						marginTop: isTablet ? 16 : 8,
+						marginTop: detailRowMarginTop,
 					},
 				]}
 			>
 				<View style={styles.verifiedWrap}>
-					<CircleCheck size={isTablet ? 28 : 14} color={colors.primaryGreen} />
+					<CircleCheck size={circleCheckSize} color={colors.primaryGreen} />
 					<Text
 						style={[
 							styles.verifiedText,
 							{
 								color: colors.primaryGreen,
-								fontSize: isTablet ? 24 : 12,
-								marginLeft: isTablet ? 10 : 5,
+								fontSize: verifiedFontSize,
+								marginLeft: verifiedMarginLeft,
 							},
 						]}
 					>
@@ -189,7 +240,7 @@ export default function CertificateDetailsBlock({
 				<Text
 					style={[
 						styles.certificateCode,
-						{ color: colors.primaryGray, fontSize: isTablet ? 24 : 12 },
+						{ color: colors.primaryGray, fontSize: certificateCodeFontSize },
 					]}
 				>
 					{certificateCode}

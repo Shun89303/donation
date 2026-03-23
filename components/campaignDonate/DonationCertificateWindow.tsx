@@ -1,7 +1,13 @@
 import type { ThemeColors } from "@/app/_theme";
 import useDonateTablet from "@/hooks/useDonateTablet";
 import { useEffect, useRef } from "react";
-import { Animated, ScrollView, StyleSheet, View } from "react-native";
+import {
+	Animated,
+	ScrollView,
+	StyleSheet,
+	View,
+	useWindowDimensions,
+} from "react-native";
 import CertificateActions from "./certificate/CertificateActions";
 import CertificateDetailsBlock from "./certificate/CertificateDetailsBlock";
 import CertificateHeader from "./certificate/CertificateHeader";
@@ -34,9 +40,28 @@ export default function DonationCertificateWindow({
 	onPressDownload,
 	onPressShare,
 }: DonationCertificateWindowProps) {
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+
 	const expandAnim = useRef(new Animated.Value(visible ? 1 : 0)).current;
 
 	const isTablet = useDonateTablet();
+
+	const expandedMaxHeight = Math.min(
+		isTablet ? screenHeight * 0.88 : screenHeight * 0.8,
+		isTablet ? 1200 : 900,
+	);
+
+	const borderRadius = isTablet ? screenWidth * 0.05 : screenWidth * 0.035;
+	const paddingHorizontal = screenWidth * (isTablet ? 0.04 : 0.035);
+	const paddingTop = screenHeight * (isTablet ? 0.02 : 0.015);
+	const paddingBottom = screenHeight * (isTablet ? 0.018 : 0.012);
+	const scrollMarginTop = isTablet
+		? screenHeight * 0.004
+		: screenHeight * 0.003;
+	const scrollMaxHeight = isTablet ? screenHeight * 0.65 : screenHeight * 0.5;
+	const certificateActionsMarginTop = isTablet
+		? screenHeight * 0.01
+		: screenHeight * 0.015;
 
 	useEffect(() => {
 		Animated.timing(expandAnim, {
@@ -49,7 +74,7 @@ export default function DonationCertificateWindow({
 	const animatedMaxHeight = expandAnim.interpolate({
 		inputRange: [0, 1],
 		// outputRange: [0, 720],
-		outputRange: [0, isTablet ? 1220 : 720],
+		outputRange: [0, expandedMaxHeight],
 	});
 
 	const animatedOpacity = expandAnim.interpolate({
@@ -61,7 +86,11 @@ export default function DonationCertificateWindow({
 		<Animated.View
 			style={[
 				styles.outerWrap,
-				{ maxHeight: animatedMaxHeight, opacity: animatedOpacity },
+				{
+					maxHeight: animatedMaxHeight,
+					opacity: animatedOpacity,
+					overflow: isTablet ? "visible" : "hidden",
+				},
 			]}
 		>
 			<View
@@ -71,13 +100,13 @@ export default function DonationCertificateWindow({
 						borderColor: "transparent",
 						backgroundColor: colors.background,
 						// borderRadius: 14,
-						borderRadius: isTablet ? 28 : 14,
+						borderRadius,
 						// paddingHorizontal: 14,
-						paddingHorizontal: isTablet ? 28 : 14,
+						paddingHorizontal,
 						// paddingTop: 12,
-						paddingTop: isTablet ? 24 : 12,
+						paddingTop,
 						// paddingBottom: 10,
-						paddingBottom: isTablet ? 20 : 10,
+						paddingBottom,
 					},
 				]}
 			>
@@ -87,8 +116,8 @@ export default function DonationCertificateWindow({
 					style={{
 						// marginTop: 2,
 						// maxHeight: 460,
-						marginTop: isTablet ? 4 : 2,
-						maxHeight: isTablet ? 920 : 460,
+						marginTop: scrollMarginTop,
+						maxHeight: scrollMaxHeight,
 					}}
 					showsVerticalScrollIndicator={false}
 				>
@@ -106,7 +135,7 @@ export default function DonationCertificateWindow({
 
 				<View
 					style={{
-						marginTop: isTablet ? 16 : 8,
+						marginTop: certificateActionsMarginTop,
 					}}
 				>
 					<CertificateActions
@@ -122,7 +151,6 @@ export default function DonationCertificateWindow({
 
 const styles = StyleSheet.create({
 	outerWrap: {
-		overflow: "hidden",
 		width: "100%",
 	},
 	window: {

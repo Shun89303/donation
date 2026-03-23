@@ -168,6 +168,11 @@ export default function CampaignDonatePage() {
 		.replace("campaign-", "")
 		.padStart(3, "0")}`;
 
+	const cardMaxWidth = Math.min(
+		isTablet ? screenWidth * 0.82 : screenWidth * 0.94,
+		isTablet ? 820 : 620,
+	);
+
 	return (
 		<SafeAreaView
 			style={[styles.container, { backgroundColor: colors.appBackground }]}
@@ -294,7 +299,7 @@ export default function CampaignDonatePage() {
 					style={[
 						styles.certificateCardWrap,
 						{
-							maxWidth: isTablet ? 800 : 600,
+							maxWidth: cardMaxWidth,
 						},
 					]}
 				>

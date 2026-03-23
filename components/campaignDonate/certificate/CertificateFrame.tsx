@@ -1,6 +1,12 @@
 import type { ThemeColors } from "@/app/_theme";
+import useDonateTablet from "@/hooks/useDonateTablet";
 import React from "react";
-import { StyleSheet, View, type ViewStyle } from "react-native";
+import {
+	StyleSheet,
+	View,
+	type ViewStyle,
+	useWindowDimensions,
+} from "react-native";
 
 type CertificateFrameProps = {
 	colors: ThemeColors;
@@ -23,6 +29,18 @@ export default function CertificateFrame({
 	children,
 	style,
 }: CertificateFrameProps) {
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+
+	const isTablet = useDonateTablet();
+
+	const containerBorderRadius = isTablet
+		? screenWidth * 0.03
+		: screenWidth * 0.04; // original 12
+	const cornerSize = isTablet ? screenWidth * 0.035 : screenWidth * 0.036; // original 18
+	const cornerOffset = isTablet ? screenWidth * 0.015 : screenWidth * 0.016; // original 8
+	const cornerBorderRadius = isTablet ? screenWidth * 0.03 : screenWidth * 0.04; // original 16
+	const cornerBorderWidth = isTablet ? 2 : 2; // can remain 2 or scale if needed
+
 	return (
 		<View
 			style={[
@@ -30,14 +48,59 @@ export default function CertificateFrame({
 				{
 					backgroundColor: colors.appBackground,
 					borderColor: colors.darkGreen,
+					borderRadius: containerBorderRadius,
 				},
 				style,
 			]}
 		>
-			<Corner style={styles.topLeft} borderColor={colors.darkGreen} />
-			<Corner style={styles.topRight} borderColor={colors.darkGreen} />
-			<Corner style={styles.bottomLeft} borderColor={colors.darkGreen} />
-			<Corner style={styles.bottomRight} borderColor={colors.darkGreen} />
+			<Corner
+				style={{
+					width: cornerSize,
+					height: cornerSize,
+					top: cornerOffset,
+					left: cornerOffset,
+					borderTopWidth: cornerBorderWidth,
+					borderLeftWidth: cornerBorderWidth,
+					borderTopLeftRadius: cornerBorderRadius,
+				}}
+				borderColor={colors.darkGreen}
+			/>
+			<Corner
+				style={{
+					width: cornerSize,
+					height: cornerSize,
+					top: cornerOffset,
+					right: cornerOffset,
+					borderTopWidth: cornerBorderWidth,
+					borderRightWidth: cornerBorderWidth,
+					borderTopRightRadius: cornerBorderRadius,
+				}}
+				borderColor={colors.darkGreen}
+			/>
+			<Corner
+				style={{
+					width: cornerSize,
+					height: cornerSize,
+					bottom: cornerOffset,
+					left: cornerOffset,
+					borderBottomWidth: cornerBorderWidth,
+					borderLeftWidth: cornerBorderWidth,
+					borderBottomLeftRadius: cornerBorderRadius,
+				}}
+				borderColor={colors.darkGreen}
+			/>
+			<Corner
+				style={{
+					width: cornerSize,
+					height: cornerSize,
+					bottom: cornerOffset,
+					right: cornerOffset,
+					borderBottomWidth: cornerBorderWidth,
+					borderRightWidth: cornerBorderWidth,
+					borderBottomRightRadius: cornerBorderRadius,
+				}}
+				borderColor={colors.darkGreen}
+			/>
 
 			{children}
 		</View>
@@ -56,37 +119,5 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		width: 18,
 		height: 18,
-	},
-
-	topLeft: {
-		top: 8,
-		left: 8,
-		borderTopWidth: 2,
-		borderLeftWidth: 2,
-		borderTopLeftRadius: 16,
-	},
-
-	topRight: {
-		top: 8,
-		right: 8,
-		borderTopWidth: 2,
-		borderRightWidth: 2,
-		borderTopRightRadius: 16,
-	},
-
-	bottomLeft: {
-		bottom: 8,
-		left: 8,
-		borderBottomWidth: 2,
-		borderLeftWidth: 2,
-		borderBottomLeftRadius: 16,
-	},
-
-	bottomRight: {
-		bottom: 8,
-		right: 8,
-		borderBottomWidth: 2,
-		borderRightWidth: 2,
-		borderBottomRightRadius: 16,
 	},
 });
