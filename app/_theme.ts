@@ -53,7 +53,7 @@ export const darkColors = {
 	surfaceMuted: "#414348ff",
 	onSurfaceMuted: "#E5E7EB",
 	placeholderMuted: "#AEB4BE",
-	panelShadow: "#000000ff",
+	panelShadow: "hsl(180, 4%, 45%)",
 	alertHeaderBackground: "#121212",
 	alertCardBackground: "#1B1B1B",
 	alertCardUnreadBackground: "#16301F",

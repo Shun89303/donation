@@ -28,18 +28,23 @@ export default function SupportButton({ colors, onPress }: SupportButtonProps) {
 	return (
 		<Animated.View style={{ transform: [{ scale }] }}>
 			<Pressable
-				style={[styles.supportButton, { backgroundColor: colors.primaryGreen }]}
+				style={[
+					dynamicStyles.supportButton,
+					{ backgroundColor: colors.primaryGreen },
+				]}
 				onPressIn={() => animateTo(0.95)}
 				onPressOut={() => animateTo(1)}
 				onPress={onPress}
 			>
-				<Text style={styles.supportButtonText}>Support this village</Text>
+				<Text style={dynamicStyles.supportButtonText}>
+					Support this village
+				</Text>
 			</Pressable>
 		</Animated.View>
 	);
 }
 
-const styles = StyleSheet.create({
+const dynamicStyles = StyleSheet.create({
 	supportButton: {
 		marginTop: 12,
 		borderRadius: 99,

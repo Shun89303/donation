@@ -3,11 +3,14 @@ import AnimatedPressable from "@/components/common/AnimatedPressable";
 import { CircleCheck, Clock, Users } from "lucide-react-native";
 import { useEffect } from "react";
 import {
-	type GestureResponderEvent,
 	Image,
+	Platform,
 	StyleSheet,
 	Text,
+	useWindowDimensions,
 	View,
+	ViewStyle,
+	type GestureResponderEvent,
 } from "react-native";
 import Animated, {
 	Easing,
@@ -23,6 +26,7 @@ type CampaignCardProps = {
 	colors: ThemeColors;
 	onPressCard: () => void;
 	onPressSupport: () => void;
+	style?: ViewStyle | ViewStyle[];
 };
 
 export default function CampaignCard({
@@ -30,7 +34,21 @@ export default function CampaignCard({
 	colors,
 	onPressCard,
 	onPressSupport,
+	style,
 }: CampaignCardProps) {
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+	const isAndroid = Platform.OS === "android";
+	const isTablet = screenWidth >= 800;
+	const isNarrowPhone = screenWidth < 450;
+	const aspectRatio = screenWidth / screenHeight;
+	const isLandscape = aspectRatio > 0.75;
+
+	// Responsive scales matching project patterns
+	const sizeScale = isTablet ? 1.25 : isNarrowPhone ? 0.9 : 1.0;
+	const paddingScale = isTablet ? 1.2 : isNarrowPhone ? 0.95 : 1.0;
+	const fontScale = isTablet ? 1.1 : isNarrowPhone ? 0.95 : 1.0;
+	const landscapeBoost = isLandscape ? 1.05 : 1.0;
+
 	const progressValue = useSharedValue(0);
 
 	useEffect(() => {
@@ -56,104 +74,221 @@ export default function CampaignCard({
 		<AnimatedPressable
 			onPress={onPressCard}
 			style={[
-				styles.campaignCardShadow,
 				{
 					shadowColor: colors.panelShadow,
+					borderRadius: 24 * sizeScale,
+					marginTop: 14 * sizeScale * landscapeBoost,
+					marginVertical: 15 * paddingScale,
+					marginHorizontal: 5 * paddingScale,
+
+					shadowOffset: { width: 0, height: 1 * sizeScale },
+					shadowOpacity: 0.12,
+					shadowRadius: 4 * sizeScale,
+
+					elevation: isAndroid ? 2 * sizeScale : undefined,
 				},
 			]}
 		>
 			<View
 				style={[
-					styles.campaignCard,
+					dynamicStyles.campaignCard,
 					{
 						backgroundColor: colors.background,
 						borderColor: colors.secondaryGray,
+						borderRadius: 24 * sizeScale,
 					},
+					style,
 				]}
 			>
 				{item.isUrgent ? (
 					<View
 						style={[
-							styles.urgentBadge,
+							dynamicStyles.urgentBadge,
 							{
 								backgroundColor: colors.primaryRed,
+								top: 10 * sizeScale,
+								left: 10 * sizeScale,
+								paddingHorizontal: 10 * paddingScale,
+								paddingVertical: 4 * paddingScale,
 							},
 						]}
 					>
-						<Text style={styles.urgentBadgeText}>Urgent</Text>
+						<Text
+							allowFontScaling={!isAndroid}
+							style={[
+								dynamicStyles.urgentBadgeText,
+								{
+									fontSize: 11 * fontScale,
+									includeFontPadding: isAndroid ? false : undefined,
+								},
+							]}
+						>
+							Urgent
+						</Text>
 					</View>
 				) : null}
-				<Image source={{ uri: item.imageUri }} style={styles.campaignBanner} />
-				<View style={styles.campaignBody}>
-					<View style={styles.orgHeaderRow}>
+				<Image
+					source={{ uri: item.imageUri }}
+					style={[
+						dynamicStyles.campaignBanner,
+						{
+							height: 170 * sizeScale * landscapeBoost,
+						},
+					]}
+				/>
+				<View style={{ padding: 12 * paddingScale }}>
+					<View
+						style={[
+							dynamicStyles.orgHeaderRow,
+							{
+								marginBottom: 6 * paddingScale,
+							},
+						]}
+					>
 						<Text
-							style={[styles.orgNameText, { color: colors.primaryGray }]}
+							style={[
+								dynamicStyles.orgNameText,
+								{
+									color: colors.primaryGray,
+									fontSize: 15 * fontScale,
+									maxWidth: isNarrowPhone ? "85%" : "88%",
+									includeFontPadding: isAndroid ? false : undefined,
+								},
+							]}
+							allowFontScaling={!isAndroid}
 							numberOfLines={1}
 						>
 							{item.orgName}
 						</Text>
 						<CircleCheck
-							size={18}
+							size={18 * sizeScale}
 							color={colors.primaryGreen}
-							style={styles.orgVerifiedIcon}
+							style={{
+								marginLeft: 6 * sizeScale,
+							}}
 						/>
 					</View>
-					<Text style={[styles.campaignTitle, { color: colors.text }]}>
+					<Text
+						style={[
+							dynamicStyles.campaignTitle,
+							{
+								color: colors.text,
+								fontSize: 18 * fontScale,
+								lineHeight: 24 * fontScale,
+								includeFontPadding: isAndroid ? false : undefined,
+							},
+						]}
+						allowFontScaling={!isAndroid}
+					>
 						{item.title}
 					</Text>
 
 					<View
 						style={[
-							styles.progressTrack,
+							dynamicStyles.progressTrack,
 							{
 								backgroundColor: colors.secondaryGray,
 								borderColor: "transparent",
+								height: 10 * sizeScale,
+								borderRadius: 8 * sizeScale,
+								marginTop: 12 * paddingScale,
 							},
 						]}
 					>
 						<Animated.View
 							style={[
-								styles.progressFill,
+								dynamicStyles.progressFill,
 								{
 									backgroundColor: colors.primaryGreen,
+									borderRadius: 8 * sizeScale,
 								},
 								progressAnimStyle,
 							]}
 						/>
 					</View>
 
-					<View style={styles.metaRow}>
-						<View style={styles.metaColumn}>
-							<Text style={[styles.metaPrimary, { color: colors.text }]}>
+					<View
+						style={[
+							dynamicStyles.metaRow,
+							{
+								marginTop: 10 * paddingScale,
+								justifyContent: isNarrowPhone ? "center" : "space-between",
+								gap: isNarrowPhone ? 8 * paddingScale : 0,
+							},
+						]}
+					>
+						<View style={dynamicStyles.metaColumn}>
+							<Text
+								allowFontScaling={!isAndroid}
+								style={[
+									dynamicStyles.metaPrimary,
+									{
+										color: colors.text,
+										fontSize: 14 * fontScale,
+										includeFontPadding: isAndroid ? false : undefined,
+									},
+								]}
+							>
 								{item.raisedLabel}
 							</Text>
 							<Text
-								style={[styles.metaSecondary, { color: colors.primaryGray }]}
+								allowFontScaling={!isAndroid}
+								style={[
+									dynamicStyles.metaSecondary,
+									{
+										color: colors.primaryGray,
+										marginTop: 2 * paddingScale,
+										fontSize: 12 * fontScale,
+										includeFontPadding: isAndroid ? false : undefined,
+									},
+								]}
 							>
 								{item.goalLabel}
 							</Text>
 						</View>
-						<View style={[styles.metaColumn, styles.metaColumnRight]}>
-							<View style={styles.metaIconLine}>
-								<Users size={14} color={colors.primaryGray} />
+						<View
+							style={[dynamicStyles.metaColumn, dynamicStyles.metaColumnRight]}
+						>
+							<View style={dynamicStyles.metaIconLine}>
+								<Users size={14 * sizeScale} color={colors.primaryGray} />
 								<Text
+									allowFontScaling={!isAndroid}
 									style={[
-										styles.metaPrimary,
-										styles.metaIconText,
-										{ color: colors.text },
+										dynamicStyles.metaPrimary,
+
+										{
+											color: colors.text,
+											marginLeft: 5 * sizeScale,
+											fontSize: 14 * fontScale,
+											includeFontPadding: isAndroid ? false : undefined,
+										},
 									]}
 								>
 									{item.donors}
 								</Text>
 							</View>
 
-							<View style={[styles.metaIconLine, styles.metaIconLineOffset]}>
-								<Clock size={14} color={colors.primaryGray} />
+							<View
+								style={[
+									dynamicStyles.metaIconLine,
+									,
+									{
+										marginTop: 2 * paddingScale,
+									},
+								]}
+							>
+								<Clock size={14 * sizeScale} color={colors.primaryGray} />
 								<Text
+									allowFontScaling={!isAndroid}
 									style={[
-										styles.metaSecondary,
-										styles.metaIconText,
-										{ color: colors.primaryGray },
+										dynamicStyles.metaSecondary,
+										{
+											color: colors.primaryGray,
+											marginLeft: 5 * sizeScale,
+											marginTop: 2 * paddingScale,
+											fontSize: 12 * fontScale,
+											includeFontPadding: isAndroid ? false : undefined,
+										},
 									]}
 								>
 									{item.timeLeftLabel}
@@ -163,16 +298,50 @@ export default function CampaignCard({
 					</View>
 
 					{item.impactType === "families" ? (
-						<View style={styles.impactRow}>
+						<View
+							style={[
+								dynamicStyles.impactRow,
+								{ marginTop: 10 * paddingScale },
+							]}
+						>
 							<Text style={{ fontSize: 14 }}>🏠</Text>
-							<Text style={[styles.impactText, { color: colors.primaryGray }]}>
+							<Text
+								allowFontScaling={!isAndroid}
+								style={[
+									dynamicStyles.impactText,
+									{
+										color: colors.primaryGray,
+										fontSize: 13 * fontScale,
+										marginLeft: 6 * sizeScale,
+										includeFontPadding: isAndroid ? false : undefined,
+									},
+								]}
+							>
 								{item.familiesHelped}/{item.familiesTarget} families helped
 							</Text>
 						</View>
 					) : item.impactType === "education" ? (
-						<View style={styles.impactRow}>
+						<View
+							style={[
+								dynamicStyles.impactRow,
+								{
+									marginTop: 10 * paddingScale,
+								},
+							]}
+						>
 							<Text style={{ fontSize: 14 }}>🏠</Text>
-							<Text style={[styles.impactText, { color: colors.primaryGray }]}>
+							<Text
+								allowFontScaling={!isAndroid}
+								style={[
+									dynamicStyles.impactText,
+									{
+										color: colors.primaryGray,
+										fontSize: 13 * fontScale,
+										marginLeft: 6 * sizeScale,
+										includeFontPadding: isAndroid ? false : undefined,
+									},
+								]}
+							>
 								{item.educationSchools} school, {item.educationStudents}{" "}
 								students
 							</Text>
@@ -186,77 +355,45 @@ export default function CampaignCard({
 	);
 }
 
-const styles = StyleSheet.create({
-	campaignCardShadow: {
-		marginTop: 14,
-		marginVertical: 15,
-		marginHorizontal: 5,
-		borderRadius: 24,
-		shadowOffset: { width: 0, height: 0 },
-		shadowOpacity: 0.12,
-		shadowRadius: 4,
-		elevation: 1,
-	},
+const dynamicStyles = StyleSheet.create({
 	campaignCard: {
 		borderWidth: 0.3,
-		borderRadius: 24,
 		overflow: "hidden",
 	},
 	urgentBadge: {
 		position: "absolute",
-		top: 10,
-		left: 10,
+
 		zIndex: 2,
-		paddingHorizontal: 10,
-		paddingVertical: 4,
 		borderRadius: 999,
 	},
 	urgentBadgeText: {
 		color: "white",
-		fontSize: 11,
 		fontWeight: "700",
 		letterSpacing: 0.2,
 	},
 	campaignBanner: {
 		width: "100%",
-		height: 170,
-	},
-	campaignBody: {
-		padding: 12,
 	},
 	orgHeaderRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginBottom: 6,
 	},
 	orgNameText: {
-		fontSize: 15,
 		fontWeight: "500",
-		maxWidth: "88%",
 	},
-	orgVerifiedIcon: {
-		marginLeft: 6,
-	},
+
 	campaignTitle: {
-		fontSize: 18,
 		fontWeight: "700",
-		lineHeight: 24,
 	},
 	progressTrack: {
-		height: 10,
-		borderRadius: 8,
 		borderWidth: 0.5,
-		marginTop: 12,
 		overflow: "hidden",
 	},
 	progressFill: {
 		height: "100%",
-		borderRadius: 8,
 	},
 	metaRow: {
-		marginTop: 10,
 		flexDirection: "row",
-		justifyContent: "space-between",
 	},
 	metaColumn: {
 		flex: 1,
@@ -268,146 +405,18 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "flex-end",
 	},
-	metaIconLineOffset: {
-		marginTop: 2,
-	},
-	metaIconText: {
-		marginLeft: 5,
-	},
+
 	metaPrimary: {
-		fontSize: 14,
 		fontWeight: "700",
 	},
 	metaSecondary: {
-		marginTop: 2,
-		fontSize: 12,
 		fontWeight: "500",
 	},
 	impactText: {
-		fontSize: 13,
 		fontWeight: "500",
-		marginLeft: 6,
 	},
 	impactRow: {
-		marginTop: 10,
 		flexDirection: "row",
 		alignItems: "center",
 	},
 });
-
-// return (
-// 	<AnimatedPressable
-// 		onPress={onPressCard}
-// 		style={[
-// 			styles.campaignCard,
-// 			{
-// 				backgroundColor: colors.background,
-// 				borderColor: colors.secondaryGray,
-// 				shadowColor: colors.panelShadow,
-// 			},
-// 		]}
-// 	>
-// 		{item.isUrgent ? (
-// 			<View style={styles.urgentBadge}>
-// 				<Text style={styles.urgentBadgeText}>Urgent</Text>
-// 			</View>
-// 		) : null}
-// 		<Image source={{ uri: item.imageUri }} style={styles.campaignBanner} />
-// 		<View style={styles.campaignBody}>
-// 			<View style={styles.orgHeaderRow}>
-// 				<Text
-// 					style={[styles.orgNameText, { color: colors.placeholderMuted }]}
-// 					numberOfLines={1}
-// 				>
-// 					{item.orgName}
-// 				</Text>
-// 				<CircleCheck
-// 					size={18}
-// 					color={colors.tabActive}
-// 					style={styles.orgVerifiedIcon}
-// 				/>
-// 			</View>
-// 			<Text style={[styles.campaignTitle, { color: colors.text }]}>
-// 				{item.title}
-// 			</Text>
-
-// 			<View
-// 				style={[
-// 					styles.progressTrack,
-// 					{
-// 						backgroundColor: colors.surfaceMuted,
-// 						borderColor: colors.tabInactive,
-// 					},
-// 				]}
-// 			>
-// 				<Animated.View
-// 					style={[
-// 						styles.progressFill,
-// 						{
-// 							backgroundColor: colors.tabActive,
-// 						},
-// 						progressAnimStyle,
-// 					]}
-// 				/>
-// 			</View>
-
-// 			<View style={styles.metaRow}>
-// 				<View style={styles.metaColumn}>
-// 					<Text style={[styles.metaPrimary, { color: colors.text }]}>
-// 						{item.raisedLabel}
-// 					</Text>
-// 					<Text
-// 						style={[styles.metaSecondary, { color: colors.placeholderMuted }]}
-// 					>
-// 						{item.goalLabel}
-// 					</Text>
-// 				</View>
-// 				<View style={[styles.metaColumn, styles.metaColumnRight]}>
-// 					<View style={styles.metaIconLine}>
-// 						<Users size={14} color={colors.onSurfaceMuted} />
-// 						<Text
-// 							style={[
-// 								styles.metaPrimary,
-// 								styles.metaIconText,
-// 								{ color: colors.text },
-// 							]}
-// 						>
-// 							{item.donors}
-// 						</Text>
-// 					</View>
-
-// 					<View style={[styles.metaIconLine, styles.metaIconLineOffset]}>
-// 						<Clock size={14} color={colors.placeholderMuted} />
-// 						<Text
-// 							style={[
-// 								styles.metaSecondary,
-// 								styles.metaIconText,
-// 								{ color: colors.placeholderMuted },
-// 							]}
-// 						>
-// 							{item.timeLeftLabel}
-// 						</Text>
-// 					</View>
-// 				</View>
-// 			</View>
-
-// 			{item.impactType === "families" ? (
-// 				<View style={styles.impactRow}>
-// 					<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>🏠</Text>
-// 					<Text style={[styles.impactText, { color: colors.placeholderMuted }]}>
-// 						{item.familiesHelped}/{item.familiesTarget} families helped
-// 					</Text>
-// 				</View>
-// 			) : item.impactType === "education" ? (
-// 				<View style={styles.impactRow}>
-// 					<Text style={{ fontSize: 14, color: colors.onSurfaceMuted }}>🏠</Text>
-// 					<Text style={[styles.impactText, { color: colors.placeholderMuted }]}>
-// 						{item.educationSchools} school, {item.educationStudents} students
-// 					</Text>
-// 				</View>
-// 			) : null}
-
-// 			<SupportButton colors={colors} onPress={handleSupportPress} />
-// 		</View>
-// 	</AnimatedPressable>
-// );
