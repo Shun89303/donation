@@ -64,13 +64,13 @@ export default function AnimatedProgressBar({
 const styles = StyleSheet.create({
 	progressTrack: {
 		height: 10,
-		borderRadius: 8,
+		borderRadius: 999,
 		borderWidth: 0.5,
 		borderColor: "transparent",
 		overflow: "hidden",
 	},
 	progressFill: {
 		height: "100%",
-		borderRadius: 8,
+		borderRadius: 999,
 	},
 });

@@ -26,7 +26,7 @@ export function CampaignSummaryBlock({
 	// Dynamic values
 	const marginTop = 14 * scale;
 	const borderRadius = isTablet ? 40 * scale : 24 * scale;
-	const padding = isTablet ? 40 * scale : 20 * scale;
+	const padding = isTablet ? 30 * scale : 20 * scale;
 	const borderWidth = 0.5 * scale;
 
 	return (
