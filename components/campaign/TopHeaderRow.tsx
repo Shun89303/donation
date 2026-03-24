@@ -26,42 +26,44 @@ export function TopHeaderRow({
 	const isTablet = useTablet();
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
 
+	const tabletScale = 0.75; // 75% of current tablet size
+
 	const headerPaddingHorizontal = isTablet
-		? Math.min(screenWidth * 0.04, 40)
+		? Math.min(screenWidth * 0.04, 40) * tabletScale
 		: Math.min(screenWidth * 0.045, 20);
 
 	const headerPaddingTop = isTablet
-		? Math.min(screenHeight * 0.012, 16)
+		? Math.min(screenHeight * 0.012, 16) * tabletScale
 		: Math.min(screenHeight * 0.008, 10);
 
 	const headerPaddingBottom = isTablet
-		? Math.min(screenHeight * 0.012, 16)
+		? Math.min(screenHeight * 0.012, 16) * tabletScale
 		: Math.min(screenHeight * 0.008, 10);
 
 	const iconButtonSize = isTablet
-		? Math.min(screenWidth * 0.085, 78)
+		? Math.min(screenWidth * 0.085, 78) * tabletScale
 		: Math.min(screenWidth * 0.1, 44);
 
 	const iconSize = iconButtonSize * 0.55;
 
 	const pillMarginHorizontal = isTablet
-		? Math.min(screenWidth * 0.025, 24)
+		? Math.min(screenWidth * 0.025, 24) * tabletScale
 		: Math.min(screenWidth * 0.025, 12);
 
 	const pillPaddingVertical = isTablet
-		? Math.min(screenHeight * 0.014, 16)
+		? Math.min(screenHeight * 0.014, 16) * tabletScale
 		: Math.min(screenHeight * 0.009, 9);
 
 	const pillPaddingHorizontal = isTablet
-		? Math.min(screenWidth * 0.025, 24)
+		? Math.min(screenWidth * 0.025, 24) * tabletScale
 		: Math.min(screenWidth * 0.025, 12);
 
 	const pillFontSize = isTablet
-		? Math.min(screenWidth * 0.03, 26)
+		? Math.min(screenWidth * 0.03, 26) * tabletScale
 		: Math.min(screenWidth * 0.034, 14);
 
 	const actionsGap = isTablet
-		? Math.min(screenWidth * 0.025, 24)
+		? Math.min(screenWidth * 0.025, 24) * tabletScale
 		: Math.min(screenWidth * 0.02, 12);
 
 	const iconButtonRadius = iconButtonSize / 2;

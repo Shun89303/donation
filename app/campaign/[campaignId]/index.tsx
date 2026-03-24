@@ -24,7 +24,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function CampaignDetailsPage() {
 	const isTablet = useTablet();
 
-	const { width: screenWidth } = useWindowDimensions();
+	const { height: screenHeight, width: screenWidth } = useWindowDimensions();
+
+	// Define dynamic paddings based on screen size and platform
+	const horizontalPadding = screenWidth * 0.04; // ~4% of width
+	const topPadding = screenHeight * (isTablet ? 0.16 : 0.1); // ~10-12% of height
+	const bottomPadding =
+		screenHeight *
+		(isTablet ? (isAndroid ? 0.1 : 0.08) : isAndroid ? 0.11 : 0.09); // varies by device/platform
 
 	const bannerHeight = Math.min(
 		isTablet
@@ -74,7 +81,7 @@ export default function CampaignDetailsPage() {
 
 	return (
 		<SafeAreaView
-			style={[styles.container, { backgroundColor: colors.background }]}
+			style={[styles.container, { backgroundColor: colors.appBackground }]}
 		>
 			<StatusBar style="light" />
 			<Image
@@ -98,7 +105,11 @@ export default function CampaignDetailsPage() {
 			/>
 
 			<ScrollView
-				contentContainerStyle={styles.content}
+				contentContainerStyle={{
+					paddingHorizontal: horizontalPadding,
+					paddingTop: topPadding,
+					paddingBottom: bottomPadding,
+				}}
 				showsVerticalScrollIndicator={false}
 			>
 				<CampaignSummaryBlock colors={colors} campaign={campaign} />
@@ -167,11 +178,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		position: "relative",
-	},
-	content: {
-		paddingHorizontal: 16,
-		paddingTop: 100,
-		paddingBottom: 112,
 	},
 	banner: {
 		position: "absolute",

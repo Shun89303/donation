@@ -1,7 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
+import AnimatedProgressBar from "@/components/common/AnimatedProgressBar";
 import { CircleCheck, Clock, Users } from "lucide-react-native";
-import { useEffect } from "react";
 import {
 	Image,
 	Platform,
@@ -12,12 +12,6 @@ import {
 	ViewStyle,
 	type GestureResponderEvent,
 } from "react-native";
-import Animated, {
-	Easing,
-	useAnimatedStyle,
-	useSharedValue,
-	withTiming,
-} from "react-native-reanimated";
 import type { CampaignPost } from "../campaignTypes";
 import SupportButton from "./SupportButton";
 
@@ -48,22 +42,6 @@ export default function CampaignCard({
 	const paddingScale = isTablet ? 1.2 : isNarrowPhone ? 0.95 : 1.0;
 	const fontScale = isTablet ? 1.1 : isNarrowPhone ? 0.95 : 1.0;
 	const landscapeBoost = isLandscape ? 1.05 : 1.0;
-
-	const progressValue = useSharedValue(0);
-
-	useEffect(() => {
-		progressValue.value = withTiming(item.progress * 100, {
-			duration: 1000,
-			easing: Easing.out(Easing.quad),
-		});
-	}, [item.progress]);
-
-	const progressAnimStyle = useAnimatedStyle(
-		() => ({
-			width: `${progressValue.value}%`,
-		}),
-		[],
-	);
 
 	const handleSupportPress = (event: GestureResponderEvent) => {
 		event.stopPropagation();
@@ -183,29 +161,18 @@ export default function CampaignCard({
 						{item.title}
 					</Text>
 
-					<View
-						style={[
-							dynamicStyles.progressTrack,
-							{
-								backgroundColor: colors.secondaryGray,
-								borderColor: "transparent",
-								height: 10 * sizeScale,
-								borderRadius: 8 * sizeScale,
-								marginTop: 12 * paddingScale,
-							},
-						]}
-					>
-						<Animated.View
-							style={[
-								dynamicStyles.progressFill,
-								{
-									backgroundColor: colors.primaryGreen,
-									borderRadius: 8 * sizeScale,
-								},
-								progressAnimStyle,
-							]}
-						/>
-					</View>
+					<AnimatedProgressBar
+						colors={colors}
+						progress={item.progress}
+						trackStyle={{
+							height: 15 * sizeScale,
+							borderRadius: 8 * sizeScale,
+							marginTop: 12 * paddingScale,
+						}}
+						fillStyle={{
+							borderRadius: 8 * sizeScale,
+						}}
+					/>
 
 					<View
 						style={[
@@ -385,13 +352,7 @@ const dynamicStyles = StyleSheet.create({
 	campaignTitle: {
 		fontWeight: "700",
 	},
-	progressTrack: {
-		borderWidth: 0.5,
-		overflow: "hidden",
-	},
-	progressFill: {
-		height: "100%",
-	},
+
 	metaRow: {
 		flexDirection: "row",
 	},
