@@ -1,6 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
-import Feather from "@expo/vector-icons/Feather";
+import useTablet from "@/hooks/useTablet";
+import { ArrowLeft, BookmarkPlus, Share2 } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 
 type TopHeaderRowProps = {
@@ -22,31 +23,52 @@ export function TopHeaderRow({
 	onPressSave,
 	onPressShare,
 }: TopHeaderRowProps) {
+	const isTablet = useTablet();
+
 	return (
-		<View style={styles.topHeaderRow}>
+		<View
+			style={[
+				styles.topHeaderRow,
+				{
+					paddingHorizontal: isTablet ? 32 : 16,
+					paddingTop: isTablet ? 12 : 6,
+					paddingBottom: isTablet ? 12 : 6,
+				},
+			]}
+		>
 			<AnimatedPressable
 				onPress={onPressBack}
-				style={styles.iconButton}
+				style={[
+					styles.iconButton,
+					{
+						width: isTablet ? 72 : 36,
+						height: isTablet ? 72 : 36,
+					},
+				]}
 				pressedScale={1.2}
 				popScale={1}
 			>
-				<Feather name="arrow-left" size={20} color={colors.text} />
+				<ArrowLeft size={isTablet ? 40 : 20} color="white" />
 			</AnimatedPressable>
 
 			<View
 				style={[
 					styles.dayLeftPill,
 					{
-						backgroundColor: isUrgent
-							? colors.profileDanger
-							: colors.surfaceMuted,
+						backgroundColor: isUrgent ? colors.primaryRed : colors.background,
+						marginHorizontal: isTablet ? 20 : 10,
+						paddingVertical: isTablet ? 14 : 7,
+						paddingHorizontal: isTablet ? 20 : 10,
 					},
 				]}
 			>
 				<Text
 					style={[
 						styles.dayLeftPillText,
-						{ color: isUrgent ? colors.background : colors.text },
+						{
+							color: isUrgent ? "white" : colors.text,
+							fontSize: isTablet ? 24 : 12,
+						},
 					]}
 				>
 					{isUrgent
@@ -55,26 +77,44 @@ export function TopHeaderRow({
 				</Text>
 			</View>
 
-			<View style={styles.topActions}>
+			<View
+				style={[
+					styles.topActions,
+					{
+						gap: isTablet ? 20 : 10,
+					},
+				]}
+			>
 				<AnimatedPressable
-					style={styles.iconButton}
+					style={[
+						styles.iconButton,
+						{
+							width: isTablet ? 72 : 36,
+							height: isTablet ? 72 : 36,
+						},
+					]}
 					onPress={onPressSave}
 					pressedScale={1.2}
 					popScale={1}
 				>
-					<Feather
-						name="bookmark"
-						size={20}
-						color={isSaved ? colors.primaryGreen : colors.text}
+					<BookmarkPlus
+						size={isTablet ? 40 : 20}
+						color={isSaved ? colors.primaryGreen : "white"}
 					/>
 				</AnimatedPressable>
 				<AnimatedPressable
-					style={styles.iconButton}
+					style={[
+						styles.iconButton,
+						{
+							width: isTablet ? 72 : 36,
+							height: isTablet ? 72 : 36,
+						},
+					]}
 					onPress={onPressShare}
 					pressedScale={1.2}
 					popScale={1}
 				>
-					<Feather name="share-2" size={20} color={colors.text} />
+					<Share2 size={isTablet ? 40 : 20} color="white" />
 				</AnimatedPressable>
 			</View>
 		</View>
@@ -83,9 +123,6 @@ export function TopHeaderRow({
 
 const styles = StyleSheet.create({
 	topHeaderRow: {
-		paddingHorizontal: 16,
-		paddingTop: 6,
-		paddingBottom: 6,
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
@@ -95,21 +132,18 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	iconButton: {
-		width: 36,
-		height: 36,
+		borderRadius: 99,
+		backgroundColor: "rgba(0,0,0,0.35)",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	dayLeftPill: {
 		flex: 1,
-		marginHorizontal: 10,
 		borderRadius: 999,
-		paddingVertical: 7,
-		paddingHorizontal: 10,
+
 		alignItems: "center",
 	},
 	dayLeftPillText: {
-		fontSize: 12,
 		fontWeight: "700",
 	},
 });

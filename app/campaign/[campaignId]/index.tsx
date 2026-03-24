@@ -9,11 +9,15 @@ import { ProofsSection } from "@/components/campaign/ProofsSection";
 import { TopHeaderRow } from "@/components/campaign/TopHeaderRow";
 import { UpdatesSection } from "@/components/campaign/UpdatesSection";
 import { useCampaignDetails } from "@/hooks/useCampaignDetails";
+import useTablet from "@/hooks/useTablet";
 import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { Image, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CampaignDetailsPage() {
+	const isTablet = useTablet();
+
 	const {
 		campaign,
 		colors,
@@ -53,6 +57,17 @@ export default function CampaignDetailsPage() {
 		<SafeAreaView
 			style={[styles.container, { backgroundColor: colors.background }]}
 		>
+			<StatusBar style="light" />
+			<Image
+				source={{ uri: campaign.imageUri }}
+				style={[
+					styles.banner,
+					{
+						height: isTablet ? 450 : 250,
+					},
+				]}
+			/>
+
 			<TopHeaderRow
 				colors={colors}
 				daysLeft={campaign.daysLeft}
@@ -67,8 +82,6 @@ export default function CampaignDetailsPage() {
 				contentContainerStyle={styles.content}
 				showsVerticalScrollIndicator={false}
 			>
-				<Image source={{ uri: campaign.imageUri }} style={styles.banner} />
-
 				<CampaignSummaryBlock colors={colors} campaign={campaign} />
 
 				<GallerySection
@@ -134,15 +147,19 @@ export default function CampaignDetailsPage() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		position: "relative",
 	},
 	content: {
 		paddingHorizontal: 16,
-		paddingTop: 8,
+		paddingTop: 100,
 		paddingBottom: 112,
 	},
 	banner: {
-		width: "100%",
-		height: 220,
-		borderRadius: 16,
+		position: "absolute",
+		maxWidth: "100%",
+		top: 0,
+		left: 0,
+		right: 0,
+		objectFit: "cover",
 	},
 });

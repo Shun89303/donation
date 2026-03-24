@@ -1,5 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
-import useDonateTablet from "@/hooks/useDonateTablet";
+import useTablet from "@/hooks/useTablet";
 import { Award, X } from "lucide-react-native";
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import PopPressable from "../PopPressable";
@@ -15,7 +15,7 @@ export default function CertificateHeader({
 }: CertificateHeaderProps) {
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
 
-	const isTablet = useDonateTablet();
+	const isTablet = useTablet();
 
 	const closeButtonWidth = isTablet ? screenWidth * 0.055 : screenWidth * 0.09;
 	const closeButtonHeight = closeButtonWidth; // square button

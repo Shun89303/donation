@@ -1,5 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
-import useDonateTablet from "@/hooks/useDonateTablet";
+import useTablet from "@/hooks/useTablet";
 import { Download, Share2 } from "lucide-react-native";
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import PopPressable from "../PopPressable";
@@ -17,7 +17,7 @@ export default function CertificateActions({
 }: CertificateActionsProps) {
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
 
-	const isTablet = useDonateTablet();
+	const isTablet = useTablet();
 
 	const actionRowMarginVertical = isTablet
 		? screenHeight * 0.005

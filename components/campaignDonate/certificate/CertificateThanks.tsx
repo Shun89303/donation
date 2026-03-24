@@ -1,5 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
-import useDonateTablet from "@/hooks/useDonateTablet";
+import useTablet from "@/hooks/useTablet";
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 type CertificateThanksProps = {
@@ -9,7 +9,7 @@ type CertificateThanksProps = {
 export default function CertificateThanks({ colors }: CertificateThanksProps) {
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
 
-	const isTablet = useDonateTablet();
+	const isTablet = useTablet();
 
 	const thanksRowMarginTop = isTablet
 		? screenHeight * 0.018

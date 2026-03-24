@@ -1,5 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
-import useDonateTablet from "@/hooks/useDonateTablet";
+import useTablet from "@/hooks/useTablet";
 import { CircleCheck } from "lucide-react-native";
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import CertificateFrame from "./CertificateFrame";
@@ -31,7 +31,7 @@ export default function CertificateDetailsBlock({
 }: CertificateDetailsBlockProps) {
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
 
-	const isTablet = useDonateTablet();
+	const isTablet = useTablet();
 
 	function DetailRow({ colors, label, value }: DetailRowProps) {
 		return (

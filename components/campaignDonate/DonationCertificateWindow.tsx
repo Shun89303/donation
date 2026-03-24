@@ -1,5 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
-import useDonateTablet from "@/hooks/useDonateTablet";
+import useTablet from "@/hooks/useTablet";
 import { useEffect, useRef } from "react";
 import {
 	Animated,
@@ -44,7 +44,7 @@ export default function DonationCertificateWindow({
 
 	const expandAnim = useRef(new Animated.Value(visible ? 1 : 0)).current;
 
-	const isTablet = useDonateTablet();
+	const isTablet = useTablet();
 
 	const expandedMaxHeight = Math.min(
 		isTablet ? screenHeight * 0.88 : screenHeight * 0.8,

@@ -1,5 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
-import useDonateTablet from "@/hooks/useDonateTablet";
+import useTablet from "@/hooks/useTablet";
 import React from "react";
 import {
 	StyleSheet,
@@ -31,7 +31,7 @@ export default function CertificateFrame({
 }: CertificateFrameProps) {
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
 
-	const isTablet = useDonateTablet();
+	const isTablet = useTablet();
 
 	const containerBorderRadius = isTablet
 		? screenWidth * 0.03
