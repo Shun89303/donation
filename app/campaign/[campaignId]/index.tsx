@@ -8,15 +8,34 @@ import { OrgSection } from "@/components/campaign/OrgSection";
 import { ProofsSection } from "@/components/campaign/ProofsSection";
 import { TopHeaderRow } from "@/components/campaign/TopHeaderRow";
 import { UpdatesSection } from "@/components/campaign/UpdatesSection";
+import isAndroid from "@/components/constants/isAndroid";
 import { useCampaignDetails } from "@/hooks/useCampaignDetails";
 import useTablet from "@/hooks/useTablet";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { Image, ScrollView, StyleSheet } from "react-native";
+import {
+	Image,
+	ScrollView,
+	StyleSheet,
+	useWindowDimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CampaignDetailsPage() {
 	const isTablet = useTablet();
+
+	const { width: screenWidth } = useWindowDimensions();
+
+	const bannerHeight = Math.min(
+		isTablet
+			? isAndroid
+				? screenWidth * 0.4
+				: screenWidth * 0.42
+			: isAndroid
+				? screenWidth * 0.6
+				: screenWidth * 0.62,
+		isTablet ? 520 : 320,
+	);
 
 	const {
 		campaign,
@@ -63,7 +82,7 @@ export default function CampaignDetailsPage() {
 				style={[
 					styles.banner,
 					{
-						height: isTablet ? 450 : 250,
+						height: bannerHeight,
 					},
 				]}
 			/>

@@ -2,7 +2,7 @@ import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
 import useTablet from "@/hooks/useTablet";
 import { ArrowLeft, BookmarkPlus, Share2 } from "lucide-react-native";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 type TopHeaderRowProps = {
 	colors: ThemeColors;
@@ -24,15 +24,56 @@ export function TopHeaderRow({
 	onPressShare,
 }: TopHeaderRowProps) {
 	const isTablet = useTablet();
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+
+	const headerPaddingHorizontal = isTablet
+		? Math.min(screenWidth * 0.04, 40)
+		: Math.min(screenWidth * 0.045, 20);
+
+	const headerPaddingTop = isTablet
+		? Math.min(screenHeight * 0.012, 16)
+		: Math.min(screenHeight * 0.008, 10);
+
+	const headerPaddingBottom = isTablet
+		? Math.min(screenHeight * 0.012, 16)
+		: Math.min(screenHeight * 0.008, 10);
+
+	const iconButtonSize = isTablet
+		? Math.min(screenWidth * 0.085, 78)
+		: Math.min(screenWidth * 0.1, 44);
+
+	const iconSize = iconButtonSize * 0.55;
+
+	const pillMarginHorizontal = isTablet
+		? Math.min(screenWidth * 0.025, 24)
+		: Math.min(screenWidth * 0.025, 12);
+
+	const pillPaddingVertical = isTablet
+		? Math.min(screenHeight * 0.014, 16)
+		: Math.min(screenHeight * 0.009, 9);
+
+	const pillPaddingHorizontal = isTablet
+		? Math.min(screenWidth * 0.025, 24)
+		: Math.min(screenWidth * 0.025, 12);
+
+	const pillFontSize = isTablet
+		? Math.min(screenWidth * 0.03, 26)
+		: Math.min(screenWidth * 0.034, 14);
+
+	const actionsGap = isTablet
+		? Math.min(screenWidth * 0.025, 24)
+		: Math.min(screenWidth * 0.02, 12);
+
+	const iconButtonRadius = iconButtonSize / 2;
 
 	return (
 		<View
 			style={[
 				styles.topHeaderRow,
 				{
-					paddingHorizontal: isTablet ? 32 : 16,
-					paddingTop: isTablet ? 12 : 6,
-					paddingBottom: isTablet ? 12 : 6,
+					paddingHorizontal: headerPaddingHorizontal,
+					paddingTop: headerPaddingTop,
+					paddingBottom: headerPaddingBottom,
 				},
 			]}
 		>
@@ -41,14 +82,15 @@ export function TopHeaderRow({
 				style={[
 					styles.iconButton,
 					{
-						width: isTablet ? 72 : 36,
-						height: isTablet ? 72 : 36,
+						width: iconButtonSize,
+						height: iconButtonSize,
+						borderRadius: iconButtonRadius,
 					},
 				]}
 				pressedScale={1.2}
 				popScale={1}
 			>
-				<ArrowLeft size={isTablet ? 40 : 20} color="white" />
+				<ArrowLeft size={iconSize} color="white" />
 			</AnimatedPressable>
 
 			<View
@@ -56,9 +98,9 @@ export function TopHeaderRow({
 					styles.dayLeftPill,
 					{
 						backgroundColor: isUrgent ? colors.primaryRed : colors.background,
-						marginHorizontal: isTablet ? 20 : 10,
-						paddingVertical: isTablet ? 14 : 7,
-						paddingHorizontal: isTablet ? 20 : 10,
+						marginHorizontal: pillMarginHorizontal,
+						paddingVertical: pillPaddingVertical,
+						paddingHorizontal: pillPaddingHorizontal,
 					},
 				]}
 			>
@@ -67,7 +109,7 @@ export function TopHeaderRow({
 						styles.dayLeftPillText,
 						{
 							color: isUrgent ? "white" : colors.text,
-							fontSize: isTablet ? 24 : 12,
+							fontSize: pillFontSize,
 						},
 					]}
 				>
@@ -81,7 +123,7 @@ export function TopHeaderRow({
 				style={[
 					styles.topActions,
 					{
-						gap: isTablet ? 20 : 10,
+						gap: actionsGap,
 					},
 				]}
 			>
@@ -89,8 +131,9 @@ export function TopHeaderRow({
 					style={[
 						styles.iconButton,
 						{
-							width: isTablet ? 72 : 36,
-							height: isTablet ? 72 : 36,
+							width: iconButtonSize,
+							height: iconButtonSize,
+							borderRadius: iconButtonRadius,
 						},
 					]}
 					onPress={onPressSave}
@@ -98,7 +141,7 @@ export function TopHeaderRow({
 					popScale={1}
 				>
 					<BookmarkPlus
-						size={isTablet ? 40 : 20}
+						size={iconSize}
 						color={isSaved ? colors.primaryGreen : "white"}
 					/>
 				</AnimatedPressable>
@@ -106,15 +149,16 @@ export function TopHeaderRow({
 					style={[
 						styles.iconButton,
 						{
-							width: isTablet ? 72 : 36,
-							height: isTablet ? 72 : 36,
+							width: iconButtonSize,
+							height: iconButtonSize,
+							borderRadius: iconButtonRadius,
 						},
 					]}
 					onPress={onPressShare}
 					pressedScale={1.2}
 					popScale={1}
 				>
-					<Share2 size={isTablet ? 40 : 20} color="white" />
+					<Share2 size={iconSize} color="white" />
 				</AnimatedPressable>
 			</View>
 		</View>
