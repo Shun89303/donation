@@ -1,4 +1,5 @@
 import type { ThemeColors } from "@/app/_theme";
+import { useCollapsibleLayout } from "@/hooks/useCollapsibleLayout";
 import { usePressScale } from "@/hooks/usePressScale";
 import useTablet from "@/hooks/useTablet";
 import globalStyles from "@/styles/styles";
@@ -40,6 +41,7 @@ export function GallerySection({
 	const isTablet = useTablet();
 	const { width } = useWindowDimensions();
 	const { animatedStyle, pressIn, pressOut } = usePressScale();
+	const useLayout = useCollapsibleLayout();
 
 	// Scale factor for tablets to reduce oversized UI
 	const tabletScale = 0.8;
@@ -102,8 +104,6 @@ export function GallerySection({
 		onToggle();
 	};
 
-	// Dynamic font sizes
-	const titleFontSize = isTablet ? width * 0.035 * tabletScale : width * 0.04;
 	const countFontSize = isTablet ? width * 0.025 * tabletScale : width * 0.035;
 	const emptyFontSize = isTablet ? width * 0.03 * tabletScale : width * 0.035;
 	const iconSize = isTablet ? width * 0.04 * tabletScale : width * 0.05;
@@ -116,9 +116,9 @@ export function GallerySection({
 				{
 					borderColor: colors.secondaryGray,
 					backgroundColor: colors.background,
-					padding: layout.cardHorizontalPadding,
-					marginTop: isTablet ? 28 * tabletScale : 14,
-					borderRadius: isTablet ? 28 * tabletScale : 14,
+					padding: useLayout.cardPadding,
+					marginTop: useLayout.cardMarginTop,
+					borderRadius: useLayout.cardBorderRadius,
 					...globalStyles.shadows,
 				},
 			]}
@@ -136,8 +136,8 @@ export function GallerySection({
 							styles.sectionTitle,
 							{
 								color: colors.text,
-								fontSize: titleFontSize,
-								marginLeft: isTablet ? 14 * tabletScale : 7,
+								fontSize: useLayout.titleFontSize,
+								marginLeft: useLayout.titleMarginLeft,
 							},
 						]}
 					>
@@ -150,17 +150,20 @@ export function GallerySection({
 							styles.countBadge,
 							{
 								backgroundColor: colors.secondaryGreen,
-								minWidth: isTablet ? 48 * tabletScale : 24,
-								height: isTablet ? 48 * tabletScale : 24,
-								paddingHorizontal: isTablet ? 14 * tabletScale : 7,
-								marginRight: isTablet ? 12 * tabletScale : 6,
+								minWidth: useLayout.badgeMinWidth,
+								height: useLayout.badgeHeight,
+								paddingHorizontal: useLayout.badgePaddingHorizontal,
+								marginRight: useLayout.badgeMarginRight,
 							},
 						]}
 					>
 						<Text
 							style={[
 								styles.countBadgeText,
-								{ color: colors.primaryGreen, fontSize: countFontSize },
+								{
+									color: colors.primaryGreen,
+									fontSize: useLayout.countFontSize,
+								},
 							]}
 						>
 							{hasNoImages ? 0 : displayCount}
