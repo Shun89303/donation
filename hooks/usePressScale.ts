@@ -13,7 +13,7 @@ export function usePressScale() {
 	}));
 
 	const pressIn = () => {
-		scale.value = withSpring(0.7);
+		scale.value = withSpring(0.96);
 	};
 
 	const pressOut = () => {

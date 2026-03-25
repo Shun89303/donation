@@ -1,8 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import type { CampaignPost } from "@/components/home/campaignTypes";
 import Feather from "@expo/vector-icons/Feather";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { CollapsibleSection } from "./CollapsibleSection";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type OrgSectionProps = {
 	colors: ThemeColors;
@@ -18,125 +17,173 @@ export function OrgSection({
 	onToggle,
 }: OrgSectionProps) {
 	return (
-		<CollapsibleSection
-			icon="award"
-			title="Organization Verification"
-			open={isOpen}
-			onToggle={onToggle}
-			colors={colors}
+		<View
+			style={[
+				styles.card,
+				{
+					borderColor: colors.tabInactive,
+					backgroundColor: colors.background,
+				},
+			]}
 		>
-			<View style={styles.orgRow}>
-				<Image
-					source={{ uri: campaign.orgProfileImageUri }}
-					style={styles.orgAvatar}
-				/>
-				<View style={styles.orgMetaWrap}>
-					<View style={styles.orgNameRow}>
-						<Text
-							style={[styles.orgName, { color: colors.text }]}
-							numberOfLines={1}
-						>
-							{campaign.orgName}
-						</Text>
-						{campaign.isOrgVerified ? (
-							<Feather
-								name="check-circle"
-								size={16}
-								color={colors.primaryGreen}
-							/>
-						) : (
-							<Feather
-								name="x-circle"
-								size={16}
-								color={colors.placeholderMuted}
-							/>
-						)}
-					</View>
-					<Text
-						style={[styles.memberSince, { color: colors.placeholderMuted }]}
-					>
-						Member since {campaign.orgMemberSinceYear}
+			<Pressable style={styles.collapsibleHeader}>
+				<View style={styles.sectionHeaderLeft}>
+					<Feather name="award" size={16} color={colors.primaryGreen} />
+					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+						Organization Verification
 					</Text>
 				</View>
-			</View>
-
-			<View
-				style={[
-					styles.orgStats,
-					{
-						borderTopColor: colors.tabInactive,
-						borderBottomColor: colors.tabInactive,
-					},
-				]}
-			>
-				<View style={styles.orgStatColumn}>
-					<Text style={[styles.orgStatPrimary, { color: colors.text }]}>
-						{campaign.orgRating.toFixed(1)}
-					</Text>
-					<Text
-						style={[
-							styles.orgStatSecondary,
-							{ color: colors.placeholderMuted },
-						]}
-					>
-						{campaign.orgReviewsCount} reviews
-					</Text>
-				</View>
-				<View style={styles.orgStatColumn}>
-					<Text style={[styles.orgStatPrimary, { color: colors.text }]}>
-						{campaign.orgCampaignsCompleted}
-					</Text>
-					<Text
-						style={[
-							styles.orgStatSecondary,
-							{ color: colors.placeholderMuted },
-						]}
-					>
-						campaigns
-					</Text>
-				</View>
-				<View style={styles.orgStatColumn}>
+				<View style={styles.sectionHeaderRight}>
 					<Feather
-						name={campaign.isOrgVerified ? "check-circle" : "x-circle"}
-						size={16}
-						color={
-							campaign.isOrgVerified
-								? colors.primaryGreen
-								: colors.profileDanger || colors.placeholderMuted // Fallback
-						}
+						name="chevron-down"
+						size={18}
+						color={colors.placeholderMuted}
 					/>
+				</View>
+			</Pressable>
+			<View style={styles.sectionContent}>
+				<View style={styles.orgRow}>
+					<Image
+						source={{ uri: campaign.orgProfileImageUri }}
+						style={styles.orgAvatar}
+					/>
+					<View style={styles.orgMetaWrap}>
+						<View style={styles.orgNameRow}>
+							<Text
+								style={[styles.orgName, { color: colors.text }]}
+								numberOfLines={1}
+							>
+								{campaign.orgName}
+							</Text>
+							{campaign.isOrgVerified ? (
+								<Feather
+									name="check-circle"
+									size={16}
+									color={colors.primaryGreen}
+								/>
+							) : (
+								<Feather
+									name="x-circle"
+									size={16}
+									color={colors.placeholderMuted}
+								/>
+							)}
+						</View>
+						<Text
+							style={[styles.memberSince, { color: colors.placeholderMuted }]}
+						>
+							Member since {campaign.orgMemberSinceYear}
+						</Text>
+					</View>
+				</View>
+
+				<View
+					style={[
+						styles.orgStats,
+						{
+							borderTopColor: colors.tabInactive,
+							borderBottomColor: colors.tabInactive,
+						},
+					]}
+				>
+					<View style={styles.orgStatColumn}>
+						<Text style={[styles.orgStatPrimary, { color: colors.text }]}>
+							{campaign.orgRating.toFixed(1)}
+						</Text>
+						<Text
+							style={[
+								styles.orgStatSecondary,
+								{ color: colors.placeholderMuted },
+							]}
+						>
+							{campaign.orgReviewsCount} reviews
+						</Text>
+					</View>
+					<View style={styles.orgStatColumn}>
+						<Text style={[styles.orgStatPrimary, { color: colors.text }]}>
+							{campaign.orgCampaignsCompleted}
+						</Text>
+						<Text
+							style={[
+								styles.orgStatSecondary,
+								{ color: colors.placeholderMuted },
+							]}
+						>
+							campaigns
+						</Text>
+					</View>
+					<View style={styles.orgStatColumn}>
+						<Feather
+							name={campaign.isOrgVerified ? "check-circle" : "x-circle"}
+							size={16}
+							color={
+								campaign.isOrgVerified
+									? colors.primaryGreen
+									: colors.profileDanger || colors.placeholderMuted // Fallback
+							}
+						/>
+						<Text
+							style={[
+								styles.orgStatSecondary,
+								{ color: colors.placeholderMuted },
+							]}
+						>
+							{campaign.isOrgVerified ? "verified" : "not verified"}
+						</Text>
+					</View>
+				</View>
+
+				<View
+					style={[
+						styles.licenseBlock,
+						{
+							backgroundColor: colors.surfaceMuted,
+							borderColor: colors.tabInactive,
+						},
+					]}
+				>
 					<Text
-						style={[
-							styles.orgStatSecondary,
-							{ color: colors.placeholderMuted },
-						]}
+						style={[styles.licenseLabel, { color: colors.placeholderMuted }]}
 					>
-						{campaign.isOrgVerified ? "verified" : "not verified"}
+						License Number
+					</Text>
+					<Text style={[styles.licenseValue, { color: colors.text }]}>
+						{campaign.orgLicenseNumber}
 					</Text>
 				</View>
 			</View>
-
-			<View
-				style={[
-					styles.licenseBlock,
-					{
-						backgroundColor: colors.surfaceMuted,
-						borderColor: colors.tabInactive,
-					},
-				]}
-			>
-				<Text style={[styles.licenseLabel, { color: colors.placeholderMuted }]}>
-					License Number
-				</Text>
-				<Text style={[styles.licenseValue, { color: colors.text }]}>
-					{campaign.orgLicenseNumber}
-				</Text>
-			</View>
-		</CollapsibleSection>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	card: {
+		marginTop: 14,
+		borderWidth: 1,
+		borderRadius: 14,
+		padding: 12,
+	},
+	collapsibleHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+	sectionHeaderLeft: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	sectionHeaderRight: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	sectionTitle: {
+		fontSize: 15,
+		fontWeight: "700",
+		marginLeft: 7,
+	},
+	sectionContent: {
+		marginTop: 12,
+	},
 	orgRow: {
 		flexDirection: "row",
 		alignItems: "center",

@@ -3,8 +3,14 @@ import AnimatedPressable from "@/components/common/AnimatedPressable";
 import type { DonorCommentItem } from "@/components/home/campaignTypes";
 import { getRelativeTimeLabel } from "@/utils/campaignDetailsUtils";
 import Feather from "@expo/vector-icons/Feather";
-import { Image, StyleSheet, Text, TextInput, View } from "react-native";
-import { CollapsibleSection } from "./CollapsibleSection";
+import {
+	Image,
+	Pressable,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+} from "react-native";
 
 type CommentsSectionProps = {
 	colors: ThemeColors;
@@ -26,92 +32,166 @@ export function CommentsSection({
 	onToggle,
 }: CommentsSectionProps) {
 	return (
-		<CollapsibleSection
-			icon="message-circle"
-			title="Donor Comments"
-			open={isOpen}
-			onToggle={onToggle}
-			colors={colors}
-			badgeCount={comments.length}
+		<View
+			style={[
+				styles.card,
+				{
+					borderColor: colors.tabInactive,
+					backgroundColor: colors.background,
+				},
+			]}
 		>
-			<View style={styles.commentsList}>
-				{comments.map((comment) => (
+			<Pressable style={styles.collapsibleHeader}>
+				<View style={styles.sectionHeaderLeft}>
+					<Feather
+						name="message-circle"
+						size={16}
+						color={colors.primaryGreen}
+					/>
+					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+						Donor Comments
+					</Text>
+				</View>
+				<View style={styles.sectionHeaderRight}>
 					<View
-						key={comment.id}
 						style={[
-							styles.commentItem,
-							{ borderBottomColor: colors.tabInactive },
+							styles.countBadge,
+							{ backgroundColor: colors.alertBadgeBackground },
 						]}
 					>
-						<View style={styles.commentTopRow}>
-							<Image
-								source={{ uri: comment.authorAvatarUri }}
-								style={styles.commentAvatar}
-							/>
-							<View style={styles.commentMetaWrap}>
-								<Text style={[styles.commentAuthor, { color: colors.text }]}>
-									{comment.author}
-									<Text
-										style={[
-											styles.commentTime,
-											{ color: colors.placeholderMuted },
-										]}
-									>
-										· {getRelativeTimeLabel(comment.createdAtIso)}
+						<Text
+							style={[styles.countBadgeText, { color: colors.alertBadgeText }]}
+						>
+							{comments.length}
+						</Text>
+					</View>
+					<Feather
+						name="chevron-down"
+						size={18}
+						color={colors.placeholderMuted}
+					/>
+				</View>
+			</Pressable>
+			<View style={styles.sectionContent}>
+				<View style={styles.commentsList}>
+					{comments.map((comment) => (
+						<View
+							key={comment.id}
+							style={[
+								styles.commentItem,
+								{ borderBottomColor: colors.tabInactive },
+							]}
+						>
+							<View style={styles.commentTopRow}>
+								<Image
+									source={{ uri: comment.authorAvatarUri }}
+									style={styles.commentAvatar}
+								/>
+								<View style={styles.commentMetaWrap}>
+									<Text style={[styles.commentAuthor, { color: colors.text }]}>
+										{comment.author}
+										<Text
+											style={[
+												styles.commentTime,
+												{ color: colors.placeholderMuted },
+											]}
+										>
+											· {getRelativeTimeLabel(comment.createdAtIso)}
+										</Text>
 									</Text>
-								</Text>
-								<Text style={[styles.commentMessage, { color: colors.text }]}>
-									{comment.message}
-								</Text>
-								<View style={styles.likeRow}>
-									<Feather
-										name="heart"
-										size={14}
-										color={colors.placeholderMuted}
-									/>
-									<Text
-										style={[
-											styles.likeCountText,
-											{ color: colors.placeholderMuted },
-										]}
-									>
-										{comment.likeCount}
+									<Text style={[styles.commentMessage, { color: colors.text }]}>
+										{comment.message}
 									</Text>
+									<View style={styles.likeRow}>
+										<Feather
+											name="heart"
+											size={14}
+											color={colors.placeholderMuted}
+										/>
+										<Text
+											style={[
+												styles.likeCountText,
+												{ color: colors.placeholderMuted },
+											]}
+										>
+											{comment.likeCount}
+										</Text>
+									</View>
 								</View>
 							</View>
 						</View>
-					</View>
-				))}
-			</View>
+					))}
+				</View>
 
-			<View
-				style={[
-					styles.commentInputRow,
-					{
-						borderColor: colors.tabInactive,
-						backgroundColor: colors.surfaceMuted,
-					},
-				]}
-			>
-				<TextInput
-					placeholder="Write a comment"
-					placeholderTextColor={colors.placeholderMuted}
-					style={[styles.commentInput, { color: colors.text }]}
-					value={commentInput}
-					onChangeText={onChangeCommentInput}
-				/>
-				<AnimatedPressable
-					style={styles.commentSendButton}
-					onPress={onSendComment}
+				<View
+					style={[
+						styles.commentInputRow,
+						{
+							borderColor: colors.tabInactive,
+							backgroundColor: colors.surfaceMuted,
+						},
+					]}
 				>
-					<Feather name="send" size={16} color={colors.primaryGreen} />
-				</AnimatedPressable>
+					<TextInput
+						placeholder="Write a comment"
+						placeholderTextColor={colors.placeholderMuted}
+						style={[styles.commentInput, { color: colors.text }]}
+						value={commentInput}
+						onChangeText={onChangeCommentInput}
+					/>
+					<AnimatedPressable
+						style={styles.commentSendButton}
+						onPress={onSendComment}
+					>
+						<Feather name="send" size={16} color={colors.primaryGreen} />
+					</AnimatedPressable>
+				</View>
 			</View>
-		</CollapsibleSection>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	card: {
+		marginTop: 14,
+		borderWidth: 1,
+		borderRadius: 14,
+		padding: 12,
+	},
+	collapsibleHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+	sectionHeaderLeft: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	sectionHeaderRight: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	sectionTitle: {
+		fontSize: 15,
+		fontWeight: "700",
+		marginLeft: 7,
+	},
+	countBadge: {
+		minWidth: 24,
+		height: 24,
+		paddingHorizontal: 7,
+		borderRadius: 999,
+		alignItems: "center",
+		justifyContent: "center",
+		marginRight: 6,
+	},
+	countBadgeText: {
+		fontSize: 12,
+		fontWeight: "700",
+	},
+	sectionContent: {
+		marginTop: 12,
+	},
 	commentsList: {
 		marginTop: 2,
 	},

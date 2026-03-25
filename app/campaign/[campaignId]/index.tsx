@@ -69,7 +69,6 @@ export default function CampaignDetailsPage() {
 		neededAmount,
 		totalSpentLabel,
 		visibleGalleryImages,
-		extraGalleryCount,
 		donorsOrdinal,
 	} = useCampaignDetails();
 
@@ -118,10 +117,8 @@ export default function CampaignDetailsPage() {
 					colors={colors}
 					galleryImageUris={campaign.galleryImageUris}
 					visibleGalleryImages={visibleGalleryImages}
-					extraGalleryCount={extraGalleryCount}
 					isOpen={isGalleryOpen}
 					onToggle={toggleGallery}
-					onShowAll={() => {}}
 				/>
 
 				<UpdatesSection

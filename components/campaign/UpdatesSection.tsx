@@ -1,7 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import type { CampaignUpdateItem } from "@/components/home/campaignTypes";
-import { StyleSheet, Text, View } from "react-native";
-import { CollapsibleSection } from "./CollapsibleSection";
+import Feather from "@expo/vector-icons/Feather";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type UpdatesSectionProps = {
 	colors: ThemeColors;
@@ -18,47 +18,163 @@ export function UpdatesSection({
 }: UpdatesSectionProps) {
 	if (updates.length === 0) {
 		return (
-			<CollapsibleSection
-				icon="message-square"
-				title="Campaign Updates"
-				badgeCount={0}
-				open={isOpen}
-				onToggle={onToggle}
-				colors={colors}
+			<View
+				style={[
+					styles.card,
+					{
+						borderColor: colors.tabInactive,
+						backgroundColor: colors.background,
+					},
+				]}
 			>
-				<Text
-					style={[styles.emptySectionText, { color: colors.placeholderMuted }]}
-				>
-					No updates available.
-				</Text>
-			</CollapsibleSection>
+				<Pressable style={styles.collapsibleHeader}>
+					<View style={styles.sectionHeaderLeft}>
+						<Feather
+							name="message-square"
+							size={16}
+							color={colors.primaryGreen}
+						/>
+						<Text style={[styles.sectionTitle, { color: colors.text }]}>
+							Campaign Updates
+						</Text>
+					</View>
+					<View style={styles.sectionHeaderRight}>
+						<View
+							style={[
+								styles.countBadge,
+								{ backgroundColor: colors.alertBadgeBackground },
+							]}
+						>
+							<Text
+								style={[
+									styles.countBadgeText,
+									{ color: colors.alertBadgeText },
+								]}
+							>
+								0
+							</Text>
+						</View>
+						<Feather
+							name="chevron-down"
+							size={18}
+							color={colors.placeholderMuted}
+						/>
+					</View>
+				</Pressable>
+				<View style={styles.sectionContent}>
+					<Text
+						style={[
+							styles.emptySectionText,
+							{ color: colors.placeholderMuted },
+						]}
+					>
+						No updates available.
+					</Text>
+				</View>
+			</View>
 		);
 	}
 
 	return (
-		<CollapsibleSection
-			icon="message-square"
-			title="Campaign Updates"
-			badgeCount={updates.length}
-			open={isOpen}
-			onToggle={onToggle}
-			colors={colors}
+		<View
+			style={[
+				styles.card,
+				{
+					borderColor: colors.tabInactive,
+					backgroundColor: colors.background,
+				},
+			]}
 		>
-			{updates.map((update) => (
-				<View key={update.id} style={styles.updateItem}>
-					<Text style={[styles.updateDate, { color: colors.placeholderMuted }]}>
-						{update.dateLabel}
-					</Text>
-					<Text style={[styles.updateMessageBold, { color: colors.text }]}>
-						{update.message}
+			<Pressable style={styles.collapsibleHeader}>
+				<View style={styles.sectionHeaderLeft}>
+					<Feather
+						name="message-square"
+						size={16}
+						color={colors.primaryGreen}
+					/>
+					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+						Campaign Updates
 					</Text>
 				</View>
-			))}
-		</CollapsibleSection>
+				<View style={styles.sectionHeaderRight}>
+					<View
+						style={[
+							styles.countBadge,
+							{ backgroundColor: colors.alertBadgeBackground },
+						]}
+					>
+						<Text
+							style={[styles.countBadgeText, { color: colors.alertBadgeText }]}
+						>
+							{updates.length}
+						</Text>
+					</View>
+					<Feather
+						name="chevron-down"
+						size={18}
+						color={colors.placeholderMuted}
+					/>
+				</View>
+			</Pressable>
+			<View style={styles.sectionContent}>
+				{updates.map((update) => (
+					<View key={update.id} style={styles.updateItem}>
+						<Text
+							style={[styles.updateDate, { color: colors.placeholderMuted }]}
+						>
+							{update.dateLabel}
+						</Text>
+						<Text style={[styles.updateMessageBold, { color: colors.text }]}>
+							{update.message}
+						</Text>
+					</View>
+				))}
+			</View>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	card: {
+		marginTop: 14,
+		borderWidth: 1,
+		borderRadius: 14,
+		padding: 12,
+	},
+	collapsibleHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+	sectionHeaderLeft: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	sectionHeaderRight: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	sectionTitle: {
+		fontSize: 15,
+		fontWeight: "700",
+		marginLeft: 7,
+	},
+	countBadge: {
+		minWidth: 24,
+		height: 24,
+		paddingHorizontal: 7,
+		borderRadius: 999,
+		alignItems: "center",
+		justifyContent: "center",
+		marginRight: 6,
+	},
+	countBadgeText: {
+		fontSize: 12,
+		fontWeight: "700",
+	},
+	sectionContent: {
+		marginTop: 12,
+	},
 	updateItem: {
 		marginBottom: 12,
 	},

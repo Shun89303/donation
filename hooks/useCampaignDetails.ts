@@ -23,7 +23,6 @@ export type UseCampaignDetailsReturn = {
 	neededAmount: number;
 	totalSpentLabel: string;
 	visibleGalleryImages: string[];
-	extraGalleryCount: number;
 	comments: DonorCommentItem[];
 	commentInput: string;
 	setCommentInput: (text: string) => void;
@@ -55,7 +54,6 @@ export function useCampaignDetails() {
 	const [isSaved, setIsSaved] = useState(false);
 	const [comments, setComments] = useState<DonorCommentItem[]>([]);
 	const [commentInput, setCommentInput] = useState("");
-
 	const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 	const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
 	const [isExpenseOpen, setIsExpenseOpen] = useState(false);
@@ -91,10 +89,6 @@ export function useCampaignDetails() {
 		: "0 MMK";
 
 	const visibleGalleryImages = campaign?.galleryImageUris.slice(0, 4) || [];
-	const extraGalleryCount = Math.max(
-		(campaign?.galleryImageUris.length || 0) - 4,
-		0,
-	);
 
 	const onPressSave = () => {
 		if (!campaign) return;
@@ -145,7 +139,6 @@ export function useCampaignDetails() {
 		neededAmount,
 		totalSpentLabel,
 		visibleGalleryImages,
-		extraGalleryCount,
 		comments,
 		commentInput,
 		setCommentInput,
