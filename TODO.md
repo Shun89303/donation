@@ -1,12 +1,9 @@
-# Task: Implement animated collapsible list in ExpenseSection.tsx
+## TODO: Update ProofsSection.tsx to use Lucide icons
 
-**Status: In Progress**
+### Pending Steps:
 
-## Steps:
-
-- [x] 1. User approved the edit plan
-- [x] 2. Create TODO.md with steps
-- [x] 3. Read current ExpenseSection.tsx (already done)
-- [x] 4. Implement full animated collapsible matching GallerySection/UpdatesSection patterns (hooks, animations, responsive layout, FlatList preview 3 items, DollarSign icon, timeline dots, green badges)
-- [x] 5. Update TODO.md with completion
-- [x] 6. Test and attempt_completion
+- [x] Step 1: Create TODO.md with steps
+- [x] Step 2: Edit components/campaign/ProofsSection.tsx per approved plan
+- [x] Step 3: Update TODO.md with completion
+- [x] Step 4: Run lint/test verification
+- [x] Step 5: Complete task
