@@ -1,7 +1,9 @@
 import type { ThemeColors } from "@/app/_theme";
 import type { CampaignProofItem } from "@/components/home/campaignTypes";
+import globalStyles from "@/styles/styles";
 import { formatDate } from "@/utils/campaignDetailsUtils";
 import Feather from "@expo/vector-icons/Feather";
+import { ChevronDown, Shield } from "lucide-react-native";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type ProofsSectionProps = {
@@ -23,14 +25,15 @@ export function ProofsSection({
 				style={[
 					styles.card,
 					{
-						borderColor: colors.tabInactive,
+						borderColor: colors.secondaryGray,
 						backgroundColor: colors.background,
+						...globalStyles.shadows,
 					},
 				]}
 			>
 				<Pressable style={styles.collapsibleHeader}>
 					<View style={styles.sectionHeaderLeft}>
-						<Feather name="shield" size={16} color={colors.primaryGreen} />
+						<Shield size={16} color={colors.primaryGreen} />
 						<Text style={[styles.sectionTitle, { color: colors.text }]}>
 							Proof & Transparency
 						</Text>
@@ -39,31 +42,21 @@ export function ProofsSection({
 						<View
 							style={[
 								styles.countBadge,
-								{ backgroundColor: colors.alertBadgeBackground },
+								{ backgroundColor: colors.secondaryGreen },
 							]}
 						>
 							<Text
-								style={[
-									styles.countBadgeText,
-									{ color: colors.alertBadgeText },
-								]}
+								style={[styles.countBadgeText, { color: colors.primaryGreen }]}
 							>
 								0
 							</Text>
 						</View>
-						<Feather
-							name="chevron-down"
-							size={18}
-							color={colors.placeholderMuted}
-						/>
+						<ChevronDown size={18} color={colors.primaryGray} />
 					</View>
 				</Pressable>
 				<View style={styles.sectionContent}>
 					<Text
-						style={[
-							styles.emptySectionText,
-							{ color: colors.placeholderMuted },
-						]}
+						style={[styles.emptySectionText, { color: colors.primaryGray }]}
 					>
 						No proofs uploaded yet.
 					</Text>
@@ -77,14 +70,15 @@ export function ProofsSection({
 			style={[
 				styles.card,
 				{
-					borderColor: colors.tabInactive,
+					borderColor: colors.secondaryGray,
 					backgroundColor: colors.background,
+					...globalStyles.shadows,
 				},
 			]}
 		>
 			<Pressable style={styles.collapsibleHeader}>
 				<View style={styles.sectionHeaderLeft}>
-					<Feather name="shield" size={16} color={colors.primaryGreen} />
+					<Shield size={16} color={colors.primaryGreen} />
 					<Text style={[styles.sectionTitle, { color: colors.text }]}>
 						Proof & Transparency
 					</Text>
@@ -93,20 +87,16 @@ export function ProofsSection({
 					<View
 						style={[
 							styles.countBadge,
-							{ backgroundColor: colors.alertBadgeBackground },
+							{ backgroundColor: colors.secondaryGreen },
 						]}
 					>
 						<Text
-							style={[styles.countBadgeText, { color: colors.alertBadgeText }]}
+							style={[styles.countBadgeText, { color: colors.primaryGreen }]}
 						>
 							{proofs.length}
 						</Text>
 					</View>
-					<Feather
-						name="chevron-down"
-						size={18}
-						color={colors.placeholderMuted}
-					/>
+					<ChevronDown size={18} color={colors.primaryGray} />
 				</View>
 			</Pressable>
 			<View style={styles.sectionContent}>
@@ -224,6 +214,7 @@ const styles = StyleSheet.create({
 	},
 	sectionContent: {
 		marginTop: 12,
+		paddingHorizontal: 10,
 	},
 	proofRow: {
 		paddingVertical: 10,

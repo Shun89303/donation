@@ -76,25 +76,36 @@ function createUpdates(index: number): CampaignUpdateItem[] {
 }
 
 function createExpenseReport(index: number): CampaignExpenseItem[] {
-	const values = [420000, 280000, 600000];
 	return [
 		{
 			id: `expense-${index + 1}-1`,
-			dateLabel: "Mar 07 2026",
-			title: "Food package procurement",
-			amountLabel: `${values[0].toLocaleString("en-US")} MMK`,
+			title: "Rice (2,000 kg)",
+			amountLabel: "1,800,000",
+			hasReceipt: true,
 		},
 		{
 			id: `expense-${index + 1}-2`,
-			dateLabel: "Mar 10 2026",
-			title: "Transport and distribution",
-			amountLabel: `${values[1].toLocaleString("en-US")} MMK`,
+			title: "Clean water bottles (5,000)",
+			amountLabel: "750,000",
+			hasReceipt: true,
 		},
 		{
 			id: `expense-${index + 1}-3`,
-			dateLabel: "Mar 15 2026",
-			title: "Emergency medical supplies",
-			amountLabel: `${values[2].toLocaleString("en-US")} MMK`,
+			title: "Temporary shelter kits (20)",
+			amountLabel: "1,200,000",
+			hasReceipt: true,
+		},
+		{
+			id: `expense-${index + 1}-4`,
+			title: "Medical supplies",
+			amountLabel: "450,000",
+			hasReceipt: true,
+		},
+		{
+			id: `expense-${index + 1}-5`,
+			title: "Transport & logistics",
+			amountLabel: "300,000",
+			hasReceipt: false,
 		},
 	];
 }

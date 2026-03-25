@@ -9,9 +9,9 @@ export type CampaignUpdateItem = {
 
 export type CampaignExpenseItem = {
 	id: string;
-	dateLabel: string;
 	title: string;
 	amountLabel: string;
+	hasReceipt?: boolean;
 };
 
 export type CampaignProofItem = {
