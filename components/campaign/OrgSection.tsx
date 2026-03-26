@@ -1,6 +1,15 @@
 import type { ThemeColors } from "@/app/_theme";
 import type { CampaignPost } from "@/components/home/campaignTypes";
-import Feather from "@expo/vector-icons/Feather";
+import globalStyles from "@/styles/styles";
+import { metrics } from "@/utils/metrics";
+import {
+	Check,
+	ChevronDown,
+	CircleCheck,
+	Shield,
+	Star,
+	XCircle,
+} from "lucide-react-native";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type OrgSectionProps = {
@@ -16,61 +25,125 @@ export function OrgSection({
 	isOpen,
 	onToggle,
 }: OrgSectionProps) {
+	const totalStars = 5;
+	const rating = campaign.orgRating;
+
 	return (
 		<View
-			style={[
-				styles.card,
-				{
-					borderColor: colors.tabInactive,
-					backgroundColor: colors.background,
-				},
-			]}
+			style={{
+				borderColor: colors.secondaryGray,
+				backgroundColor: colors.background,
+				marginTop: metrics.spacingMedium,
+				borderWidth: metrics.borderThin,
+				borderRadius: metrics.borderRadiusLarge,
+				padding: metrics.spacingMedium,
+				...globalStyles.shadows,
+			}}
 		>
 			<Pressable style={styles.collapsibleHeader}>
 				<View style={styles.sectionHeaderLeft}>
-					<Feather name="award" size={16} color={colors.primaryGreen} />
-					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+					<Shield size={metrics.iconMedium} color={colors.primaryGreen} />
+					<Text
+						style={[
+							styles.sectionTitle,
+							{
+								color: colors.text,
+								fontSize: metrics.fontMedium,
+								marginLeft: metrics.spacingSmall,
+							},
+						]}
+					>
 						Organization Verification
 					</Text>
 				</View>
 				<View style={styles.sectionHeaderRight}>
-					<Feather
-						name="chevron-down"
-						size={18}
-						color={colors.placeholderMuted}
-					/>
+					<ChevronDown size={metrics.iconMedium} color={colors.primaryGray} />
 				</View>
 			</Pressable>
-			<View style={styles.sectionContent}>
+			<View
+				style={{
+					marginTop: metrics.spacingMedium,
+				}}
+			>
 				<View style={styles.orgRow}>
-					<Image
-						source={{ uri: campaign.orgProfileImageUri }}
-						style={styles.orgAvatar}
-					/>
-					<View style={styles.orgMetaWrap}>
-						<View style={styles.orgNameRow}>
+					{campaign.orgProfileImageUri ? (
+						<Image
+							source={{ uri: campaign.orgProfileImageUri }}
+							style={{
+								width: metrics.avatarMedium,
+								height: metrics.avatarMedium,
+								borderRadius: metrics.borderRadiusLarge,
+								backgroundColor: colors.secondaryGreen,
+							}}
+						/>
+					) : (
+						<View
+							style={[
+								styles.orgAvatarFallback,
+								{
+									width: metrics.avatarMedium,
+									height: metrics.avatarMedium,
+									borderRadius: metrics.borderRadiusLarge,
+									backgroundColor: colors.secondaryGreen,
+								},
+							]}
+						>
 							<Text
-								style={[styles.orgName, { color: colors.text }]}
+								style={[
+									styles.orgAvatarText,
+									{
+										fontSize: metrics.fontMedium,
+										color: colors.primaryGreen,
+									},
+								]}
+							>
+								{campaign.orgName?.charAt(0).toUpperCase() || "?"}
+							</Text>
+						</View>
+					)}
+					<View
+						style={[
+							styles.orgMetaWrap,
+							{
+								marginLeft: metrics.spacingSmall,
+							},
+						]}
+					>
+						<View
+							style={[
+								styles.orgNameRow,
+								{
+									gap: metrics.spacingSmall,
+								},
+							]}
+						>
+							<Text
+								style={[
+									styles.orgName,
+									{ color: colors.text, fontSize: metrics.fontMedium },
+								]}
 								numberOfLines={1}
 							>
 								{campaign.orgName}
 							</Text>
 							{campaign.isOrgVerified ? (
-								<Feather
-									name="check-circle"
-									size={16}
+								<CircleCheck
+									size={metrics.fontLarge}
 									color={colors.primaryGreen}
 								/>
 							) : (
-								<Feather
-									name="x-circle"
-									size={16}
-									color={colors.placeholderMuted}
-								/>
+								<XCircle size={metrics.fontLarge} color={colors.primaryRed} />
 							)}
 						</View>
 						<Text
-							style={[styles.memberSince, { color: colors.placeholderMuted }]}
+							style={[
+								styles.memberSince,
+								{
+									color: colors.primaryGray,
+									fontSize: metrics.fontSmall,
+									marginTop: metrics.spacingExtraSmall,
+								},
+							]}
 						>
 							Member since {campaign.orgMemberSinceYear}
 						</Text>
@@ -81,51 +154,123 @@ export function OrgSection({
 					style={[
 						styles.orgStats,
 						{
-							borderTopColor: colors.tabInactive,
-							borderBottomColor: colors.tabInactive,
+							marginTop: metrics.spacingSmall,
+							paddingVertical: metrics.spacingSmall,
+							gap: metrics.spacingMedium,
 						},
 					]}
 				>
-					<View style={styles.orgStatColumn}>
-						<Text style={[styles.orgStatPrimary, { color: colors.text }]}>
+					<View
+						style={[
+							styles.orgStatColumn,
+							{
+								backgroundColor: colors.secondaryGray,
+								borderRadius: metrics.borderRadiusLarge,
+								paddingVertical: metrics.spacingSmall,
+							},
+						]}
+					>
+						<Text
+							style={[
+								styles.orgStatPrimary,
+								{ color: colors.text, fontSize: metrics.fontExtraLarge },
+							]}
+						>
 							{campaign.orgRating.toFixed(1)}
 						</Text>
+						<View
+							style={{
+								flexDirection: "row",
+								marginTop: metrics.spacingExtraSmall,
+							}}
+						>
+							{Array.from({ length: totalStars }).map((_, index) => {
+								const fillColor =
+									index < Math.floor(rating)
+										? colors.primaryGold
+										: colors.primaryGray;
+								return (
+									<Star
+										key={index}
+										size={metrics.iconSmall}
+										color={fillColor}
+										fill={fillColor}
+									/>
+								);
+							})}
+						</View>
 						<Text
 							style={[
 								styles.orgStatSecondary,
-								{ color: colors.placeholderMuted },
+								{
+									color: colors.primaryGray,
+									marginTop: metrics.spacingExtraSmall,
+									fontSize: metrics.fontExtraSmall,
+								},
 							]}
 						>
 							{campaign.orgReviewsCount} reviews
 						</Text>
 					</View>
-					<View style={styles.orgStatColumn}>
-						<Text style={[styles.orgStatPrimary, { color: colors.text }]}>
+					<View
+						style={[
+							styles.orgStatColumn,
+							{
+								backgroundColor: colors.secondaryGray,
+								borderRadius: metrics.borderRadiusLarge,
+								paddingVertical: metrics.spacingSmall,
+							},
+						]}
+					>
+						<Text
+							style={[
+								styles.orgStatPrimary,
+								{
+									color: colors.text,
+									fontSize: metrics.fontExtraLarge,
+									paddingVertical: metrics.spacingExtraSmall,
+								},
+							]}
+						>
 							{campaign.orgCampaignsCompleted}
 						</Text>
 						<Text
 							style={[
 								styles.orgStatSecondary,
-								{ color: colors.placeholderMuted },
+								{
+									color: colors.primaryGray,
+									fontSize: metrics.fontExtraSmall,
+									paddingVertical: metrics.spacingExtraSmall,
+								},
 							]}
 						>
-							campaigns
+							completed
 						</Text>
 					</View>
-					<View style={styles.orgStatColumn}>
-						<Feather
-							name={campaign.isOrgVerified ? "check-circle" : "x-circle"}
-							size={16}
+					<View
+						style={[
+							styles.orgStatColumn,
+							{
+								backgroundColor: colors.secondaryGray,
+								borderRadius: metrics.borderRadiusLarge,
+								paddingVertical: metrics.spacingSmall,
+							},
+						]}
+					>
+						<Check
+							size={metrics.iconLarge}
 							color={
-								campaign.isOrgVerified
-									? colors.primaryGreen
-									: colors.profileDanger || colors.placeholderMuted // Fallback
+								campaign.isOrgVerified ? colors.primaryGreen : colors.primaryRed
 							}
 						/>
 						<Text
 							style={[
 								styles.orgStatSecondary,
-								{ color: colors.placeholderMuted },
+								{
+									color: colors.primaryGray,
+									fontSize: metrics.fontExtraSmall,
+									paddingTop: metrics.spacingExtraSmall,
+								},
 							]}
 						>
 							{campaign.isOrgVerified ? "verified" : "not verified"}
@@ -134,20 +279,31 @@ export function OrgSection({
 				</View>
 
 				<View
-					style={[
-						styles.licenseBlock,
-						{
-							backgroundColor: colors.surfaceMuted,
-							borderColor: colors.tabInactive,
-						},
-					]}
+					style={{
+						backgroundColor: colors.secondaryGray,
+						marginTop: metrics.spacingSmall,
+						borderRadius: metrics.borderRadiusMedium,
+						padding: metrics.spacingMedium,
+					}}
 				>
 					<Text
-						style={[styles.licenseLabel, { color: colors.placeholderMuted }]}
+						style={[
+							styles.licenseLabel,
+							{ color: colors.primaryGray, fontSize: metrics.fontSmall },
+						]}
 					>
-						License Number
+						LICENSE NUMBER
 					</Text>
-					<Text style={[styles.licenseValue, { color: colors.text }]}>
+					<Text
+						style={[
+							styles.licenseValue,
+							{
+								color: colors.text,
+								fontSize: metrics.fontSmall,
+								marginTop: metrics.spacingExtraSmall,
+							},
+						]}
+					>
 						{campaign.orgLicenseNumber}
 					</Text>
 				</View>
@@ -157,12 +313,6 @@ export function OrgSection({
 }
 
 const styles = StyleSheet.create({
-	card: {
-		marginTop: 14,
-		borderWidth: 1,
-		borderRadius: 14,
-		padding: 12,
-	},
 	collapsibleHeader: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -177,75 +327,51 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	sectionTitle: {
-		fontSize: 15,
 		fontWeight: "700",
-		marginLeft: 7,
-	},
-	sectionContent: {
-		marginTop: 12,
 	},
 	orgRow: {
 		flexDirection: "row",
 		alignItems: "center",
 	},
-	orgAvatar: {
-		width: 42,
-		height: 42,
-		borderRadius: 21,
-		backgroundColor: "#D1D5DB",
+	orgAvatarFallback: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	orgAvatarText: {
+		fontWeight: "bold",
 	},
 	orgMetaWrap: {
-		marginLeft: 10,
 		flex: 1,
 	},
 	orgNameRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 6,
 	},
 	orgName: {
-		fontSize: 15,
 		fontWeight: "700",
 	},
 	memberSince: {
-		fontSize: 12,
 		fontWeight: "500",
-		marginTop: 3,
 	},
 	orgStats: {
-		marginTop: 12,
-		paddingVertical: 10,
-		borderTopWidth: 0.5,
-		borderBottomWidth: 0.5,
 		flexDirection: "row",
 		justifyContent: "space-between",
 	},
 	orgStatColumn: {
 		flex: 1,
 		alignItems: "center",
+		justifyContent: "center",
 	},
 	orgStatPrimary: {
-		fontSize: 16,
 		fontWeight: "700",
 	},
 	orgStatSecondary: {
-		marginTop: 2,
-		fontSize: 12,
 		fontWeight: "500",
 	},
-	licenseBlock: {
-		marginTop: 12,
-		borderWidth: 0.5,
-		borderRadius: 10,
-		padding: 10,
-	},
 	licenseLabel: {
-		fontSize: 12,
 		fontWeight: "600",
 	},
 	licenseValue: {
-		fontSize: 15,
-		fontWeight: "700",
-		marginTop: 3,
+		fontWeight: "500",
 	},
 });

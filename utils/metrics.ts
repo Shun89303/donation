@@ -1,3 +1,4 @@
+// utils/componentSizes.ts
 import { Dimensions } from "react-native";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -8,15 +9,24 @@ const guidelineBaseHeight = 844;
 
 // Detect tablet
 const isTablet = SCREEN_WIDTH >= 768;
-const tabletFactor = isTablet ? 1.1 : 1;
+
+// Separate scaling factors
+const sizeFactor = isTablet ? 0.8 : 1; // components (subtle)
+const spacingFactor = isTablet ? 1.4 : 1; // spacing (stronger)
 
 // --------------------
 // Scaling helpers
 // --------------------
 export const scale = (size: number) =>
-	(SCREEN_WIDTH / guidelineBaseWidth) * size * tabletFactor;
+	(SCREEN_WIDTH / guidelineBaseWidth) * size * sizeFactor;
+
 export const verticalScale = (size: number) =>
-	(SCREEN_HEIGHT / guidelineBaseHeight) * size * tabletFactor;
+	(SCREEN_HEIGHT / guidelineBaseHeight) * size * sizeFactor;
+
+// Stronger spacing scale (for margins/paddings)
+export const spacingScale = (size: number) =>
+	(SCREEN_HEIGHT / guidelineBaseHeight) * size * spacingFactor;
+
 export const moderateScale = (size: number, factor = 0.5) =>
 	size + (scale(size) - size) * factor;
 
@@ -75,11 +85,11 @@ export const metrics = {
 	// ----------------
 	// Spacing (margins & paddings)
 	// ----------------
-	spacingExtraSmall: verticalScale(4),
-	spacingSmall: verticalScale(8),
-	spacingMedium: verticalScale(12),
-	spacingLarge: verticalScale(16),
-	spacingExtraLarge: verticalScale(24),
+	spacingExtraSmall: spacingScale(4),
+	spacingSmall: spacingScale(8),
+	spacingMedium: spacingScale(12),
+	spacingLarge: spacingScale(16),
+	spacingExtraLarge: spacingScale(24),
 
 	// ----------------
 	// Fonts
