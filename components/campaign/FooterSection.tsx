@@ -2,6 +2,7 @@ import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
 import type { CampaignPost } from "@/components/home/campaignTypes";
 import { formatMmkNeeded } from "@/utils/campaignDetailsUtils";
+import { metrics } from "@/utils/metrics";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -29,8 +30,12 @@ export function FooterSection({
 			style={[
 				styles.footer,
 				{
-					borderTopColor: colors.tabInactive,
+					borderTopColor: colors.secondaryGray,
 					backgroundColor: colors.background,
+					borderTopWidth: metrics.borderThin,
+					paddingHorizontal: metrics.spacingMedium,
+					paddingTop: metrics.spacingSmall,
+					paddingBottom: metrics.spacingMedium,
 				},
 			]}
 		>
@@ -40,24 +45,51 @@ export function FooterSection({
 					{
 						backgroundColor: colors.background,
 						borderColor: colors.tabInactive,
+						paddingVertical: metrics.spacingSmall,
 					},
 				]}
 			>
 				<Text
-					style={[styles.footerTopText, { color: colors.placeholderMuted }]}
+					style={[
+						styles.footerTopText,
+						{ color: colors.placeholderMuted, fontSize: metrics.fontSmall },
+					]}
 				>
 					You will be the {donorsOrdinal} donor
 				</Text>
-				<Text style={[styles.footerBottomText, { color: colors.text }]}>
+				<Text
+					style={[
+						styles.footerBottomText,
+						{
+							color: colors.text,
+							fontSize: metrics.fontMedium,
+							marginTop: metrics.spacingExtraSmall,
+						},
+					]}
+				>
 					{formatMmkNeeded(neededAmount)}
 				</Text>
 			</View>
 
 			<AnimatedPressable
-				style={[styles.supportButton, { backgroundColor: colors.primaryGreen }]}
+				style={{
+					backgroundColor: colors.primaryGreen,
+					borderRadius: metrics.borderRadiusLarge,
+					paddingHorizontal: metrics.spacingLarge,
+					paddingVertical: metrics.spacingMedium,
+				}}
 				onPress={handleSupportPress}
 			>
-				<Text style={styles.supportButtonText}>Support this village</Text>
+				<Text
+					style={[
+						styles.supportButtonText,
+						{
+							fontSize: metrics.fontMedium,
+						},
+					]}
+				>
+					Support this village
+				</Text>
 			</AnimatedPressable>
 		</View>
 	);
@@ -69,35 +101,22 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0,
 		bottom: 0,
-		borderTopWidth: 1,
-		paddingHorizontal: 16,
-		paddingTop: 10,
-		paddingBottom: 14,
 		flexDirection: "row",
 		alignItems: "center",
+		justifyContent: "space-around",
 	},
 	footerInfoBox: {
 		flex: 1,
-		paddingVertical: 8,
 		minWidth: "50%",
 	},
 	footerTopText: {
-		fontSize: 13,
 		fontWeight: "500",
 	},
 	footerBottomText: {
-		fontSize: 12,
 		fontWeight: "700",
-		marginTop: 2,
-	},
-	supportButton: {
-		borderRadius: 12,
-		paddingHorizontal: 14,
-		paddingVertical: 12,
 	},
 	supportButtonText: {
 		color: "white",
-		fontSize: 14,
 		fontWeight: "800",
 	},
 });
