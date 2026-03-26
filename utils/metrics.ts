@@ -12,7 +12,7 @@ const isTablet = SCREEN_WIDTH >= 768;
 
 // Separate scaling factors
 const sizeFactor = isTablet ? 0.8 : 1; // components (subtle)
-const spacingFactor = isTablet ? 1.4 : 1; // spacing (stronger)
+const spacingFactor = isTablet ? 1.2 : 1; // spacing (stronger)
 
 // --------------------
 // Scaling helpers

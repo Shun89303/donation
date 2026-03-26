@@ -1,8 +1,16 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
 import type { DonorCommentItem } from "@/components/home/campaignTypes";
+import globalStyles from "@/styles/styles";
 import { getRelativeTimeLabel } from "@/utils/campaignDetailsUtils";
-import Feather from "@expo/vector-icons/Feather";
+import { metrics } from "@/utils/metrics";
+import {
+	ChevronDown,
+	Flag,
+	MessageCircle,
+	Send,
+	ThumbsUp,
+} from "lucide-react-native";
 import {
 	Image,
 	Pressable,
@@ -33,22 +41,32 @@ export function CommentsSection({
 }: CommentsSectionProps) {
 	return (
 		<View
-			style={[
-				styles.card,
-				{
-					borderColor: colors.tabInactive,
-					backgroundColor: colors.background,
-				},
-			]}
+			style={{
+				borderColor: colors.secondaryGray,
+				backgroundColor: colors.background,
+				marginTop: metrics.spacingMedium,
+				borderWidth: metrics.borderThin,
+				borderRadius: metrics.borderRadiusLarge,
+				padding: metrics.spacingMedium,
+				...globalStyles.shadows,
+			}}
 		>
 			<Pressable style={styles.collapsibleHeader}>
 				<View style={styles.sectionHeaderLeft}>
-					<Feather
-						name="message-circle"
-						size={16}
+					<MessageCircle
+						size={metrics.iconMedium}
 						color={colors.primaryGreen}
 					/>
-					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+					<Text
+						style={[
+							styles.sectionTitle,
+							{
+								color: colors.text,
+								fontSize: metrics.fontMedium,
+								marginLeft: metrics.spacingSmall,
+							},
+						]}
+					>
 						Donor Comments
 					</Text>
 				</View>
@@ -56,66 +74,172 @@ export function CommentsSection({
 					<View
 						style={[
 							styles.countBadge,
-							{ backgroundColor: colors.alertBadgeBackground },
+							{
+								backgroundColor: colors.secondaryGreen,
+								minWidth: metrics.containerMinWidthMedium,
+								height: metrics.containerHeightMedium,
+								paddingHorizontal: metrics.spacingSmall,
+								marginRight: metrics.spacingSmall,
+							},
 						]}
 					>
 						<Text
-							style={[styles.countBadgeText, { color: colors.alertBadgeText }]}
+							style={[
+								styles.countBadgeText,
+								{ color: colors.primaryGreen, fontSize: metrics.fontSmall },
+							]}
 						>
 							{comments.length}
 						</Text>
 					</View>
-					<Feather
-						name="chevron-down"
-						size={18}
-						color={colors.placeholderMuted}
-					/>
+					<ChevronDown size={metrics.iconMedium} color={colors.primaryGray} />
 				</View>
 			</Pressable>
-			<View style={styles.sectionContent}>
-				<View style={styles.commentsList}>
+			<View
+				style={{
+					marginTop: metrics.spacingExtraSmall,
+				}}
+			>
+				<View>
 					{comments.map((comment) => (
 						<View
 							key={comment.id}
-							style={[
-								styles.commentItem,
-								{ borderBottomColor: colors.tabInactive },
-							]}
+							style={{
+								borderBottomColor: colors.tabInactive,
+								paddingVertical: metrics.spacingMedium,
+							}}
 						>
 							<View style={styles.commentTopRow}>
-								<Image
-									source={{ uri: comment.authorAvatarUri }}
-									style={styles.commentAvatar}
-								/>
-								<View style={styles.commentMetaWrap}>
-									<Text style={[styles.commentAuthor, { color: colors.text }]}>
+								{comment.authorAvatarUri ? (
+									<Image
+										source={{ uri: comment.authorAvatarUri }}
+										style={{
+											width: metrics.containerMinWidthLarge,
+											height: metrics.containerHeightLarge,
+											borderRadius: 999,
+										}}
+									/>
+								) : (
+									<View
+										style={[
+											styles.commentAvatarFallback,
+											{
+												width: metrics.containerMinWidthLarge,
+												height: metrics.containerHeightLarge,
+												borderRadius: 999,
+												backgroundColor: colors.secondaryGray,
+											},
+										]}
+									>
+										<Text
+											style={[
+												styles.commentAvatarText,
+												{
+													color: colors.primaryGray,
+													fontSize: metrics.fontLarge,
+												},
+											]}
+										>
+											{comment.author?.charAt(0).toUpperCase()}
+										</Text>
+									</View>
+								)}
+								<View
+									style={[
+										styles.commentMetaWrap,
+										{
+											marginLeft: metrics.spacingMedium,
+										},
+									]}
+								>
+									<Text
+										style={[
+											styles.commentAuthor,
+											{ color: colors.text, fontSize: metrics.fontMedium },
+										]}
+									>
 										{comment.author}
+										{"  "}
 										<Text
 											style={[
 												styles.commentTime,
-												{ color: colors.placeholderMuted },
+												{
+													color: colors.primaryGray,
+													fontSize: metrics.fontExtraSmall,
+												},
 											]}
 										>
-											· {getRelativeTimeLabel(comment.createdAtIso)}
+											{getRelativeTimeLabel(comment.createdAtIso)}
 										</Text>
 									</Text>
-									<Text style={[styles.commentMessage, { color: colors.text }]}>
+									<Text
+										style={[
+											styles.commentMessage,
+											{
+												color: colors.primaryGray,
+												marginTop: metrics.spacingExtraSmall,
+												fontSize: metrics.fontMedium,
+												lineHeight: metrics.lineHeightMedium,
+											},
+										]}
+									>
 										{comment.message}
 									</Text>
-									<View style={styles.likeRow}>
-										<Feather
-											name="heart"
-											size={14}
-											color={colors.placeholderMuted}
-										/>
-										<Text
+									<View
+										style={[
+											styles.likeRow,
+											{
+												marginTop: metrics.spacingSmall,
+												gap: metrics.spacingSmall,
+											},
+										]}
+									>
+										<View
 											style={[
-												styles.likeCountText,
-												{ color: colors.placeholderMuted },
+												styles.actionItem,
+												{
+													gap: metrics.spacingExtraSmall,
+												},
 											]}
 										>
-											{comment.likeCount}
-										</Text>
+											<ThumbsUp
+												size={metrics.iconSmall}
+												color={colors.primaryGray}
+											/>
+											<Text
+												style={[
+													styles.likeCountText,
+													{
+														color: colors.primaryGray,
+														fontSize: metrics.fontSmall,
+													},
+												]}
+											>
+												{comment.likeCount}
+											</Text>
+										</View>
+										<View
+											style={[
+												styles.actionItem,
+												{
+													gap: metrics.spacingExtraSmall,
+												},
+											]}
+										>
+											<Flag
+												size={metrics.iconSmall}
+												color={colors.primaryRed}
+											/>
+											<Text
+												style={{
+													color: colors.primaryRed,
+													fontSize: metrics.fontExtraSmall,
+													fontWeight: "500",
+												}}
+											>
+												Report
+											</Text>
+										</View>
 									</View>
 								</View>
 							</View>
@@ -127,24 +251,62 @@ export function CommentsSection({
 					style={[
 						styles.commentInputRow,
 						{
-							borderColor: colors.tabInactive,
-							backgroundColor: colors.surfaceMuted,
+							borderTopColor: colors.secondaryGray,
+							borderTopWidth: metrics.borderThin,
+							paddingHorizontal: metrics.spacingExtraSmall,
+							paddingTop: metrics.spacingMedium,
+							gap: metrics.spacingSmall,
 						},
 					]}
 				>
-					<TextInput
-						placeholder="Write a comment"
-						placeholderTextColor={colors.placeholderMuted}
-						style={[styles.commentInput, { color: colors.text }]}
-						value={commentInput}
-						onChangeText={onChangeCommentInput}
-					/>
-					<AnimatedPressable
-						style={styles.commentSendButton}
-						onPress={onSendComment}
+					{/* Input container */}
+					<View
+						style={[
+							styles.inputContainer,
+							{
+								backgroundColor: colors.secondaryGray,
+								borderRadius: metrics.borderRadiusLarge,
+								paddingHorizontal: metrics.spacingSmall,
+							},
+						]}
 					>
-						<Feather name="send" size={16} color={colors.primaryGreen} />
-					</AnimatedPressable>
+						<TextInput
+							placeholder="Add a comment..."
+							placeholderTextColor={colors.primaryGray}
+							style={[
+								styles.commentInput,
+								{
+									color: colors.text,
+									fontSize: metrics.fontMedium,
+									paddingVertical: metrics.spacingSmall,
+								},
+							]}
+							value={commentInput}
+							onChangeText={onChangeCommentInput}
+						/>
+					</View>
+
+					{/* Button container */}
+					<View
+						style={[
+							styles.sendButtonContainer,
+							{
+								backgroundColor: colors.primaryGreen,
+								borderRadius: metrics.borderRadiusLarge,
+								paddingHorizontal: metrics.spacingSmall,
+								paddingVertical: metrics.spacingSmall,
+							},
+						]}
+					>
+						<AnimatedPressable
+							style={{
+								padding: metrics.spacingExtraSmall,
+							}}
+							onPress={onSendComment}
+						>
+							<Send size={metrics.iconMedium} color="white" />
+						</AnimatedPressable>
+					</View>
 				</View>
 			</View>
 		</View>
@@ -152,12 +314,6 @@ export function CommentsSection({
 }
 
 const styles = StyleSheet.create({
-	card: {
-		marginTop: 14,
-		borderWidth: 1,
-		borderRadius: 14,
-		padding: 12,
-	},
 	collapsibleHeader: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -172,87 +328,65 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	sectionTitle: {
-		fontSize: 15,
 		fontWeight: "700",
-		marginLeft: 7,
 	},
 	countBadge: {
-		minWidth: 24,
-		height: 24,
-		paddingHorizontal: 7,
 		borderRadius: 999,
 		alignItems: "center",
 		justifyContent: "center",
-		marginRight: 6,
 	},
 	countBadgeText: {
-		fontSize: 12,
 		fontWeight: "700",
-	},
-	sectionContent: {
-		marginTop: 12,
-	},
-	commentsList: {
-		marginTop: 2,
-	},
-	commentItem: {
-		paddingVertical: 10,
-		borderBottomWidth: 0.5,
 	},
 	commentTopRow: {
 		flexDirection: "row",
 		alignItems: "flex-start",
 	},
-	commentAvatar: {
-		width: 34,
-		height: 34,
-		borderRadius: 17,
-		backgroundColor: "#D1D5DB",
+	commentAvatarFallback: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	commentAvatarText: {
+		fontWeight: "400",
 	},
 	commentMetaWrap: {
-		marginLeft: 9,
 		flex: 1,
 	},
 	commentAuthor: {
-		fontSize: 13,
 		fontWeight: "700",
 	},
 	commentTime: {
-		fontSize: 12,
 		fontWeight: "500",
 	},
 	commentMessage: {
-		marginTop: 3,
-		fontSize: 13,
 		fontWeight: "500",
-		lineHeight: 19,
 	},
 	likeRow: {
-		marginTop: 7,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "flex-start",
+	},
+	actionItem: {
 		flexDirection: "row",
 		alignItems: "center",
 	},
 	likeCountText: {
-		fontSize: 12,
-		fontWeight: "600",
-		marginLeft: 4,
+		fontWeight: "500",
 	},
 	commentInputRow: {
-		marginTop: 10,
-		borderWidth: 1,
-		borderRadius: 10,
-		paddingHorizontal: 10,
-		paddingVertical: 4,
 		flexDirection: "row",
+		alignItems: "center",
+	},
+	inputContainer: {
+		flex: 1,
+		justifyContent: "center",
+	},
+	sendButtonContainer: {
+		justifyContent: "center",
 		alignItems: "center",
 	},
 	commentInput: {
 		flex: 1,
-		fontSize: 14,
 		fontWeight: "500",
-		paddingVertical: 8,
-	},
-	commentSendButton: {
-		padding: 6,
 	},
 });
