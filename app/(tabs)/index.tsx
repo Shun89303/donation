@@ -101,7 +101,7 @@ export default function Home() {
 					<HomeHeader
 						colors={colors}
 						onPressSearch={toggleSearch}
-						onPressProfile={() => router.replace("/profile")}
+						onPressCreate={() => router.replace("/createOrganization")}
 					/>
 					<SearchPanel
 						colors={colors}

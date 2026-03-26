@@ -1,19 +1,19 @@
 import type { ThemeColors } from "@/app/_theme";
 import { usePressScale } from "@/hooks/usePressScale";
-import { Search, User } from "lucide-react-native";
+import { PlusIcon, Search } from "lucide-react-native";
 import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 
 type HomeHeaderProps = {
 	colors: ThemeColors;
 	onPressSearch: () => void;
-	onPressProfile: () => void;
+	onPressCreate: () => void;
 };
 
 export default function HomeHeader({
 	colors,
 	onPressSearch,
-	onPressProfile,
+	onPressCreate,
 }: HomeHeaderProps) {
 	const { width, height } = Dimensions.get("window");
 	const isTablet = width >= 800;
@@ -86,9 +86,9 @@ export default function HomeHeader({
 				</Pressable>
 				<Pressable
 					accessibilityRole="button"
-					accessibilityLabel="Profile"
+					accessibilityLabel="Create"
 					hitSlop={iconHitSlop}
-					onPress={onPressProfile}
+					onPress={onPressCreate}
 					onPressIn={profilePress.pressIn}
 					onPressOut={profilePress.pressOut}
 					style={({ pressed }) => [
@@ -104,7 +104,7 @@ export default function HomeHeader({
 					]}
 				>
 					<Animated.View style={[profilePress.animatedStyle]}>
-						<User size={20 * fontScale} color="white" />
+						<PlusIcon size={20 * fontScale} color="white" />
 					</Animated.View>
 				</Pressable>
 			</View>
