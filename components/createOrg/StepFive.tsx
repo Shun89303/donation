@@ -1,10 +1,12 @@
 import { ThemeColors } from "@/app/_theme";
-import { OrganizationFormData } from "@/app/createOrganization";
+
+import { metrics } from "@/utils/metrics";
 import { useRouter } from "expo-router";
 import { Shield } from "lucide-react-native";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CheckBox from "react-native-check-box";
+import { OrganizationFormData } from "./orgFormDataTypes";
 
 type Props = {
 	formData: OrganizationFormData;
@@ -16,92 +18,333 @@ export default function StepFive({ formData, updateFormData, colors }: Props) {
 	const router = useRouter();
 
 	return (
-		<View>
-			<Text style={[styles.stepTitle, { color: colors.text }]}>Review</Text>
+		<View
+			style={{
+				gap: metrics.spacingMedium,
+				padding: metrics.spacingMedium,
+			}}
+		>
+			<Text
+				style={[
+					styles.stepTitle,
+					{
+						color: colors.text,
+						fontSize: metrics.fontExtraLarge,
+					},
+				]}
+			>
+				Review
+			</Text>
 
 			{/* ORGANIZATION */}
-			<View style={styles.reviewSection}>
-				<Text style={[styles.sectionTitle, { color: colors.text }]}>
+			<View
+				style={{
+					backgroundColor: colors.background,
+					padding: metrics.spacingExtraLarge,
+					borderRadius: metrics.borderRadiusLarge,
+					marginBottom: metrics.spacingMedium,
+				}}
+			>
+				<Text
+					style={[
+						{
+							color: colors.primaryGray,
+							fontSize: metrics.fontMedium,
+							marginBottom: metrics.spacingSmall,
+							fontWeight: "500",
+						},
+					]}
+				>
 					ORGANIZATION
 				</Text>
-				<Text style={styles.reviewText}>
+				<Text
+					style={{
+						fontSize: metrics.fontLarge,
+						fontWeight: "500",
+						marginBottom: metrics.spacingSmall,
+					}}
+				>
 					{formData.organizationName || "N/A"}
 				</Text>
-				<Text style={styles.reviewText}>{formData.organizationType}</Text>
+				<Text
+					style={{
+						fontSize: metrics.fontLarge,
+						fontWeight: "400",
+						marginBottom: metrics.spacingSmall,
+						color: colors.primaryGray,
+					}}
+				>
+					{formData.organizationType}
+				</Text>
 			</View>
 
 			{formData.registrationNumber && (
-				<View style={styles.reviewSection}>
-					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+				<View
+					style={{
+						backgroundColor: colors.background,
+						padding: metrics.spacingExtraLarge,
+						borderRadius: metrics.borderRadiusLarge,
+						marginBottom: metrics.spacingMedium,
+					}}
+				>
+					<Text
+						style={[
+							{
+								color: colors.primaryGray,
+								fontSize: metrics.fontMedium,
+								marginBottom: metrics.spacingSmall,
+								fontWeight: "500",
+							},
+						]}
+					>
 						REG. NUMBER
 					</Text>
-					<Text style={styles.reviewText}>{formData.registrationNumber}</Text>
+					<Text
+						style={{
+							fontSize: metrics.fontLarge,
+							fontWeight: "500",
+							marginBottom: metrics.spacingSmall,
+						}}
+					>
+						{formData.registrationNumber}
+					</Text>
 				</View>
 			)}
 
 			{/* CONTACT */}
-			<View style={styles.reviewSection}>
-				<Text style={[styles.sectionTitle, { color: colors.text }]}>
+			<View
+				style={{
+					backgroundColor: colors.background,
+					padding: metrics.spacingExtraLarge,
+					borderRadius: metrics.borderRadiusLarge,
+					marginBottom: metrics.spacingMedium,
+				}}
+			>
+				<Text
+					style={[
+						{
+							color: colors.primaryGray,
+							fontSize: metrics.fontMedium,
+							marginBottom: metrics.spacingSmall,
+							fontWeight: "500",
+						},
+					]}
+				>
 					CONTACT
 				</Text>
-				<Text style={styles.reviewText}>
+				<Text
+					style={{
+						fontSize: metrics.fontLarge,
+						fontWeight: "500",
+						marginBottom: metrics.spacingSmall,
+					}}
+				>
 					{formData.contact.personName || "N/A"}
 				</Text>
-				<Text style={styles.reviewText}>{formData.contact.email || "N/A"}</Text>
+				<Text
+					style={{
+						fontSize: metrics.fontLarge,
+						fontWeight: "400",
+						marginBottom: metrics.spacingSmall,
+						color: colors.primaryGray,
+					}}
+				>
+					{formData.contact.email || "N/A"}
+				</Text>
 			</View>
 
-			<View style={styles.reviewSection}>
-				<Text style={[styles.sectionTitle, { color: colors.text }]}>PHONE</Text>
-				<Text style={styles.reviewText}>{formData.contact.phone || "N/A"}</Text>
+			<View
+				style={{
+					backgroundColor: colors.background,
+					padding: metrics.spacingExtraLarge,
+					borderRadius: metrics.borderRadiusLarge,
+					marginBottom: metrics.spacingMedium,
+				}}
+			>
+				<Text
+					style={[
+						{
+							color: colors.primaryGray,
+							fontSize: metrics.fontMedium,
+							marginBottom: metrics.spacingSmall,
+							fontWeight: "500",
+						},
+					]}
+				>
+					PHONE
+				</Text>
+				<Text
+					style={{
+						fontSize: metrics.fontLarge,
+						fontWeight: "500",
+						marginBottom: metrics.spacingSmall,
+					}}
+				>
+					{formData.contact.phone || "N/A"}
+				</Text>
 			</View>
 
 			{formData.contact.officeLocation && (
-				<View style={styles.reviewSection}>
-					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+				<View
+					style={{
+						backgroundColor: colors.background,
+						padding: metrics.spacingExtraLarge,
+						borderRadius: metrics.borderRadiusLarge,
+						marginBottom: metrics.spacingMedium,
+					}}
+				>
+					<Text
+						style={[
+							{
+								color: colors.primaryGray,
+								fontSize: metrics.fontMedium,
+								marginBottom: metrics.spacingSmall,
+								fontWeight: "500",
+							},
+						]}
+					>
 						LOCATION
 					</Text>
-					<Text style={styles.reviewText}>
+					<Text
+						style={{
+							fontSize: metrics.fontLarge,
+							fontWeight: "500",
+							marginBottom: metrics.spacingSmall,
+						}}
+					>
 						{formData.contact.officeLocation}
 					</Text>
 				</View>
 			)}
 
 			{formData.contact.website && (
-				<View style={styles.reviewSection}>
-					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+				<View
+					style={{
+						backgroundColor: colors.background,
+						padding: metrics.spacingExtraLarge,
+						borderRadius: metrics.borderRadiusLarge,
+						marginBottom: metrics.spacingMedium,
+					}}
+				>
+					<Text
+						style={[
+							{
+								color: colors.primaryGray,
+								fontSize: metrics.fontMedium,
+								marginBottom: metrics.spacingSmall,
+								fontWeight: "500",
+							},
+						]}
+					>
 						WEBSITE
 					</Text>
-					<Text style={styles.reviewText}>{formData.contact.website}</Text>
+					<Text
+						style={{
+							fontSize: metrics.fontLarge,
+							fontWeight: "500",
+							marginBottom: metrics.spacingSmall,
+						}}
+					>
+						{formData.contact.website}
+					</Text>
 				</View>
 			)}
 
 			{/* MISSION */}
-			<View style={styles.reviewSection}>
-				<Text style={[styles.sectionTitle, { color: colors.text }]}>
+			<View
+				style={{
+					backgroundColor: colors.background,
+					padding: metrics.spacingExtraLarge,
+					borderRadius: metrics.borderRadiusLarge,
+					marginBottom: metrics.spacingMedium,
+				}}
+			>
+				<Text
+					style={[
+						{
+							color: colors.primaryGray,
+							fontSize: metrics.fontMedium,
+							marginBottom: metrics.spacingSmall,
+							fontWeight: "500",
+						},
+					]}
+				>
 					DESCRIPTION
 				</Text>
-				<Text style={styles.reviewText}>
+				<Text
+					style={{
+						fontSize: metrics.fontLarge,
+						fontWeight: "500",
+						marginBottom: metrics.spacingSmall,
+					}}
+				>
 					{formData.mission.description.substring(0, 100)}
 				</Text>
 			</View>
 
 			{formData.mission.missionStatement && (
-				<View style={styles.reviewSection}>
-					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+				<View
+					style={{
+						backgroundColor: colors.background,
+						padding: metrics.spacingExtraLarge,
+						borderRadius: metrics.borderRadiusLarge,
+						marginBottom: metrics.spacingMedium,
+					}}
+				>
+					<Text
+						style={[
+							{
+								color: colors.primaryGray,
+								fontSize: metrics.fontMedium,
+								marginBottom: metrics.spacingSmall,
+								fontWeight: "500",
+							},
+						]}
+					>
 						MISSION
 					</Text>
-					<Text style={styles.reviewText}>
+					<Text
+						style={{
+							fontSize: metrics.fontLarge,
+							fontWeight: "500",
+							marginBottom: metrics.spacingSmall,
+						}}
+					>
 						{formData.mission.missionStatement.substring(0, 100)}
 					</Text>
 				</View>
 			)}
 
 			{formData.mission.verificationDocumentUri && (
-				<View style={styles.reviewSection}>
-					<Text style={[styles.sectionTitle, { color: colors.text }]}>
+				<View
+					style={{
+						backgroundColor: colors.background,
+						padding: metrics.spacingExtraLarge,
+						borderRadius: metrics.borderRadiusLarge,
+						marginBottom: metrics.spacingMedium,
+					}}
+				>
+					<Text
+						style={[
+							{
+								color: colors.primaryGray,
+								fontSize: metrics.fontMedium,
+								marginBottom: metrics.spacingSmall,
+								fontWeight: "500",
+							},
+						]}
+					>
 						DOCUMENTS
 					</Text>
-					<Text style={styles.reviewText}>Uploaded</Text>
+					<Text
+						style={{
+							fontSize: metrics.fontLarge,
+							fontWeight: "500",
+							marginBottom: metrics.spacingSmall,
+						}}
+					>
+						Uploaded
+					</Text>
 				</View>
 			)}
 
@@ -111,18 +354,36 @@ export default function StepFive({ formData, updateFormData, colors }: Props) {
 					styles.infoBox,
 					{
 						backgroundColor: colors.secondaryGreen,
-						borderRadius: 20,
+						borderRadius: metrics.borderRadiusLarge,
+						padding: metrics.spacingMedium,
+						marginBottom: metrics.spacingMedium,
+						gap: metrics.spacingSmall,
 					},
 				]}
 			>
 				<Shield size={20} color={colors.primaryGreen} />
-				<Text style={[styles.infoText, { color: colors.primaryGray }]}>
+				<Text
+					style={{
+						color: colors.primaryGray,
+						fontSize: metrics.fontSmall,
+						fontWeight: "400",
+					}}
+				>
 					All information will be reviewed within 2-3 business days.
 				</Text>
 			</View>
 
 			{/* CHECKBOX */}
-			<View style={styles.checkboxContainer}>
+			<View
+				style={{
+					marginBottom: metrics.spacingMedium,
+					flexDirection: "row",
+					alignItems: "center",
+					gap: metrics.spacingSmall,
+					paddingHorizontal: metrics.spacingMedium,
+					justifyContent: "center",
+				}}
+			>
 				<CheckBox
 					isChecked={formData.agreedToTerms}
 					onClick={() =>
@@ -131,6 +392,7 @@ export default function StepFive({ formData, updateFormData, colors }: Props) {
 						})
 					}
 					checkBoxColor={colors.primaryGreen}
+					uncheckedCheckBoxColor={colors.primaryGray}
 				/>
 				<Text style={{ color: colors.text, fontSize: 14, fontWeight: "500" }}>
 					I agree to the{" "}
@@ -154,36 +416,10 @@ export default function StepFive({ formData, updateFormData, colors }: Props) {
 
 const styles = StyleSheet.create({
 	stepTitle: {
-		fontSize: 24,
 		fontWeight: "bold",
-		marginBottom: 24,
-	},
-	reviewSection: {
-		backgroundColor: "white",
-		padding: 20,
-		borderRadius: 12,
-		marginBottom: 20,
-	},
-	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "bold",
-		marginBottom: 12,
-	},
-	reviewText: {
-		fontSize: 16,
-		marginBottom: 4,
 	},
 	infoBox: {
-		padding: 16,
-		marginBottom: 20,
 		flexDirection: "row",
 		alignItems: "center",
-	},
-	infoText: {
-		fontSize: 14,
-		marginLeft: 8,
-	},
-	checkboxContainer: {
-		marginBottom: 20,
 	},
 });

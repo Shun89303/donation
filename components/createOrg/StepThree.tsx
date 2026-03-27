@@ -1,6 +1,7 @@
 import { ThemeColors } from "@/app/_theme";
 import Input from "@/components/common/Input";
-import { FileText } from "lucide-react-native";
+import { metrics } from "@/utils/metrics";
+import { FileText, Shield, Upload } from "lucide-react-native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -24,8 +25,21 @@ export default function StepThree({
 	pickFile,
 }: StepThreeProps) {
 	return (
-		<View>
-			<Text style={[styles.stepTitle, { color: colors.text }]}>
+		<View
+			style={{
+				gap: metrics.spacingSmall,
+			}}
+		>
+			<Text
+				style={[
+					styles.stepTitle,
+					{
+						color: colors.text,
+						fontSize: metrics.fontExtraLarge,
+						marginBottom: metrics.spacingMedium,
+					},
+				]}
+			>
 				Mission &amp; Docs
 			</Text>
 
@@ -33,7 +47,7 @@ export default function StepThree({
 				label="Describe your organization..."
 				value={mission.description}
 				onChange={(v) => updateMission({ description: v })}
-				icon={<FileText size={12} color={colors.primaryGray} />}
+				icon={<FileText size={metrics.iconMedium} color={colors.primaryGray} />}
 				colors={colors}
 				multiline
 			/>
@@ -41,26 +55,53 @@ export default function StepThree({
 				label="Mission Statement"
 				value={mission.missionStatement || ""}
 				onChange={(v) => updateMission({ missionStatement: v })}
-				icon={<FileText size={12} color={colors.primaryGray} />}
+				icon={<FileText size={metrics.iconMedium} color={colors.primaryGray} />}
 				colors={colors}
 				optional
 			/>
 
 			<TouchableOpacity
-				style={styles.uploadButton}
+				style={[
+					styles.uploadButton,
+					{
+						borderRadius: metrics.borderRadiusLarge,
+						padding: metrics.spacingLarge,
+						marginBottom: metrics.spacingMedium,
+						flexDirection: "row",
+						borderColor: colors.secondaryGray,
+					},
+				]}
 				onPress={() => pickFile("verificationDocumentUri")}
 			>
-				<Text style={styles.uploadText}>Upload Verification Document</Text>
-				<Text
-					style={[
-						styles.uploadSubText,
-						{
-							color: colors.primaryGray,
-						},
-					]}
+				<Upload size={metrics.thumbnailSmall} color={colors.primaryGray} />
+				<View
+					style={{
+						marginHorizontal: metrics.spacingSmall,
+					}}
 				>
-					Registration certificate, license, etc.
-				</Text>
+					<Text
+						style={[
+							styles.uploadText,
+							{
+								fontSize: metrics.fontLarge,
+								marginBottom: metrics.spacingExtraSmall,
+							},
+						]}
+					>
+						Upload Verification Document
+					</Text>
+					<Text
+						style={[
+							styles.uploadSubText,
+							{
+								color: colors.primaryGray,
+								fontSize: metrics.fontSmall,
+							},
+						]}
+					>
+						Registration certificate, license, etc.
+					</Text>
+				</View>
 				{mission.verificationDocumentUri ? (
 					<Text style={{ color: colors.text }}>
 						PDF Selected: {mission.verificationDocumentUri.split("/").pop()}
@@ -68,8 +109,25 @@ export default function StepThree({
 				) : null}
 			</TouchableOpacity>
 
-			<View style={styles.infoBox}>
-				<Text style={[styles.infoText, { color: colors.primaryGray }]}>
+			<View
+				style={[
+					styles.infoBox,
+					{
+						padding: metrics.spacingMedium,
+						borderRadius: metrics.borderRadiusLarge,
+						backgroundColor: colors.secondaryGreen,
+						gap: metrics.spacingSmall,
+					},
+				]}
+			>
+				<Shield size={metrics.iconLarge} color={colors.primaryGreen} />
+				<Text
+					style={{
+						color: colors.primaryGray,
+						fontSize: metrics.fontSmall,
+						fontWeight: "400",
+					}}
+				>
 					Documents are encrypted and stored securely.
 				</Text>
 			</View>
@@ -79,42 +137,21 @@ export default function StepThree({
 
 const styles = StyleSheet.create({
 	stepTitle: {
-		fontSize: 24,
 		fontWeight: "bold",
-		marginBottom: 24,
 	},
 	uploadButton: {
 		borderWidth: 2,
 		borderStyle: "dashed",
-		borderRadius: 12,
-		padding: 40,
 		alignItems: "center",
-		marginBottom: 20,
 	},
 	uploadText: {
-		fontSize: 16,
-		marginBottom: 12,
 		fontWeight: "500",
 	},
 	uploadSubText: {
-		fontSize: 12,
-		marginBottom: 12,
 		fontWeight: "500",
 	},
-	preview: {
-		width: 60,
-		height: 60,
-		borderRadius: 8,
-	},
 	infoBox: {
-		padding: 16,
-		borderRadius: 12,
-		marginBottom: 20,
 		flexDirection: "row",
 		alignItems: "center",
-	},
-	infoText: {
-		fontSize: 14,
-		textAlign: "center",
 	},
 });

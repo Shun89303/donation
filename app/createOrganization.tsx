@@ -2,6 +2,7 @@ import FadeScreen from "@/components/common/FadeScreen";
 import StepProgress from "@/components/common/StepProgress";
 import WizardButton from "@/components/common/WizardButton";
 import CreateOrgHeader from "@/components/createOrg/CreateOrgHeader";
+import { OrganizationFormData } from "@/components/createOrg/orgFormDataTypes";
 import StepFive from "@/components/createOrg/StepFive";
 import StepFour from "@/components/createOrg/StepFour";
 import StepOne from "@/components/createOrg/StepOne";
@@ -14,26 +15,6 @@ import { useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-export interface OrganizationFormData {
-	organizationName: string;
-	organizationType: "NGO" | "Charity" | "Foundation" | "Community Group";
-	registrationNumber?: string;
-	contact: {
-		personName: string;
-		email: string;
-		phone: string;
-		officeLocation: string;
-		website?: string;
-	};
-	mission: {
-		description: string;
-		missionStatement?: string;
-		verificationDocumentUri?: string;
-	};
-	logoUri?: string;
-	agreedToTerms: boolean;
-}
 
 export default function CreateOrganization() {
 	const colors = useTheme();
@@ -101,7 +82,7 @@ export default function CreateOrganization() {
 		formData.contact.email.trim() &&
 		formData.contact.phone.trim();
 	const step3Valid = formData.mission.description.trim();
-	const step4Valid = true; // optional
+	const step4Valid = true;
 	const step5Valid = formData.agreedToTerms;
 
 	const canContinue = [step1Valid, step2Valid, step3Valid, step4Valid, false][
@@ -218,192 +199,10 @@ const styles = StyleSheet.create({
 	scrollContent: {
 		flexGrow: 1,
 	},
-	stepIndicator: {
-		alignItems: "center",
-		marginBottom: 30,
-	},
-	stepNumber: {
-		fontSize: 18,
-		fontWeight: "600",
-	},
-	stepTitle: {
-		fontSize: 24,
-		fontWeight: "bold",
-		marginBottom: 24,
-	},
 	content: {
 		flex: 1,
 	},
-	inputContainer: {
-		marginBottom: 20,
-	},
-	label: {
-		fontSize: 16,
-		fontWeight: "500",
-		marginBottom: 8,
-	},
-	inputWrapper: {
-		flexDirection: "row",
-		alignItems: "center",
-		borderWidth: 1,
-		borderRadius: 12,
-		paddingHorizontal: 12,
-	},
-	icon: {
-		marginRight: 8,
-	},
-	input: {
-		flex: 1,
-		paddingVertical: 14,
-		fontSize: 16,
-	},
-	typeRow: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		marginBottom: 20,
-		gap: 8,
-		justifyContent: "flex-start",
-	},
-	typeButton: {
-		borderWidth: 0,
-		borderRadius: 8,
-		// paddingHorizontal: 16,
-		paddingVertical: 12,
-		width: "48%",
-		alignItems: "center",
-	},
-	typeButtonText: {
-		fontSize: 16,
-		fontWeight: "500",
-		textAlign: "center",
-	},
-	uploadButton: {
-		borderWidth: 2,
-		borderStyle: "dashed",
-		borderRadius: 12,
-		padding: 40,
-		alignItems: "center",
-		marginBottom: 20,
-	},
-	uploadText: {
-		fontSize: 16,
-		marginBottom: 12,
-	},
-	preview: {
-		width: 60,
-		height: 60,
-		borderRadius: 8,
-	},
-	// logoUpload: {
-	// 	borderWidth: 2,
-	// 	borderStyle: "dashed",
-	// 	borderRadius: 100,
-	// 	width: 120,
-	// 	height: 120,
-	// 	alignItems: "center",
-	// 	justifyContent: "center",
-	// 	marginVertical: 20,
-	// 	position: "relative",
-	// },
-	// logoText: {
-	// 	fontSize: 16,
-	// 	textAlign: "center",
-	// 	marginBottom: 8,
-	// },
-	// logoPreview: {
-	// 	width: 80,
-	// 	height: 80,
-	// 	borderRadius: 40,
-	// },
-	// noteText: {
-	// 	fontSize: 14,
-	// 	textAlign: "center",
-	// 	marginTop: 12,
-	// },
-	logoUpload: {
-		borderWidth: 2,
-		borderStyle: "dashed",
-		borderRadius: 12,
-		width: 120,
-		height: 120,
-		alignItems: "center",
-		justifyContent: "center",
-		marginVertical: 20,
-		backgroundColor: "white",
-		overflow: "hidden",
-	},
-	logoPreview: {
-		width: 100,
-		height: 100,
-		borderRadius: 12,
-	},
-	logoText: {
-		fontSize: 16,
-		textAlign: "center",
-		fontWeight: "500",
-	},
-	noteText: {
-		fontSize: 14,
-		textAlign: "center",
-		marginTop: 8,
-		fontWeight: "500",
-	},
-	infoBox: {
-		padding: 16,
-		borderRadius: 12,
-		marginBottom: 20,
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	infoText: {
-		fontSize: 14,
-		textAlign: "center",
-	},
-	reviewSection: {
-		backgroundColor: "white",
-		padding: 20,
-		borderRadius: 12,
-		marginBottom: 20,
-	},
-	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "bold",
-		marginBottom: 12,
-	},
-	reviewText: {
-		fontSize: 16,
-		marginBottom: 4,
-	},
-	checkboxContainer: {
-		marginBottom: 20,
-		// borderRadius: 12,
-	},
-	checkboxLabel: {
-		flex: 1,
-		marginLeft: 12,
-		fontSize: 16,
-	},
-	centerContainer: {
-		alignItems: "center",
-	},
 	bottomActions: {
 		justifyContent: "center",
-	},
-	button: {
-		flex: 1,
-		borderRadius: 12,
-		paddingVertical: 16,
-		alignItems: "center",
-		marginHorizontal: 8,
-	},
-	secondaryButton: {
-		borderWidth: 1,
-	},
-	disabledButton: {
-		opacity: 0.5,
-	},
-	buttonText: {
-		fontSize: 16,
-		fontWeight: "600",
 	},
 });

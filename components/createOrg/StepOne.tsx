@@ -1,9 +1,9 @@
-import { OrganizationFormData } from "@/app/createOrganization";
 import Input from "@/components/common/Input";
 import { metrics } from "@/utils/metrics";
 import { Building2, Hash } from "lucide-react-native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { OrganizationFormData } from "./orgFormDataTypes";
 
 interface StepOneProps {
 	formData: {

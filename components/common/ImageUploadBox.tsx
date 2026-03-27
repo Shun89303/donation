@@ -71,7 +71,7 @@ export default function ImageUploadBox({
 					style={[
 						styles.labelText,
 						{
-							color: colors.text,
+							color: colors.primaryGray,
 							fontSize: metrics.fontMedium,
 							marginTop: metrics.spacingMedium,
 						},
@@ -86,7 +86,7 @@ export default function ImageUploadBox({
 						styles.noteText,
 						{
 							color: colors.primaryGray,
-							fontSize: metrics.fontMedium,
+							fontSize: metrics.fontSmall,
 							marginTop: metrics.spacingMedium,
 						},
 					]}
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 	},
 	noteText: {
 		textAlign: "center",
-		fontWeight: "500",
+		fontWeight: "300",
 	},
 	smallCameraContainer: {
 		position: "absolute",
