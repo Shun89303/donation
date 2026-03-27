@@ -1,7 +1,7 @@
 import { ThemeColors } from "@/app/_theme";
 import Input from "@/components/common/Input";
 import { metrics } from "@/utils/metrics";
-import { FileText, Shield, Upload } from "lucide-react-native";
+import { CircleCheck, FileText, Shield, Upload } from "lucide-react-native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -68,45 +68,88 @@ export default function StepThree({
 						padding: metrics.spacingLarge,
 						marginBottom: metrics.spacingMedium,
 						flexDirection: "row",
-						borderColor: colors.secondaryGray,
+						borderColor: mission.verificationDocumentUri
+							? colors.primaryGreen
+							: colors.secondaryGray,
 					},
 				]}
-				onPress={() => pickFile("verificationDocumentUri")}
+				onPress={() =>
+					mission.verificationDocumentUri
+						? updateMission({ verificationDocumentUri: "" })
+						: pickFile("verificationDocumentUri")
+				}
 			>
-				<Upload size={metrics.thumbnailSmall} color={colors.primaryGray} />
-				<View
-					style={{
-						marginHorizontal: metrics.spacingSmall,
-					}}
-				>
-					<Text
-						style={[
-							styles.uploadText,
-							{
-								fontSize: metrics.fontLarge,
-								marginBottom: metrics.spacingExtraSmall,
-							},
-						]}
-					>
-						Upload Verification Document
-					</Text>
-					<Text
-						style={[
-							styles.uploadSubText,
-							{
-								color: colors.primaryGray,
-								fontSize: metrics.fontSmall,
-							},
-						]}
-					>
-						Registration certificate, license, etc.
-					</Text>
-				</View>
 				{mission.verificationDocumentUri ? (
-					<Text style={{ color: colors.text }}>
-						PDF Selected: {mission.verificationDocumentUri.split("/").pop()}
-					</Text>
-				) : null}
+					// <Text style={{ color: colors.text }}>
+					// 	PDF Selected: {mission.verificationDocumentUri.split("/").pop()}
+					// </Text>
+					<>
+						<CircleCheck
+							size={metrics.thumbnailSmall}
+							color={colors.primaryGreen}
+						/>
+						<View
+							style={{
+								marginHorizontal: metrics.spacingSmall,
+							}}
+						>
+							<Text
+								style={[
+									styles.uploadText,
+									{
+										fontSize: metrics.fontLarge,
+										marginBottom: metrics.spacingExtraSmall,
+									},
+								]}
+							>
+								Document uploaded
+							</Text>
+							<Text
+								style={[
+									styles.uploadSubText,
+									{
+										color: colors.primaryGray,
+										fontSize: metrics.fontSmall,
+									},
+								]}
+							>
+								{mission.verificationDocumentUri.split("/").pop()}
+							</Text>
+						</View>
+					</>
+				) : (
+					<>
+						<Upload size={metrics.thumbnailSmall} color={colors.primaryGray} />
+						<View
+							style={{
+								marginHorizontal: metrics.spacingSmall,
+							}}
+						>
+							<Text
+								style={[
+									styles.uploadText,
+									{
+										fontSize: metrics.fontLarge,
+										marginBottom: metrics.spacingExtraSmall,
+									},
+								]}
+							>
+								Upload Verification Document
+							</Text>
+							<Text
+								style={[
+									styles.uploadSubText,
+									{
+										color: colors.primaryGray,
+										fontSize: metrics.fontSmall,
+									},
+								]}
+							>
+								Registration certificate, license, etc.
+							</Text>
+						</View>
+					</>
+				)}
 			</TouchableOpacity>
 
 			<View

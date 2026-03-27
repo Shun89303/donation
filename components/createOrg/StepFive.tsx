@@ -361,7 +361,7 @@ export default function StepFive({ formData, updateFormData, colors }: Props) {
 					},
 				]}
 			>
-				<Shield size={20} color={colors.primaryGreen} />
+				<Shield size={metrics.iconMedium} color={colors.primaryGreen} />
 				<Text
 					style={{
 						color: colors.primaryGray,
@@ -384,23 +384,31 @@ export default function StepFive({ formData, updateFormData, colors }: Props) {
 					justifyContent: "center",
 				}}
 			>
-				<CheckBox
-					isChecked={formData.agreedToTerms}
-					onClick={() =>
-						updateFormData({
-							agreedToTerms: !formData.agreedToTerms,
-						})
-					}
-					checkBoxColor={colors.primaryGreen}
-					uncheckedCheckBoxColor={colors.primaryGray}
-				/>
-				<Text style={{ color: colors.text, fontSize: 14, fontWeight: "500" }}>
+				<View style={{ transform: [{ scale: metrics.checkboxScale }] }}>
+					<CheckBox
+						isChecked={formData.agreedToTerms}
+						onClick={() =>
+							updateFormData({
+								agreedToTerms: !formData.agreedToTerms,
+							})
+						}
+						checkBoxColor={colors.primaryGreen}
+						uncheckedCheckBoxColor={colors.primaryGray}
+					/>
+				</View>
+				<Text
+					style={{
+						color: colors.text,
+						fontSize: metrics.fontSmall,
+						fontWeight: "500",
+					}}
+				>
 					I agree to the{" "}
 					<Text
 						style={{
 							color: colors.primaryGreen,
 							textDecorationLine: "underline",
-							fontSize: 14,
+							fontSize: metrics.fontSmall,
 							fontWeight: "700",
 						}}
 						onPress={() => router.push("/terms")}

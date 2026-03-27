@@ -50,8 +50,12 @@ export const metrics = {
 	iconExtraSmall: scale(10),
 	iconSmall: scale(12),
 	iconMedium: scale(16),
+	iconMediumLarge: scale(18),
+	iconMediumXL: scale(20),
+	iconMediumXXL: scale(22),
 	iconLarge: scale(24),
-	iconXLarge: scale(32),
+	iconXL: scale(28),
+	iconXXL: scale(32),
 
 	// Buttons / Thumbnails / Avatars
 	buttonSmall: scale(32),
@@ -128,6 +132,8 @@ export const metrics = {
 	bottomLarge: verticalScale(16),
 	bottomExtraLarge: verticalScale(24),
 	bottomXLarge: verticalScale(30),
+	bottomXXL: verticalScale(36),
+	bottomXXXL: verticalScale(48),
 
 	leftExtraSmall: scale(4),
 	leftSmall: scale(8),
@@ -168,4 +174,9 @@ export const metrics = {
 		multiLineSmall: verticalScale(80), // small multiline input
 		multiLineLarge: verticalScale(120), // larger multiline input
 	},
+
+	// --------------------
+	// Checkbox scaling
+	// --------------------
+	checkboxScale: isTablet ? 1.5 : 1,
 };

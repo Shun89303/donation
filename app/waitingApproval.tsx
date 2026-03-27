@@ -225,8 +225,8 @@ export default function WaitingApproval() {
 									style={[
 										styles.iconBase,
 										{
-											width: metrics.iconXLarge,
-											height: metrics.iconXLarge,
+											width: metrics.iconXL,
+											height: metrics.iconXL,
 											borderRadius: 999,
 										},
 										getIconStyle(step.state),
@@ -242,7 +242,7 @@ export default function WaitingApproval() {
 											styles.verticalLine,
 											{
 												top: metrics.topMedium,
-												bottom: -metrics.bottomXLarge,
+												bottom: -metrics.bottomXXXL,
 												width: metrics.borderThick,
 												zIndex: -1,
 												backgroundColor:
@@ -317,7 +317,7 @@ export default function WaitingApproval() {
 						borderRadius: metrics.borderRadiusLarge,
 						marginBottom: metrics.spacingMedium,
 					}}
-					onPress={() => router.push("/")}
+					onPress={() => router.push("/auth")}
 				>
 					<Text
 						style={[
@@ -387,25 +387,22 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 	},
-	iconContainer: {
-		alignItems: "center",
-		marginRight: 10,
-	},
 	iconBase: {
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	mutedIcon: {
-		backgroundColor: "#eee",
-	},
-	line: {
-		width: 2,
-		height: 10,
-		flex: 1,
-		marginTop: 0,
-	},
 	stepText: {
 		fontWeight: "500",
+	},
+	iconWrapper: {
+		alignItems: "center",
+		position: "relative",
+	},
+	verticalLine: {
+		position: "absolute",
+	},
+	bottomButtonText: {
+		textAlign: "center",
 	},
 	activeText: {
 		fontWeight: "500",
@@ -415,16 +412,5 @@ const styles = StyleSheet.create({
 	},
 	mutedText: {
 		fontWeight: "500",
-	},
-	bottomButtonText: {
-		textAlign: "center",
-	},
-	iconWrapper: {
-		alignItems: "center",
-		position: "relative",
-	},
-
-	verticalLine: {
-		position: "absolute",
 	},
 });
