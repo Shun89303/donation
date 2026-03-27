@@ -42,7 +42,7 @@ export const metrics = {
 	// Border widths
 	borderThin: 1,
 	borderMedium: isTablet ? 1.5 : 1,
-	borderThick: isTablet ? 2 : 1.5,
+	borderThick: 2,
 
 	// Icons
 	iconExtraSmall: scale(10),
@@ -106,4 +106,58 @@ export const metrics = {
 	lineHeightMedium: moderateScale(14) * 1.3,
 	lineHeightLarge: moderateScale(16) * 1.35,
 	lineHeightExtraLarge: moderateScale(20) * 1.4,
+
+	// ----------------
+	// Absolute positions
+	// ----------------
+	topExtraSmall: verticalScale(4),
+	topSmall: verticalScale(8),
+	topMedium: verticalScale(12),
+	topLarge: verticalScale(16),
+	topExtraLarge: verticalScale(24),
+
+	bottomExtraSmall: verticalScale(4),
+	bottomSmall: verticalScale(8),
+	bottomMedium: verticalScale(12),
+	bottomLarge: verticalScale(16),
+	bottomExtraLarge: verticalScale(24),
+	bottomXLarge: verticalScale(30),
+
+	leftExtraSmall: scale(4),
+	leftSmall: scale(8),
+	leftMedium: scale(12),
+	leftLarge: scale(16),
+	leftExtraLarge: scale(24),
+
+	rightExtraSmall: scale(4),
+	rightSmall: scale(8),
+	rightMedium: scale(12),
+	rightLarge: scale(16),
+	rightExtraLarge: scale(24),
+
+	dimensions: {
+		width: {
+			xs: scale(4),
+			sm: scale(8),
+			md: scale(12),
+			lg: scale(16),
+			xl: scale(24),
+		},
+		height: {
+			xs: verticalScale(4),
+			sm: verticalScale(8),
+			md: verticalScale(12),
+			lg: verticalScale(16),
+			xl: verticalScale(24),
+		},
+	},
+
+	// ----------------
+	// Input heights
+	// ----------------
+	inputHeight: {
+		singleLine: verticalScale(40), // normal input
+		multiLineSmall: verticalScale(80), // small multiline input
+		multiLineLarge: verticalScale(120), // larger multiline input
+	},
 };

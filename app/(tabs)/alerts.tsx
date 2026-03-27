@@ -1,4 +1,3 @@
-import FadeScreen from "@/components/common/FadeScreen";
 import AlertNotificationCard from "@/components/alerts/AlertNotificationCard";
 import AlertsHeader from "@/components/alerts/AlertsHeader";
 import { TYPE_FILTER_GROUP } from "@/components/alerts/notificationsConfig";
@@ -7,6 +6,7 @@ import type {
 	NotificationFilter,
 	NotificationItem,
 } from "@/components/alerts/types";
+import FadeScreen from "@/components/common/FadeScreen";
 import { useTheme } from "@/hooks/useTheme";
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { useMemo, useRef, useState } from "react";
@@ -15,7 +15,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Alerts() {
 	const colors = useTheme();
-	const notificationsListRef = useRef<FlashListRef<NotificationItem> | null>(null);
+	const notificationsListRef = useRef<FlashListRef<NotificationItem> | null>(
+		null,
+	);
 	const [activeFilter, setActiveFilter] = useState<NotificationFilter>("All");
 	const [notifications, setNotifications] =
 		useState<NotificationItem[]>(MOCK_NOTIFICATIONS);
@@ -48,7 +50,9 @@ export default function Alerts() {
 	};
 
 	const markAllAsRead = () => {
-		setNotifications((prev) => prev.map((item) => ({ ...item, unread: false })));
+		setNotifications((prev) =>
+			prev.map((item) => ({ ...item, unread: false })),
+		);
 	};
 
 	const onPressNotification = (pressedItem: NotificationItem) => {
