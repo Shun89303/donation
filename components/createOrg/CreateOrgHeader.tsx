@@ -18,11 +18,11 @@ export default function CreateOrgHeader({
 				flexDirection: "row",
 				alignItems: "center",
 				justifyContent: "flex-start",
-				gap: metrics.spacingMedium,
+				gap: metrics.spacingExtraLarge,
 			}}
 		>
 			<Pressable onPress={goBack}>
-				<ArrowLeftIcon size={metrics.iconMedium} color={colors.text} />
+				<ArrowLeftIcon size={metrics.iconLarge} color={colors.text} />
 			</Pressable>
 			<View
 				style={{

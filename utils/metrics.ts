@@ -38,6 +38,8 @@ export const metrics = {
 	borderRadiusSmall: scale(4),
 	borderRadiusMedium: scale(8),
 	borderRadiusLarge: scale(14),
+	borderRadiusXLarge: scale(28),
+	borderRadiusXXL: scale(42),
 
 	// Border widths
 	borderThin: 1,
@@ -59,6 +61,8 @@ export const metrics = {
 	thumbnailSmall: scale(32),
 	thumbnailMedium: scale(44),
 	thumbnailLarge: scale(60),
+	thumbnailXLarge: scale(80),
+	thumbnailXXL: scale(100),
 
 	avatarSmall: scale(32),
 	avatarMedium: scale(44),
@@ -76,6 +80,8 @@ export const metrics = {
 	containerPaddingHorizontalSmall: scale(4),
 	containerPaddingHorizontalMedium: scale(8),
 	containerPaddingHorizontalLarge: scale(12),
+	containerPaddingHorizontalxl: scale(24),
+	containerPaddingHorizontalxxl: scale(36),
 
 	// Generic overlay / placeholder size
 	overlaySmall: scale(24),
@@ -142,6 +148,7 @@ export const metrics = {
 			md: scale(12),
 			lg: scale(16),
 			xl: scale(24),
+			xxl: scale(52),
 		},
 		height: {
 			xs: verticalScale(4),
@@ -149,6 +156,7 @@ export const metrics = {
 			md: verticalScale(12),
 			lg: verticalScale(16),
 			xl: verticalScale(24),
+			xxl: verticalScale(52),
 		},
 	},
 

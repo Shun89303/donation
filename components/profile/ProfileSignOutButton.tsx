@@ -1,5 +1,6 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
+import { useRouter } from "expo-router";
 import { StyleSheet, Text } from "react-native";
 
 type ProfileSignOutButtonProps = {
@@ -9,9 +10,16 @@ type ProfileSignOutButtonProps = {
 export default function ProfileSignOutButton({
 	colors,
 }: ProfileSignOutButtonProps) {
+	const router = useRouter();
+
 	return (
-		<AnimatedPressable style={styles.signOutButton}>
-			<Text style={[styles.signOutText, { color: colors.profileDanger }]}>Sign Out</Text>
+		<AnimatedPressable
+			style={styles.signOutButton}
+			onPress={() => router.push("/auth")}
+		>
+			<Text style={[styles.signOutText, { color: colors.profileDanger }]}>
+				Sign Out
+			</Text>
 		</AnimatedPressable>
 	);
 }

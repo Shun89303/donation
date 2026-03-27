@@ -2,11 +2,11 @@ import * as DocumentPicker from "expo-document-picker";
 import * as ImagePicker from "expo-image-picker";
 import { Alert } from "react-native";
 
-export type FileField = "logoUri" | "verificationDocumentUri";
+export type FileField = "logoUri" | "profileImage" | "verificationDocumentUri";
 
 export function usePickFile(onPicked: (field: FileField, uri: string) => void) {
 	const pickFile = async (field: FileField) => {
-		if (field === "logoUri") {
+		if (field === "logoUri" || field === "profileImage") {
 			// Image case
 			const permission =
 				await ImagePicker.requestMediaLibraryPermissionsAsync();

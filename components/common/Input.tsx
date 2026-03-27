@@ -59,15 +59,12 @@ export default function Input({
 					style={[
 						styles.input,
 						{
-							color: colors.text,
+							color: "black",
 							paddingVertical: metrics.spacingMedium,
 							fontSize: metrics.fontMedium,
 							height: multiline
 								? metrics.inputHeight.multiLineLarge
-								: metrics.inputHeight.singleLine,
-							// height: multiline
-							// 	? metrics.lineHeightExtraLarge
-							// 	: metrics.lineHeightLarge,
+								: undefined,
 						},
 					]}
 					value={value}
@@ -76,7 +73,7 @@ export default function Input({
 					numberOfLines={multiline ? 4 : 1}
 					textAlignVertical={multiline ? "top" : "center"}
 					placeholder={`${label}${optional ? " (optional)" : ""}`}
-					placeholderTextColor={colors.placeholderMuted}
+					placeholderTextColor={colors.primaryGray}
 					onFocus={() => setIsFocused(true)}
 					onBlur={() => setIsFocused(false)}
 				/>

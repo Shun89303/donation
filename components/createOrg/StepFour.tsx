@@ -1,6 +1,6 @@
-import { Camera } from "lucide-react-native";
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import ImageUploadBox from "../common/ImageUploadBox";
 
 interface StepFourProps {
 	logoUri?: string;
@@ -16,41 +16,13 @@ export default function StepFour({ logoUri, colors, pickFile }: StepFourProps) {
 			</Text>
 
 			<View style={{ alignItems: "center", marginTop: 12 }}>
-				<TouchableOpacity
-					style={[
-						styles.logoUpload,
-						{
-							backgroundColor: colors.secondaryGray,
-							borderColor: colors.darkGreen,
-						},
-					]}
+				<ImageUploadBox
+					uri={logoUri}
 					onPress={() => pickFile("logoUri")}
-				>
-					{logoUri ? (
-						<Image source={{ uri: logoUri }} style={styles.logoPreview} />
-					) : (
-						<Camera size={50} color={colors.primaryGray} />
-					)}
-
-					{/* Small camera overlay */}
-					<View
-						style={[
-							styles.smallCameraContainer,
-							{
-								backgroundColor: colors.primaryGreen,
-							},
-						]}
-					>
-						<Camera size={18} color="white" />
-					</View>
-				</TouchableOpacity>
-
-				<Text style={[styles.logoText, { marginTop: 16 }]}>
-					Tap to upload your logo
-				</Text>
-				<Text style={[styles.noteText, { color: colors.primaryGray }]}>
-					You can skip this and add a logo later.
-				</Text>
+					colors={colors}
+					label="Tap to upload your logo"
+					note="You can skip this and add a logo later."
+				/>
 			</View>
 		</View>
 	);
