@@ -1,6 +1,10 @@
 import type { ThemeColors } from "@/app/_theme";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import globalStyles from "@/styles/styles";
+import { metrics } from "@/utils/metrics";
+import { useRouter } from "expo-router";
+import { CircleCheck, Pencil } from "lucide-react-native";
 import { Image, StyleSheet, Text, View } from "react-native";
+import AnimatedPressable from "../common/AnimatedPressable";
 import { formatMmk, getInitials, toCount } from "./profileUtils";
 import type { UserProfile } from "./types";
 
@@ -13,11 +17,13 @@ export default function ProfileHeaderCard({
 	colors,
 	profile,
 }: ProfileHeaderCardProps) {
-	const safeDonationCount = toCount(profile.donationCount);
+	const safeDonationCount = toCount(profile.donationCount || 3);
 	const safeSavedCount = toCount(profile.savedCount);
-	const safeMmkGiven = formatMmk(profile.totalMmkGiven);
-	const showProfileImage = Boolean(profile.profileImageUri);
-	const initials = getInitials(profile.name);
+	const safeMmkGiven = formatMmk(profile.totalMmkGiven || 3500000);
+	const showProfileImage = Boolean(profile.profileImageUri || "");
+	const initials = getInitials(profile.name || "Maung Chan Aye");
+
+	const router = useRouter();
 
 	const profileStats = [
 		{ label: "Donations", value: `${safeDonationCount}` },
@@ -30,55 +36,93 @@ export default function ProfileHeaderCard({
 			style={[
 				styles.card,
 				{
-					backgroundColor: colors.profileCardBackground,
-					borderColor: colors.profileBorder,
+					backgroundColor: colors.background,
+					borderColor: colors.secondaryGray,
+					...globalStyles.shadows,
 				},
 			]}
 		>
 			<View style={styles.profileRow}>
-				{showProfileImage ? (
-					<Image
-						source={{ uri: profile.profileImageUri }}
-						style={[styles.avatar, { borderColor: colors.profileBorder }]}
-					/>
-				) : (
-					<View
-						style={[
-							styles.avatar,
-							styles.avatarFallback,
-							{
-								borderColor: colors.profileBorder,
-								backgroundColor: colors.profileAccentSoft,
-							},
-						]}
-					>
-						<Text style={[styles.avatarInitials, { color: colors.profileAccent }]}>
-							{initials}
-						</Text>
-					</View>
-				)}
-				<View style={styles.profileInfo}>
-					<Text style={[styles.userName, { color: colors.text }]}>{profile.name}</Text>
-					{profile.isVerified !== false ? (
-						<View style={styles.verifiedRow}>
-							<MaterialCommunityIcons
-								name="check-decagram"
-								size={14}
-								color={colors.profileAccent}
-							/>
-							<Text style={[styles.verifiedText, { color: colors.profileAccent }]}>
-								Verified Donor
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						gap: metrics.spacingMedium,
+					}}
+				>
+					{showProfileImage ? (
+						<Image
+							source={{ uri: profile.profileImageUri || "" }}
+							style={[styles.avatar]}
+						/>
+					) : (
+						<View
+							style={[
+								styles.avatar,
+								styles.avatarFallback,
+								{
+									backgroundColor: colors.secondaryGreen,
+								},
+							]}
+						>
+							<Text
+								style={[styles.avatarInitials, { color: colors.primaryGreen }]}
+							>
+								{initials}
 							</Text>
 						</View>
-					) : null}
+					)}
+					<View style={styles.profileInfo}>
+						<Text style={[styles.userName, { color: colors.text }]}>
+							{profile.name || "Maung Chan Aye"}
+						</Text>
+						{profile.isVerified !== false ? (
+							<View style={styles.verifiedRow}>
+								<CircleCheck
+									size={metrics.iconMedium}
+									color={colors.primaryGreen}
+								/>
+								<Text
+									style={[styles.verifiedText, { color: colors.primaryGreen }]}
+								>
+									Verified Donor
+								</Text>
+							</View>
+						) : (
+							<View style={styles.verifiedRow}>
+								<CircleCheck
+									size={metrics.iconMedium}
+									color={colors.primaryRed}
+								/>
+								<Text
+									style={[styles.verifiedText, { color: colors.primaryRed }]}
+								>
+									Not Verified
+								</Text>
+							</View>
+						)}
+					</View>
+					<AnimatedPressable
+						style={{
+							alignItems: "center",
+							backgroundColor: colors.secondaryGray,
+							padding: metrics.spacingSmall,
+							borderRadius: metrics.borderRadiusMedium,
+						}}
+						onPress={() => router.push("/editProfile")}
+					>
+						<Pencil size={metrics.iconMediumLarge} color={colors.primaryGray} />
+					</AnimatedPressable>
 				</View>
 			</View>
 
-			<View style={[styles.statsRow, { borderColor: colors.profileBorder }]}>
+			<View style={[styles.statsRow, { borderColor: colors.secondaryGray }]}>
 				{profileStats.map((item) => (
 					<View key={item.label} style={styles.statColumn}>
-						<Text style={[styles.statValue, { color: colors.text }]}>{item.value}</Text>
-						<Text style={[styles.statLabel, { color: colors.profileLabel }]}>
+						<Text style={[styles.statValue, { color: colors.text }]}>
+							{item.value}
+						</Text>
+						<Text style={[styles.statLabel, { color: colors.primaryGray }]}>
 							{item.label}
 						</Text>
 					</View>
@@ -90,64 +134,64 @@ export default function ProfileHeaderCard({
 
 const styles = StyleSheet.create({
 	card: {
-		borderRadius: 18,
+		borderRadius: metrics.borderRadiusLarge,
 		borderWidth: 1,
-		padding: 14,
+		padding: metrics.spacingMedium,
 	},
 	profileRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 12,
+		justifyContent: "space-between",
+		gap: metrics.spacingLarge,
 	},
 	avatar: {
-		width: 64,
-		height: 64,
-		borderRadius: 16,
-		borderWidth: 1,
+		width: metrics.avatarLarge,
+		height: metrics.avatarLarge,
+		borderRadius: metrics.borderRadiusLarge,
 	},
 	avatarFallback: {
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	avatarInitials: {
-		fontSize: 20,
+		fontSize: metrics.fontExtraLarge,
 		fontWeight: "700",
-		letterSpacing: 0.4,
+		letterSpacing: metrics.letterSpacing.normal,
 	},
 	profileInfo: {
 		flex: 1,
-		gap: 6,
+		gap: metrics.spacingExtraSmall,
 	},
 	userName: {
-		fontSize: 20,
+		fontSize: metrics.fontExtraLarge,
 		fontWeight: "700",
 	},
 	verifiedRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 6,
+		gap: metrics.spacingExtraSmall,
 	},
 	verifiedText: {
-		fontSize: 13,
-		fontWeight: "600",
+		fontSize: metrics.fontSmall,
+		fontWeight: "500",
 	},
 	statsRow: {
-		marginTop: 14,
-		paddingTop: 12,
+		marginTop: metrics.spacingMedium,
+		paddingTop: metrics.spacingMedium,
 		borderTopWidth: 1,
 		flexDirection: "row",
 	},
 	statColumn: {
 		flex: 1,
 		alignItems: "center",
-		gap: 3,
+		gap: metrics.spacingExtraSmall,
 	},
 	statValue: {
-		fontSize: 18,
+		fontSize: metrics.fontLarge,
 		fontWeight: "700",
 	},
 	statLabel: {
-		fontSize: 12,
-		fontWeight: "500",
+		fontSize: metrics.fontSmall,
+		fontWeight: "400",
 	},
 });

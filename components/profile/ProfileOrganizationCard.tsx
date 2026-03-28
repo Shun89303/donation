@@ -1,7 +1,7 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
-import Feather from "@expo/vector-icons/Feather";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { metrics } from "@/utils/metrics";
+import { Building2, ChevronRight } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 
 type ProfileOrganizationCardProps = {
@@ -18,8 +18,7 @@ export default function ProfileOrganizationCard({
 			style={[
 				styles.card,
 				{
-					backgroundColor: colors.profileOrgBackground,
-					borderColor: colors.profileBorder,
+					backgroundColor: colors.primaryGreen,
 				},
 			]}
 		>
@@ -27,24 +26,23 @@ export default function ProfileOrganizationCard({
 				<View
 					style={[
 						styles.orgIconWrap,
-						{ backgroundColor: colors.profileAccentSoft },
+						{ backgroundColor: colors.secondaryDarkGreen },
 					]}
 				>
-					<MaterialCommunityIcons
-						name="office-building-outline"
-						size={18}
-						color={colors.profileAccent}
-					/>
+					<Building2 size={metrics.iconMediumXL} color={"#fff"} />
 				</View>
 				<View style={styles.orgTextWrap}>
-					<Text style={[styles.orgTitle, { color: colors.profileOrgText }]}>
+					<Text style={[styles.orgTitle, { color: "#fff" }]}>
 						My Organization
 					</Text>
-					<Text style={[styles.orgName, { color: colors.profileOrgText }]}>
+					<Text style={[styles.orgName, { color: colors.secondaryGray }]}>
 						{organizationName}
 					</Text>
 				</View>
-				<Feather name="chevron-right" size={18} color={colors.profileOrgText} />
+				<ChevronRight
+					size={metrics.iconMediumLarge}
+					color={colors.secondaryGray}
+				/>
 			</View>
 		</AnimatedPressable>
 	);
@@ -52,33 +50,31 @@ export default function ProfileOrganizationCard({
 
 const styles = StyleSheet.create({
 	card: {
-		borderRadius: 18,
-		borderWidth: 1,
-		padding: 14,
+		borderRadius: metrics.borderRadiusLarge,
+		padding: metrics.spacingMedium,
 	},
 	orgRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 12,
+		gap: metrics.spacingMedium,
 	},
 	orgIconWrap: {
-		width: 40,
-		height: 40,
-		borderRadius: 12,
+		width: metrics.iconMediumXL + metrics.spacingExtraLarge,
+		height: metrics.iconMediumXL + metrics.spacingExtraLarge,
+		borderRadius: metrics.borderRadiusLarge,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	orgTextWrap: {
 		flex: 1,
-		gap: 4,
+		gap: metrics.spacingExtraSmall,
 	},
 	orgTitle: {
-		fontSize: 16,
+		fontSize: metrics.fontLarge,
 		fontWeight: "700",
 	},
 	orgName: {
-		fontSize: 13,
-		fontWeight: "600",
-		opacity: 0.85,
+		fontSize: metrics.fontSmall,
+		fontWeight: "500",
 	},
 });

@@ -16,12 +16,15 @@ export default function FadeScreen({
 
 	useFocusEffect(
 		useCallback(() => {
-			// reset before animating
-			opacity.value = 0;
-			translateY.value = 10;
-
+			// animate opacity and translateY safely
 			opacity.value = withTiming(1, { duration: 400 });
 			translateY.value = withTiming(0, { duration: 400 });
+
+			return () => {
+				// optional reset on blur
+				opacity.value = 0;
+				translateY.value = 10;
+			};
 		}, []),
 	);
 

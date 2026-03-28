@@ -1,7 +1,15 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
-import Feather from "@expo/vector-icons/Feather";
-import type { ComponentProps, ReactNode } from "react";
+import globalStyles from "@/styles/styles";
+import { metrics } from "@/utils/metrics";
+import {
+	Bell,
+	ChevronRight,
+	CircleHelp,
+	Globe,
+	Shield,
+} from "lucide-react-native";
+import type { ReactNode } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { toCount } from "./profileUtils";
 
@@ -13,13 +21,13 @@ type ProfileSettingsListProps = {
 
 function SettingRow({
 	colors,
-	icon,
+	icon: Icon,
 	label,
 	trailing,
 	isLast,
 }: {
 	colors: ThemeColors;
-	icon: ComponentProps<typeof Feather>["name"];
+	icon: React.ComponentType<{ size: number; color: string }>; // Accept icon component
 	label: string;
 	trailing?: ReactNode;
 	isLast?: boolean;
@@ -28,13 +36,15 @@ function SettingRow({
 		<AnimatedPressable
 			style={[
 				styles.settingRow,
-				{ borderColor: colors.profileBorder },
+				{ borderColor: colors.secondaryGray },
 				isLast ? styles.lastSettingRow : null,
 			]}
 		>
 			<View style={styles.settingLeft}>
-				<Feather name={icon} size={18} color={colors.text} />
-				<Text style={[styles.settingLabel, { color: colors.text }]}>{label}</Text>
+				<Icon size={metrics.iconMediumLarge} color={colors.primaryGray} />
+				<Text style={[styles.settingLabel, { color: colors.text }]}>
+					{label}
+				</Text>
 			</View>
 			<View style={styles.settingRight}>{trailing}</View>
 		</AnimatedPressable>
@@ -51,54 +61,71 @@ export default function ProfileSettingsList({
 			style={[
 				styles.settingsCard,
 				{
-					backgroundColor: colors.profileCardBackground,
-					borderColor: colors.profileBorder,
+					backgroundColor: colors.background,
+					borderColor: colors.secondaryGray,
+					...globalStyles.shadows,
 				},
 			]}
 		>
 			<SettingRow
 				colors={colors}
-				icon="bell"
+				icon={Bell}
 				label="Notifications"
 				trailing={
 					<>
 						<View
 							style={[
 								styles.notificationDot,
-								{ backgroundColor: colors.profileDanger },
+								{ backgroundColor: colors.primaryRed },
 							]}
 						/>
-						<Text style={[styles.trailingValue, { color: colors.text }]}>
+						<Text style={[styles.trailingValue, { color: colors.primaryGray }]}>
 							{toCount(notificationCount)}
 						</Text>
-						<Feather name="chevron-right" size={18} color={colors.profileLabel} />
+						<ChevronRight
+							size={metrics.iconMediumLarge}
+							color={colors.profileLabel}
+						/>
 					</>
 				}
 			/>
 			<SettingRow
 				colors={colors}
-				icon="globe"
+				icon={Globe}
 				label="Language"
 				trailing={
 					<>
-						<Text style={[styles.trailingValue, { color: colors.text }]}>
+						<Text style={[styles.trailingValue, { color: colors.primaryGray }]}>
 							{language || "EN"}
 						</Text>
-						<Feather name="chevron-right" size={18} color={colors.profileLabel} />
+						<ChevronRight
+							size={metrics.iconMediumLarge}
+							color={colors.profileLabel}
+						/>
 					</>
 				}
 			/>
 			<SettingRow
 				colors={colors}
-				icon="shield"
+				icon={Shield}
 				label="Privacy & Security"
-				trailing={<Feather name="chevron-right" size={18} color={colors.profileLabel} />}
+				trailing={
+					<ChevronRight
+						size={metrics.iconMediumLarge}
+						color={colors.profileLabel}
+					/>
+				}
 			/>
 			<SettingRow
 				colors={colors}
-				icon="help-circle"
+				icon={CircleHelp}
 				label="Help & Support"
-				trailing={<Feather name="chevron-right" size={18} color={colors.profileLabel} />}
+				trailing={
+					<ChevronRight
+						size={metrics.iconMediumLarge}
+						color={colors.profileLabel}
+					/>
+				}
 				isLast
 			/>
 		</View>
@@ -107,7 +134,7 @@ export default function ProfileSettingsList({
 
 const styles = StyleSheet.create({
 	settingsCard: {
-		borderRadius: 18,
+		borderRadius: metrics.borderRadiusLarge,
 		borderWidth: 1,
 		overflow: "hidden",
 	},
@@ -115,8 +142,8 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		paddingHorizontal: 14,
-		paddingVertical: 14,
+		paddingHorizontal: metrics.spacingMedium,
+		paddingVertical: metrics.spacingMedium,
 		borderBottomWidth: 1,
 	},
 	lastSettingRow: {
@@ -125,24 +152,24 @@ const styles = StyleSheet.create({
 	settingLeft: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 10,
+		gap: metrics.spacingMedium,
 	},
 	settingLabel: {
-		fontSize: 15,
-		fontWeight: "500",
+		fontSize: metrics.fontLarge,
+		fontWeight: "400",
 	},
 	settingRight: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 6,
+		gap: metrics.spacingSmall,
 	},
 	trailingValue: {
-		fontSize: 14,
+		fontSize: metrics.fontSmall,
 		fontWeight: "400",
 	},
 	notificationDot: {
-		width: 8,
-		height: 8,
+		width: metrics.iconExtraSmall,
+		height: metrics.iconExtraSmall,
 		borderRadius: 999,
 	},
 });

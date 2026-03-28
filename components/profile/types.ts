@@ -1,6 +1,7 @@
 export type UserProfile = {
 	name: string;
 	profileImageUri?: string;
+	bio: string;
 	donationCount?: number;
 	totalMmkGiven?: number;
 	savedCount?: number;

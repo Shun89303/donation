@@ -5,6 +5,7 @@ const savedCampaignIds = new Set<string>();
 export const USER_PROFILE: UserProfile = {
 	name: "Maung Chan Aye",
 	profileImageUri: "",
+	bio: "",
 	donationCount: 3,
 	totalMmkGiven: 350000,
 	savedCount: 0,

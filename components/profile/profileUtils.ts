@@ -17,9 +17,15 @@ export function toCount(value?: number) {
 }
 
 export function formatMmk(value?: number) {
-	const safe = toCount(value);
-	if (safe >= 1000) {
-		return `${Math.round(safe / 1000)}K`;
+	const safe = value ?? 0;
+
+	if (safe >= 1_000_000_000) {
+		return `${(safe / 1_000_000_000).toFixed(1).replace(/\.0$/, "")}B`;
+	} else if (safe >= 1_000_000) {
+		return `${(safe / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
+	} else if (safe >= 1_000) {
+		return `${(safe / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
 	}
+
 	return `${safe}`;
 }

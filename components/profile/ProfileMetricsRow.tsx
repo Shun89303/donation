@@ -1,6 +1,8 @@
 import type { ThemeColors } from "@/app/_theme";
 import AnimatedPressable from "@/components/common/AnimatedPressable";
-import Feather from "@expo/vector-icons/Feather";
+import globalStyles from "@/styles/styles";
+import { metrics } from "@/utils/metrics";
+import { BookmarkCheck, Heart } from "lucide-react-native";
 import { StyleSheet, Text, View } from "react-native";
 import { toCount } from "./profileUtils";
 
@@ -19,26 +21,27 @@ export default function ProfileMetricsRow({
 	const safeSavedCount = toCount(savedCount);
 
 	return (
-		<View style={styles.metricsRow}>
+		<View style={[styles.metricsRow]}>
 			<AnimatedPressable
 				containerStyle={styles.metricCardContainer}
 				style={[
 					styles.metricCard,
 					{
-						backgroundColor: colors.profileCardBackground,
-						borderColor: colors.profileBorder,
+						backgroundColor: colors.background,
+						borderColor: colors.secondaryGray,
+						...globalStyles.shadows,
 					},
 				]}
 			>
 				<View
 					style={[
 						styles.metricIconWrap,
-						{ backgroundColor: colors.profileAccentSoft },
+						{ backgroundColor: colors.secondaryGreen },
 					]}
 				>
-					<Feather name="heart" size={20} color={colors.profileAccent} />
+					<Heart size={metrics.iconMediumXL} color={colors.primaryGreen} />
 				</View>
-				<Text style={[styles.metricTitle, { color: colors.profileLabel }]}>
+				<Text style={[styles.metricTitle, { color: colors.primaryGray }]}>
 					Donations
 				</Text>
 				<Text style={[styles.metricValue, { color: colors.text }]}>
@@ -50,20 +53,24 @@ export default function ProfileMetricsRow({
 				style={[
 					styles.metricCard,
 					{
-						backgroundColor: colors.profileCardBackground,
-						borderColor: colors.profileBorder,
+						backgroundColor: colors.background,
+						borderColor: colors.secondaryGray,
+						...globalStyles.shadows,
 					},
 				]}
 			>
 				<View
 					style={[
 						styles.metricIconWrap,
-						{ backgroundColor: colors.profileAccentSoft },
+						{ backgroundColor: colors.secondaryGreen },
 					]}
 				>
-					<Feather name="bookmark" size={20} color={colors.profileAccent} />
+					<BookmarkCheck
+						size={metrics.iconMediumXL}
+						color={colors.primaryGreen}
+					/>
 				</View>
-				<Text style={[styles.metricTitle, { color: colors.profileLabel }]}>
+				<Text style={[styles.metricTitle, { color: colors.primaryGray }]}>
 					Saved
 				</Text>
 				<Text style={[styles.metricValue, { color: colors.text }]}>
@@ -77,34 +84,33 @@ export default function ProfileMetricsRow({
 const styles = StyleSheet.create({
 	metricsRow: {
 		flexDirection: "row",
-		gap: 12,
+		gap: metrics.spacingMedium,
 		justifyContent: "center",
 	},
 	metricCard: {
 		width: "100%",
 		borderWidth: 1,
-		borderRadius: 16,
-		paddingVertical: 16,
+		borderRadius: metrics.borderRadiusLarge,
+		paddingVertical: metrics.spacingMedium,
 		alignItems: "center",
-		gap: 5,
+		gap: metrics.spacingExtraSmall,
 	},
 	metricCardContainer: {
 		flex: 1,
 	},
 	metricIconWrap: {
-		width: 38,
-		height: 38,
-		borderRadius: 12,
+		width: metrics.iconMediumXL + metrics.spacingExtraLarge,
+		height: metrics.iconMediumXL + metrics.spacingExtraLarge,
+		borderRadius: metrics.borderRadiusLarge,
 		alignItems: "center",
 		justifyContent: "center",
-		marginBottom: 2,
 	},
 	metricTitle: {
-		fontSize: 12,
+		fontSize: metrics.fontSmall,
 		fontWeight: "500",
 	},
 	metricValue: {
-		fontSize: 20,
+		fontSize: metrics.fontLarge,
 		fontWeight: "700",
 	},
 });

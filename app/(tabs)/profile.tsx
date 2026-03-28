@@ -4,37 +4,41 @@ import ProfileMetricsRow from "@/components/profile/ProfileMetricsRow";
 import ProfileOrganizationCard from "@/components/profile/ProfileOrganizationCard";
 import ProfileSettingsList from "@/components/profile/ProfileSettingsList";
 import ProfileSignOutButton from "@/components/profile/ProfileSignOutButton";
-import { USER_PROFILE } from "@/components/profile/profileData";
 import { useTheme } from "@/hooks/useTheme";
+import { useUserStore } from "@/stores/userStore";
+import { metrics } from "@/utils/metrics";
 import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Profile() {
 	const colors = useTheme();
+	const userProfile = useUserStore((s) => s.userProfile);
 
 	return (
 		<FadeScreen>
 			<SafeAreaView
-				style={[styles.safeArea, { backgroundColor: colors.background }]}
+				style={[styles.safeArea, { backgroundColor: colors.appBackground }]}
 			>
 				<ScrollView
 					contentContainerStyle={styles.content}
 					showsVerticalScrollIndicator={false}
 				>
-					<ProfileHeaderCard colors={colors} profile={USER_PROFILE} />
+					<ProfileHeaderCard colors={colors} profile={userProfile} />
 					<ProfileOrganizationCard
 						colors={colors}
-						organizationName={USER_PROFILE.organizationName}
+						organizationName={
+							userProfile.organizationName || "Myanmar Aid Foundation"
+						}
 					/>
 					<ProfileMetricsRow
 						colors={colors}
-						donationCount={USER_PROFILE.donationCount}
-						savedCount={USER_PROFILE.savedCount}
+						donationCount={userProfile.donationCount || 3}
+						savedCount={userProfile.savedCount}
 					/>
 					<ProfileSettingsList
 						colors={colors}
-						notificationCount={USER_PROFILE.notificationCount}
-						language={USER_PROFILE.language}
+						notificationCount={userProfile.notificationCount || 2}
+						language={userProfile.language}
 					/>
 					<ProfileSignOutButton colors={colors} />
 				</ScrollView>
@@ -48,9 +52,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	content: {
-		paddingHorizontal: 16,
-		paddingTop: 8,
-		paddingBottom: 28,
-		gap: 14,
+		paddingHorizontal: metrics.spacingMedium,
+		paddingTop: metrics.spacingSmall,
+		paddingBottom: metrics.spacingLarge,
+		gap: metrics.spacingMedium,
 	},
 });

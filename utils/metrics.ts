@@ -110,6 +110,18 @@ export const metrics = {
 	fontLarge: moderateScale(16),
 	fontExtraLarge: moderateScale(20),
 
+	// --------------------
+	// Letter spacing
+	// --------------------
+	letterSpacing: {
+		tight: scale(-0.5),
+		small: scale(0),
+		normal: scale(0.5),
+		medium: scale(1),
+		large: scale(1.5),
+		extraLarge: scale(2),
+	},
+
 	// Line heights
 	lineHeightExtraSmall: moderateScale(10) * 1.2,
 	lineHeightSmall: moderateScale(12) * 1.2,
