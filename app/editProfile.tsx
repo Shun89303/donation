@@ -1,52 +1,22 @@
 import AnimatedPressable from "@/components/common/AnimatedPressable";
+import BackButton from "@/components/common/BackButton";
+import BackTitleHeader from "@/components/common/BackTitleHeader";
 import FadeScreen from "@/components/common/FadeScreen";
+import HeaderTitle from "@/components/common/HeaderTitle";
+import Input from "@/components/common/Input";
+import SettingRow from "@/components/common/SettingRow";
+import { getInitials } from "@/components/profile/profileUtils";
 import { useToast } from "@/contexts/ToastContext";
 import { usePickFile } from "@/hooks/usePickFile";
 import { useTheme } from "@/hooks/useTheme";
 import { useUserStore } from "@/stores/userStore";
+import globalStyles from "@/styles/styles";
 import { metrics } from "@/utils/metrics";
 import { useRouter } from "expo-router";
-import { ArrowLeft, Camera, Lock, Phone } from "lucide-react-native";
+import { Camera, ChevronRight, Lock, Phone, User } from "lucide-react-native";
 import React, { useState } from "react";
-import {
-	Image,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-type SettingRowProps = {
-	icon: React.ComponentType<{ size: number; color: string }>;
-	label: string;
-	onPress?: () => void;
-	trailing?: React.ReactNode;
-	isLast?: boolean;
-};
-
-function SettingRow({
-	icon: Icon,
-	label,
-	onPress,
-	trailing,
-	isLast,
-}: SettingRowProps) {
-	return (
-		<TouchableOpacity
-			onPress={onPress}
-			style={[styles.settingRow, isLast ? styles.lastSettingRow : null]}
-		>
-			<View style={styles.settingLeft}>
-				<Icon size={metrics.iconMediumLarge} color="#333" />
-				<Text style={styles.settingLabel}>{label}</Text>
-			</View>
-			<View style={styles.settingRight}>{trailing}</View>
-		</TouchableOpacity>
-	);
-}
 
 export default function EditProfile() {
 	const { showToast } = useToast();
@@ -57,6 +27,7 @@ export default function EditProfile() {
 	const [fullName, setFullName] = useState(userProfile.name);
 	const [bio, setBio] = useState(userProfile.bio);
 	const [isSaving, setIsSaving] = useState(false);
+	const initials = getInitials(userProfile.name || "Maung Chan Aye");
 
 	const phoneNumber = "+1 234 567 890"; // read-only
 
@@ -92,35 +63,66 @@ export default function EditProfile() {
 		}
 	};
 
-	const handleChangePassword = () => console.log("Change password");
-	const handleChangePhone = () => console.log("Change phone number");
+	const handleChangePassword = () => router.push("/changePassword");
+	const handleChangePhone = () => router.push("/changePhoneNumber");
 
 	return (
 		<FadeScreen>
-			<SafeAreaView style={styles.container}>
+			<SafeAreaView
+				style={[
+					styles.container,
+					{
+						backgroundColor: colors.appBackground,
+					},
+				]}
+			>
 				{/* Header */}
-				<View style={styles.header}>
-					<AnimatedPressable onPress={() => router.back()}>
-						<ArrowLeft size={24} color="#000" />
-					</AnimatedPressable>
-					<Text style={styles.headerTitle}>Edit Profile</Text>
-					<View style={{ width: 24 }} />
-				</View>
+				<BackTitleHeader>
+					<BackButton onPress={() => router.back()} />
+					<HeaderTitle title="Edit Profile" />
+				</BackTitleHeader>
 
-				<ScrollView contentContainerStyle={styles.content}>
+				<ScrollView
+					contentContainerStyle={{
+						padding: metrics.spacingMedium,
+						gap: metrics.spacingSmall,
+					}}
+				>
 					{/* Profile Image */}
 					<AnimatedPressable
-						style={styles.profileImageContainer}
+						style={[
+							styles.profileImageContainer,
+							{
+								marginBottom: metrics.spacingLarge,
+								width: metrics.square100,
+								height: metrics.square100,
+								backgroundColor: colors.secondaryGreen,
+								borderRadius: metrics.borderRadiusXLarge,
+							},
+						]}
 						onPress={handlePickImage}
 					>
 						{profileImage ? (
 							<Image
 								source={{ uri: profileImage }}
-								style={styles.profileImage}
+								style={{
+									width: metrics.square100,
+									height: metrics.square100,
+									borderRadius: metrics.borderRadiusLarge,
+									resizeMode: "cover",
+								}}
 							/>
 						) : (
-							<View style={styles.placeholder}>
-								<Text style={{ color: "#888" }}>Add Image</Text>
+							<View style={[styles.placeholder]}>
+								<Text
+									style={{
+										color: colors.primaryGreen,
+										fontSize: metrics.fontExtraLarge,
+										fontWeight: "700",
+									}}
+								>
+									{initials}
+								</Text>
 							</View>
 						)}
 
@@ -130,59 +132,152 @@ export default function EditProfile() {
 								styles.cameraIconContainer,
 								{
 									backgroundColor: colors.primaryGreen,
+									bottom: metrics.bottomExtraSmall,
+									right: metrics.rightExtraSmall,
+									borderRadius: 99,
+									padding: metrics.spacingExtraSmall,
 								},
 							]}
 						>
-							<Camera size={20} color="#fff" />
+							<Camera size={metrics.iconMediumLarge} color="#fff" />
 						</View>
 					</AnimatedPressable>
 
 					{/* Info Container */}
-					<View style={styles.infoContainer}>
+					<View
+						style={[
+							styles.infoContainer,
+							{
+								padding: metrics.spacingMedium,
+								borderRadius: metrics.borderRadiusLarge,
+								marginBottom: metrics.spacingLarge,
+								backgroundColor: colors.background,
+								borderWidth: 1,
+								borderColor: colors.secondaryGray,
+								// gap: metrics.spacingMedium,
+								...globalStyles.shadows,
+							},
+						]}
+					>
 						{/* Full Name */}
-						<Text style={styles.label}>Full Name</Text>
-						<TextInput
-							style={styles.input}
-							placeholder="Enter full name"
-							value={fullName}
-							onChangeText={setFullName}
-							editable={!isSaving}
-						/>
+						<Text
+							style={[
+								styles.label,
+								{
+									color: colors.primaryGray,
+								},
+							]}
+						>
+							Full Name
+						</Text>
+						<View>
+							<Input
+								label="Enter your name"
+								value={fullName}
+								onChange={setFullName}
+								icon={
+									<User
+										size={metrics.iconMediumLarge}
+										color={colors.primaryGray}
+									/>
+								}
+								colors={colors}
+							/>
+						</View>
 
 						{/* Phone Number */}
-						<Text style={styles.label}>Phone Number</Text>
-						<Text style={styles.phone}>{phoneNumber}</Text>
+						<Text
+							style={[
+								styles.label,
+								{
+									color: colors.primaryGray,
+								},
+							]}
+						>
+							Phone Number
+						</Text>
+						<View
+							style={{
+								flexDirection: "row",
+								alignItems: "center",
+								justifyContent: "flex-start",
+								backgroundColor: colors.secondaryGray,
+								paddingHorizontal: metrics.spacingMedium,
+								borderRadius: metrics.borderRadiusMedium,
+							}}
+						>
+							<Phone
+								size={metrics.iconMediumLarge}
+								color={colors.primaryGray}
+							/>
+							<Text
+								style={[
+									styles.phone,
+									{
+										color: colors.text,
+									},
+								]}
+							>
+								{phoneNumber}
+							</Text>
+						</View>
 
 						{/* Bio */}
-						<Text style={styles.label}>Bio</Text>
-						<TextInput
-							style={[styles.input, styles.bioInput]}
-							placeholder="Write something about yourself"
+						<Text
+							style={[
+								styles.label,
+								{
+									color: colors.primaryGray,
+									marginTop: metrics.spacingMedium,
+								},
+							]}
+						>
+							Bio
+						</Text>
+						<Input
+							label="Tell us about yourself..."
 							value={bio}
-							onChangeText={setBio}
+							onChange={setBio}
 							multiline
-							editable={!isSaving}
+							colors={colors}
 						/>
 					</View>
 
 					{/* Settings List */}
-					<View style={styles.settingsCard}>
-						<AnimatedPressable>
-							<SettingRow
-								icon={Lock}
-								label="Change Password"
-								onPress={handleChangePassword}
-								isLast={false}
-							/>
-						</AnimatedPressable>
-						<AnimatedPressable>
-							<SettingRow
-								icon={Phone}
-								label="Change Phone Number"
-								onPress={handleChangePhone}
-								isLast={true}
-							/>
-						</AnimatedPressable>
+					<View
+						style={[
+							styles.settingsCard,
+							{
+								borderColor: colors.secondaryGray,
+								backgroundColor: colors.background,
+								...globalStyles.shadows,
+							},
+						]}
+					>
+						<SettingRow
+							icon={Lock}
+							label="Change Password"
+							onPress={handleChangePassword}
+							isLast={false}
+							trailing={
+								<ChevronRight
+									size={metrics.iconMedium}
+									color={colors.primaryGray}
+								/>
+							}
+						/>
+						<SettingRow
+							icon={Phone}
+							label="Change Phone Number"
+							onPress={handleChangePhone}
+							isLast={true}
+							trailing={
+								<ChevronRight
+									size={metrics.iconMedium}
+									color={colors.primaryGray}
+								/>
+							}
+						/>
 					</View>
 				</ScrollView>
 
@@ -192,6 +287,10 @@ export default function EditProfile() {
 						styles.saveButton,
 						{
 							backgroundColor: colors.primaryGreen,
+							width: "90%",
+							alignSelf: "center",
+							borderRadius: metrics.borderRadiusLarge,
+							marginBottom: metrics.spacingMedium,
 						},
 						(!isChanged || isSaving) && { opacity: 0.5 },
 					]}
@@ -202,105 +301,60 @@ export default function EditProfile() {
 						{isSaving ? "Saving..." : "Save Changes"}
 					</Text>
 				</AnimatedPressable>
+				{/* <BottomToast
+					visible
+					message="Test"
+					onHide={() => {}}
+					autoHide={false}
+				/> */}
 			</SafeAreaView>
 		</FadeScreen>
 	);
 }
 
 const styles = StyleSheet.create({
-	container: { flex: 1, backgroundColor: "#fff" },
-	header: {
-		flexDirection: "row",
-		alignItems: "center",
-		paddingHorizontal: 16,
-		paddingVertical: 12,
-		borderBottomWidth: 1,
-		borderBottomColor: "#eee",
-	},
-	headerTitle: {
-		flex: 1,
-		fontSize: 18,
-		fontWeight: "bold",
-	},
-	content: { padding: 16 },
+	container: { flex: 1 },
 	profileImageContainer: {
 		alignSelf: "center",
-		marginBottom: 20,
-		width: 100,
-		height: 100,
+
 		borderRadius: 50,
-		backgroundColor: "#f0f0f0",
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	cameraIconContainer: {
 		position: "absolute",
-		bottom: 4,
-		right: 4,
-		borderRadius: 12,
-		padding: 4,
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	profileImage: { width: "100%", height: "100%" },
 	placeholder: { justifyContent: "center", alignItems: "center", flex: 1 },
 	infoContainer: {
 		backgroundColor: "#f9f9f9",
-		padding: 16,
-		borderRadius: 12,
-		marginBottom: 24,
 	},
-	label: { fontSize: 14, color: "#555", marginBottom: 4 },
-	input: {
-		borderWidth: 1,
-		borderColor: "#ccc",
-		borderRadius: 8,
-		paddingHorizontal: 12,
-		paddingVertical: 8,
-		marginBottom: 16,
-		backgroundColor: "#fff",
-	},
-	bioInput: {
-		height: 120, // bigger text area for bio
-		textAlignVertical: "top",
+	label: {
+		fontSize: metrics.fontLarge,
+		marginBottom: metrics.spacingSmall,
+		fontWeight: "500",
 	},
 	phone: {
-		paddingVertical: 8,
-		paddingHorizontal: 12,
-		marginBottom: 16,
-		color: "#333",
+		paddingVertical: metrics.spacingMedium,
+		paddingHorizontal: metrics.spacingMedium,
+		fontSize: metrics.fontMedium,
+		fontWeight: "500",
 	},
 	settingsCard: {
 		borderRadius: metrics.borderRadiusLarge,
 		borderWidth: 1,
 		overflow: "hidden",
-		marginBottom: 24,
+		marginBottom: metrics.spacingLarge,
 	},
-	settingRow: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-between",
-		paddingHorizontal: metrics.spacingMedium,
-		paddingVertical: metrics.spacingMedium,
-		borderBottomWidth: 1,
-		borderColor: "#eee",
-	},
-	lastSettingRow: { borderBottomWidth: 0 },
-	settingLeft: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: metrics.spacingMedium,
-	},
-	settingRight: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: metrics.spacingSmall,
-	},
-	settingLabel: { fontSize: metrics.fontLarge, fontWeight: "400" },
 	saveButton: {
-		padding: 16,
+		padding: metrics.spacingLarge,
 		justifyContent: "center",
 		alignItems: "center",
 	},
-	saveButtonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
+	saveButtonText: {
+		color: "#fff",
+		fontWeight: "bold",
+		fontSize: metrics.fontLarge,
+	},
 });

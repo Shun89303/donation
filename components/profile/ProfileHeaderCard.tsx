@@ -20,7 +20,7 @@ export default function ProfileHeaderCard({
 	const safeDonationCount = toCount(profile.donationCount || 3);
 	const safeSavedCount = toCount(profile.savedCount);
 	const safeMmkGiven = formatMmk(profile.totalMmkGiven || 3500000);
-	const showProfileImage = Boolean(profile.profileImageUri || "");
+	const showProfileImage = Boolean(profile.profileImageUri);
 	const initials = getInitials(profile.name || "Maung Chan Aye");
 
 	const router = useRouter();
@@ -52,7 +52,9 @@ export default function ProfileHeaderCard({
 				>
 					{showProfileImage ? (
 						<Image
-							source={{ uri: profile.profileImageUri || "" }}
+							source={{
+								uri: profile.profileImageUri,
+							}}
 							style={[styles.avatar]}
 						/>
 					) : (

@@ -9,4 +9,5 @@ export type UserProfile = {
 	notificationCount?: number;
 	language?: string;
 	isVerified?: boolean;
+	password?: string;
 };

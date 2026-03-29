@@ -12,6 +12,7 @@ const initialProfile: UserProfile = {
 	notificationCount: 0,
 	language: "EN",
 	isVerified: false,
+	password: "",
 };
 
 type UserStore = {

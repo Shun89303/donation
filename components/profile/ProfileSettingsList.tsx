@@ -1,5 +1,4 @@
 import type { ThemeColors } from "@/app/_theme";
-import AnimatedPressable from "@/components/common/AnimatedPressable";
 import globalStyles from "@/styles/styles";
 import { metrics } from "@/utils/metrics";
 import {
@@ -9,8 +8,8 @@ import {
 	Globe,
 	Shield,
 } from "lucide-react-native";
-import type { ReactNode } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import SettingRow from "../common/SettingRow";
 import { toCount } from "./profileUtils";
 
 type ProfileSettingsListProps = {
@@ -19,37 +18,37 @@ type ProfileSettingsListProps = {
 	language?: string;
 };
 
-function SettingRow({
-	colors,
-	icon: Icon,
-	label,
-	trailing,
-	isLast,
-}: {
-	colors: ThemeColors;
-	icon: React.ComponentType<{ size: number; color: string }>; // Accept icon component
-	label: string;
-	trailing?: ReactNode;
-	isLast?: boolean;
-}) {
-	return (
-		<AnimatedPressable
-			style={[
-				styles.settingRow,
-				{ borderColor: colors.secondaryGray },
-				isLast ? styles.lastSettingRow : null,
-			]}
-		>
-			<View style={styles.settingLeft}>
-				<Icon size={metrics.iconMediumLarge} color={colors.primaryGray} />
-				<Text style={[styles.settingLabel, { color: colors.text }]}>
-					{label}
-				</Text>
-			</View>
-			<View style={styles.settingRight}>{trailing}</View>
-		</AnimatedPressable>
-	);
-}
+// function SettingRow({
+// 	colors,
+// 	icon: Icon,
+// 	label,
+// 	trailing,
+// 	isLast,
+// }: {
+// 	colors: ThemeColors;
+// 	icon: React.ComponentType<{ size: number; color: string }>; // Accept icon component
+// 	label: string;
+// 	trailing?: ReactNode;
+// 	isLast?: boolean;
+// }) {
+// 	return (
+// 		<AnimatedPressable
+// 			style={[
+// 				styles.settingRow,
+// 				{ borderColor: colors.secondaryGray },
+// 				isLast ? styles.lastSettingRow : null,
+// 			]}
+// 		>
+// 			<View style={styles.settingLeft}>
+// 				<Icon size={metrics.iconMediumLarge} color={colors.primaryGray} />
+// 				<Text style={[styles.settingLabel, { color: colors.text }]}>
+// 					{label}
+// 				</Text>
+// 			</View>
+// 			<View style={styles.settingRight}>{trailing}</View>
+// 		</AnimatedPressable>
+// 	);
+// }
 
 export default function ProfileSettingsList({
 	colors,
@@ -68,7 +67,6 @@ export default function ProfileSettingsList({
 			]}
 		>
 			<SettingRow
-				colors={colors}
 				icon={Bell}
 				label="Notifications"
 				trailing={
@@ -90,7 +88,6 @@ export default function ProfileSettingsList({
 				}
 			/>
 			<SettingRow
-				colors={colors}
 				icon={Globe}
 				label="Language"
 				trailing={
@@ -106,7 +103,6 @@ export default function ProfileSettingsList({
 				}
 			/>
 			<SettingRow
-				colors={colors}
 				icon={Shield}
 				label="Privacy & Security"
 				trailing={
@@ -117,7 +113,6 @@ export default function ProfileSettingsList({
 				}
 			/>
 			<SettingRow
-				colors={colors}
 				icon={CircleHelp}
 				label="Help & Support"
 				trailing={

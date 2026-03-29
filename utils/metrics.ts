@@ -132,13 +132,13 @@ export const metrics = {
 	// ----------------
 	// Absolute positions
 	// ----------------
-	topExtraSmall: verticalScale(4),
+	topExtraSmall: verticalScale(1),
 	topSmall: verticalScale(8),
 	topMedium: verticalScale(12),
 	topLarge: verticalScale(16),
 	topExtraLarge: verticalScale(24),
 
-	bottomExtraSmall: verticalScale(4),
+	bottomExtraSmall: verticalScale(1),
 	bottomSmall: verticalScale(8),
 	bottomMedium: verticalScale(12),
 	bottomLarge: verticalScale(16),
@@ -147,13 +147,13 @@ export const metrics = {
 	bottomXXL: verticalScale(36),
 	bottomXXXL: verticalScale(48),
 
-	leftExtraSmall: scale(4),
+	leftExtraSmall: scale(1),
 	leftSmall: scale(8),
 	leftMedium: scale(12),
 	leftLarge: scale(16),
 	leftExtraLarge: scale(24),
 
-	rightExtraSmall: scale(4),
+	rightExtraSmall: scale(1),
 	rightSmall: scale(8),
 	rightMedium: scale(12),
 	rightLarge: scale(16),
@@ -183,6 +183,8 @@ export const metrics = {
 	// ----------------
 	inputHeight: {
 		singleLine: verticalScale(40), // normal input
+		singleLineMedium: verticalScale(50),
+		singleLineLarge: verticalScale(60),
 		multiLineSmall: verticalScale(80), // small multiline input
 		multiLineLarge: verticalScale(120), // larger multiline input
 	},
@@ -191,4 +193,6 @@ export const metrics = {
 	// Checkbox scaling
 	// --------------------
 	checkboxScale: isTablet ? 1.5 : 1,
+
+	square100: scale(100),
 };

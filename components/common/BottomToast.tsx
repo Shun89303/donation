@@ -1,3 +1,7 @@
+import { useTheme } from "@/hooks/useTheme";
+import globalStyles from "@/styles/styles";
+import { metrics } from "@/utils/metrics";
+import { CircleCheck } from "lucide-react-native";
 import React, { useEffect, useRef } from "react";
 import { Animated, StyleSheet, Text } from "react-native";
 
@@ -5,15 +9,21 @@ type Props = {
 	visible: boolean;
 	message: string;
 	onHide: () => void;
+	autoHide?: boolean;
 };
 
-export default function BottomToast({ visible, message, onHide }: Props) {
+export default function BottomToast({
+	visible,
+	message,
+	onHide,
+	autoHide = true,
+}: Props) {
 	const translateY = useRef(new Animated.Value(100)).current;
 	const opacity = useRef(new Animated.Value(0)).current;
+	const colors = useTheme();
 
 	useEffect(() => {
 		if (visible) {
-			// Slide up + fade in
 			Animated.parallel([
 				Animated.timing(translateY, {
 					toValue: 0,
@@ -27,21 +37,22 @@ export default function BottomToast({ visible, message, onHide }: Props) {
 				}),
 			]).start();
 
-			// Auto hide after delay
-			setTimeout(() => {
-				Animated.parallel([
-					Animated.timing(translateY, {
-						toValue: 100,
-						duration: 300,
-						useNativeDriver: true,
-					}),
-					Animated.timing(opacity, {
-						toValue: 0,
-						duration: 300,
-						useNativeDriver: true,
-					}),
-				]).start(onHide);
-			}, 2000);
+			if (autoHide) {
+				setTimeout(() => {
+					Animated.parallel([
+						Animated.timing(translateY, {
+							toValue: 100,
+							duration: 300,
+							useNativeDriver: true,
+						}),
+						Animated.timing(opacity, {
+							toValue: 0,
+							duration: 300,
+							useNativeDriver: true,
+						}),
+					]).start(onHide);
+				}, 4000);
+			}
 		}
 	}, [visible]);
 
@@ -53,10 +64,29 @@ export default function BottomToast({ visible, message, onHide }: Props) {
 				{
 					transform: [{ translateY }],
 					opacity,
+					backgroundColor: colors.appBackground,
+					flexDirection: "row",
+					alignItems: "center",
+					gap: metrics.spacingSmall,
+					borderColor: colors.secondaryGray,
+					...globalStyles.shadows,
 				},
 			]}
 		>
-			<Text style={styles.text}>{message}</Text>
+			<CircleCheck
+				size={metrics.iconLarge}
+				color={"white"}
+				fill={colors.text}
+			/>
+			<Text
+				style={{
+					fontSize: metrics.fontMedium,
+					fontWeight: "700",
+					color: colors.text,
+				}}
+			>
+				{message}
+			</Text>
 		</Animated.View>
 	);
 }
@@ -64,15 +94,11 @@ export default function BottomToast({ visible, message, onHide }: Props) {
 const styles = StyleSheet.create({
 	container: {
 		position: "absolute",
-		bottom: 40,
+		bottom: metrics.bottomXXL,
 		alignSelf: "center",
-		backgroundColor: "#333",
-		paddingHorizontal: 16,
-		paddingVertical: 10,
-		borderRadius: 20,
-	},
-	text: {
-		color: "#fff",
-		fontSize: 14,
+		paddingHorizontal: metrics.spacingMedium,
+		paddingVertical: metrics.spacingSmall,
+		borderRadius: metrics.borderRadiusMedium,
+		borderWidth: 1,
 	},
 });

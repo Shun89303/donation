@@ -18,6 +18,27 @@ export default function RootLayout() {
 							animationDuration: 300,
 						}}
 					/>
+					<Stack.Screen
+						name="editProfile"
+						options={{
+							animation: "fade_from_bottom",
+							animationDuration: 300,
+						}}
+					/>
+					<Stack.Screen
+						name="changePassword"
+						options={{
+							animation: "fade_from_bottom",
+							animationDuration: 300,
+						}}
+					/>
+					<Stack.Screen
+						name="forgotPassword"
+						options={{
+							animation: "fade_from_bottom",
+							animationDuration: 300,
+						}}
+					/>
 				</Stack>
 			</ToastProvider>
 		</>
